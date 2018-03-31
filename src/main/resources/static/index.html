@@ -73,7 +73,7 @@
 <script>
     $( document ).ready( function () {
         $( "#invoke" ).click( function ( e ) {
-            var n = $( "#findById" ).val() || "-1";
+            var n = $( "#name" ).val() || "-1";
             $.getJSON( "/api/greeting?name=" + n, function ( res ) {
                 $( "#greeting-result" ).text( JSON.stringify( res ) );
             } );
@@ -81,7 +81,7 @@
         } );
 
         $( "#findButton" ).click( function ( e ) {
-            var n = $( "#name" ).val() || "World";
+            var n = $( "#findById" ).val() || "World";
             $.getJSON( "/api/findClient?id=" + n, function ( res ) {
                 $( "#find-result" ).text( JSON.stringify( res ) );
             } );
