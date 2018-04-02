@@ -1,4 +1,4 @@
-package com.zlobniy.entity;
+package com.zlobniy.client.entity;
 
 public class Client {
 

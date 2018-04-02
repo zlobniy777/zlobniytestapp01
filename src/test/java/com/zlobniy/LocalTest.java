@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.openshift.booster;
+package com.zlobniy;
 
 import com.jayway.restassured.RestAssured;
-import io.openshift.booster.service.GreetingProperties;
+import com.zlobniy.greetings.GreetingProperties;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

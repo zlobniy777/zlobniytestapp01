@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.openshift.booster;
+package com.zlobniy;
 
-import io.openshift.booster.service.GreetingProperties;
+import com.zlobniy.greetings.GreetingProperties;
+import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -29,7 +30,7 @@ public abstract class AbstractBoosterApplicationTest {
         when().get()
                 .then()
                 .statusCode(200)
-                .body("content", is(String.format(getProperties().getMessage(), "World")));
+                .body("content", Is.is(String.format(getProperties().getMessage(), "World")));
     }
 
     @Test
@@ -39,7 +40,7 @@ public abstract class AbstractBoosterApplicationTest {
                 .get()
                 .then()
                 .statusCode(200)
-                .body("content", is(String.format(getProperties().getMessage(), "John")));
+                .body("content", Is.is(String.format(getProperties().getMessage(), "John")));
     }
 
     protected abstract GreetingProperties getProperties();

@@ -63,6 +63,29 @@
         <pre><code id="find-result">Invoke the service to see the result.</code></pre>
     </div>
 
+    <div class="row">
+        <div class="sect1">
+            <h2 id="createClient">create client</h2>
+            <div class="sectionbody">
+                <div class="paragraph">
+                    <p>create a client</p>
+                </div>
+                <div class="sect2">
+                    <h3 id="create_client_service">Using the create client service</h3>
+
+                </div>
+            </div>
+        </div>
+
+        <form class="form-inline">
+
+            <button id="create" type="submit" class="btn btn-success">Create</button>
+        </form>
+
+        <p class="lead">Result:</p>
+        <pre><code id="create-result">Invoke the service to see the result.</code></pre>
+    </div>
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -87,6 +110,30 @@
             } );
             e.preventDefault();
         } );
+
+        $("#create").click(function (e) {
+
+            var client = {
+                id:9,
+                name: "vasia 2",
+                email: "Test 2"
+            };
+
+            $.ajax({
+                url: '/api/createClient',
+                dataType: "json",
+                method: 'POST',
+                contentType: 'application/json',
+                mimeType: 'application/json',
+                async: false,
+                data: JSON.stringify( client ),
+                success: function ( data ) {
+                    $("#create-result").text( JSON.stringify( data ) );
+                }
+            });
+
+            e.preventDefault();
+        });
 
     } );
 </script>

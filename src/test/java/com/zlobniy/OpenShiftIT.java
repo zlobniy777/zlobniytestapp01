@@ -12,14 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package io.openshift.booster;
 
 import java.net.URL;
 
 import com.jayway.restassured.RestAssured;
-import io.openshift.booster.service.GreetingProperties;
+import GreetingProperties;
 import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
 import org.arquillian.cube.openshift.impl.enricher.RouteURL;
 import org.jboss.arquillian.junit.Arquillian;
@@ -43,3 +44,4 @@ public class OpenShiftIT extends AbstractBoosterApplicationTest {
     }
 
 }
+*/
