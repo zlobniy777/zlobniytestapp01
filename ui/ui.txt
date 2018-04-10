@@ -1,0 +1,29 @@
+install aurelia, npm should be installed
+
+npm i -g aurelia-cli
+npm i --save-dev aurelia-cli
+
+добовляем зависимость
+npm install aurelia-fetch-client --save
+потом обновляем
+npm install gulp --save
+
+добовляем импорт в маин (main.js)
+import {HttpClient} from 'aurelia-fetch-client';
+
+там же конфигурируем
+export function configure(aurelia) {
+...
+configureContainer(aurelia.container);
+...
+}
+
+function configureContainer(container) {
+  let http = new HttpClient();
+  http.configure(config => {
+    config
+      .useStandardConfiguration()
+      .withBaseUrl('/');
+  });
+  container.registerInstance(HttpClient, http); // <---- this line ensures everyone that `@inject`s a `HttpClient` instance will get the instance we configured above.
+}
