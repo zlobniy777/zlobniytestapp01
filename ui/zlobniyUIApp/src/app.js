@@ -2,7 +2,7 @@ import 'css/main.css';
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 
-@inject(HttpClient)
+@inject( HttpClient )
 export class App {
 
   loginPlaceholder = 'Please enter valid login';
@@ -13,7 +13,7 @@ export class App {
   }
 
   login() {
-    console.log('Login action');
+    console.log( 'Login action' );
 
     let clientData = {
       id: 9,
@@ -21,19 +21,29 @@ export class App {
       email: 'Test 2'
     };
 
-    this.http.fetch('createClient', {
+    this.http.fetch( 'createClient', {
       method: 'post',
-      body: JSON.stringify(clientData),
+      body: JSON.stringify( clientData ),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
-    })
-      .then(response => response.json())
-  .then(response => {
-      this.apiKey = response.APIKey;
-    console.log(response);
-  });
+    } )
+      .then( response => response.json() )
+      .then( response => {
+        this.apiKey = response.APIKey;
+        console.log( response );
+      } );
+  }
+
+  configureRouter( config, router ) {
+    this.router = router;
+    config.title = 'Aurelia';
+    config.options.pushState = true;
+    config.map( [
+      {route: '/', name: 'welcome', moduleId: PLATFORM.moduleName( "./welcome" ), nav: true, title: 'Welcome'},
+      {route: '/login', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/loginForm" ), nav: true, title: 'Login Form'}
+    ] );
   }
 
 }

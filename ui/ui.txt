@@ -3,15 +3,19 @@ install aurelia, npm should be installed
 npm i -g aurelia-cli
 npm i --save-dev aurelia-cli
 
-добовляем зависимость
+install dependencies to project folder
+
+add new dependency
 npm install aurelia-fetch-client --save
-потом обновляем
+npm install aurelia-router --save
+
+then update:
 npm install gulp --save
 
-добовляем импорт в маин (main.js)
+add import to main (main.js)
 import {HttpClient} from 'aurelia-fetch-client';
 
-там же конфигурируем
+setup configuration.
 export function configure(aurelia) {
 ...
 configureContainer(aurelia.container);
