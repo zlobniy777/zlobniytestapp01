@@ -2,38 +2,20 @@ import 'css/main.css';
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 
+
 @inject( HttpClient )
 export class App {
 
   loginPlaceholder = 'Please enter valid login';
+  test = 'Test from app.js';
 
   constructor( http ) {
     this.message = 'Hello World 12!';
     this.http = http;
   }
 
-  login() {
-    console.log( 'Login action' );
-
-    let clientData = {
-      id: 9,
-      name: 'vasia 2',
-      email: 'Test 2'
-    };
-
-    this.http.fetch( 'createClient', {
-      method: 'post',
-      body: JSON.stringify( clientData ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    } )
-      .then( response => response.json() )
-      .then( response => {
-        this.apiKey = response.APIKey;
-        console.log( response );
-      } );
+  goTo( route ) {
+    this.router.navigate( route );
   }
 
   configureRouter( config, router ) {
@@ -41,8 +23,10 @@ export class App {
     config.title = 'Aurelia';
     config.options.pushState = true;
     config.map( [
-      {route: '/', name: 'welcome', moduleId: PLATFORM.moduleName( "./welcome" ), nav: true, title: 'Welcome'},
-      {route: '/login', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/loginForm" ), nav: true, title: 'Login Form'}
+      {route: '/', name: 'welcome', moduleId: PLATFORM.moduleName( "./welcome" ), nav: false, title: 'Welcome'},
+      {route: '/login', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/loginForm" ), nav: true, title: 'Login Form'},
+      {route: '/registration', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/regForm" ), nav: true, title: 'Registration Form'},
+      {route: '/dashboard', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/dashboard" ), nav: false, title: 'Dashboard'},
     ] );
   }
 

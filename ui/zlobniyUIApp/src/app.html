@@ -1,20 +1,3 @@
 <template>
-  <h1>${message}</h1>
-  <div class="loginForm" style="width: 10%">
-    <div class="formRow">
-      <input type="text" id="login" placeholder="${loginPlaceholder}"/>
-    </div>
-    <div class="formRow">
-      <input type="password" id="password">
-    </div>
-    <div class="formRow" style="text-align: center">
-      <button type="button" id="submit" click.trigger="login()">Login</button>
-    </div>
-
-    <ul repeat.for="nav of router.navigation">
-      <li><a href.bind="nav.href">${nav.title}</a></li>
-    </ul>
-    <router-view></router-view>
-
-  </div>
+  <router-view></router-view>
 </template>

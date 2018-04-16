@@ -2,4 +2,9 @@
   <div>
     Welcome - ${message}
   </div>
+  <div class="welcome">
+    <ul repeat.for="nav of router.navigation">
+      <li><a href.bind="nav.href"> ${nav.title}</a></li>
+    </ul>
+  </div>
 </template>

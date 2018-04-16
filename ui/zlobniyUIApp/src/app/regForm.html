@@ -1,11 +1,9 @@
 <template>
-  <require from="app/dashboard"></require>
   <div>
     ${title}
   </div>
-  test = ${test}
 
-  <div class="loginForm" style="width: 10%">
+  <div class="registrationForm">
     <div class="formRow">
       <input type="text" id="login" placeholder="${loginPlaceholder}"/>
     </div>
@@ -13,16 +11,7 @@
       <input type="password" id="password">
     </div>
     <div class="formRow" style="text-align: center">
-      <button type="button" id="submit" click.trigger="login()">Login</button>
-    </div>
-  </div>
-
-  <button type="button" id="ttt" click.trigger="test()">Test</button>
-
-  <div>
-    Dashboard template:
-    <div>
-      | <dashboard title="testValue"></dashboard> |
+      <button type="button" id="submit" click.trigger="login()">Registration</button>
     </div>
   </div>
 
