@@ -1,6 +1,8 @@
 package com.zlobniy.client.controller;
 
 import com.zlobniy.client.entity.Client;
+import com.zlobniy.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,13 @@ import javax.ws.rs.*;
 @Component
 public class ClientEndpoint {
 
+
+    private ClientService clientService;
+
+    @Autowired
+    public ClientEndpoint( ClientService clientService ){
+        this.clientService = clientService;
+    }
 
     @GET
     @Path("/findClient")
@@ -30,6 +39,16 @@ public class ClientEndpoint {
     public Client createClient( @RequestBody Client client ) {
 
         return client;
+    }
+
+    @Path("/login")
+    @POST
+    @Produces("application/json")
+    public Client login( @RequestBody Client client ) {
+
+        Client nClient = clientService.getClientByLogin( client.getLogin(), client.getPassword() );
+
+        return nClient;
     }
 
 }

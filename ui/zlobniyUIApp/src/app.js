@@ -23,7 +23,7 @@ export class App {
     config.title = 'Aurelia';
     config.options.pushState = true;
     config.map( [
-      {route: '/', name: 'welcome', moduleId: PLATFORM.moduleName( "./welcome" ), nav: false, title: 'Welcome'},
+      {route: '/', name: 'welcome', moduleId: PLATFORM.moduleName( "./welcome" ), nav: false, title: 'Welcome'}, // <- first page
       {route: '/login', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/loginForm" ), nav: true, title: 'Login Form'},
       {route: '/registration', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/regForm" ), nav: true, title: 'Registration Form'},
       {route: '/dashboard', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/dashboard" ), nav: false, title: 'Dashboard'},

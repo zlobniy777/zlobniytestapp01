@@ -1,16 +1,16 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import {HttpClient} from 'aurelia-fetch-client';
 
-@inject( Router )
+@inject( HttpClient, Router )
 export class loginForm {
-  title = 'Login form';
-  succes = true;
+  loginValue = "";
+  passwordValue = "";
 
-  constructor( router ) {
+  constructor( http, router ) {
     console.log('constructor');
-    this.message = 'Hello World 12!';
+    this.http = http;
     this.router = router;
-
   }
 
   activate(){
@@ -23,33 +23,30 @@ export class loginForm {
 
 
   login() {
-    console.log( 'Login action' );
+    console.log( 'Login action: ' + this.loginValue + " " + this.passwordValue );
 
     let clientData = {
-      id: 9,
-      name: 'vasia 2',
-      email: 'Test 2'
+      login: this.loginValue,
+      password: this.passwordValue
     };
 
-    // this.http.fetch( 'createClient', {
-    //   method: 'post',
-    //   body: JSON.stringify( clientData ),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   }
-    // } )
-    //   .then( response => response.json() )
-    //   .then( response => {
-    //     this.apiKey = response.APIKey;
-    //     console.log( response );
-    //   } );
-
-    if( this.succes ){
-      this.router.navigate( 'dashboard' );
-    }else{
-      this.router.navigate( '' );
-    }
+    this.http.fetch( 'api/login', {
+      method: 'post',
+      body: JSON.stringify( clientData ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    } )
+      .then( response => response.json() )
+      .then( response => {
+        this.apiKey = response.APIKey;
+        console.log( response );
+        if( response.hasLogged ){
+          console.log( "success" );
+          this.router.navigate( "/dashboard" );
+        }
+      } );
 
   }
 

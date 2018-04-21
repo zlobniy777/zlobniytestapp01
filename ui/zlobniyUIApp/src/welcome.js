@@ -1,6 +1,4 @@
 export class Welcome {
-
-    message = 'message';
-
+    message = 'Welcome page';
 
 }

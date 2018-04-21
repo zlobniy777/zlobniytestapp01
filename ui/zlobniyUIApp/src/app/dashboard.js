@@ -4,7 +4,7 @@ export class Dashboard {
   title = 'Dashboard';
 
 
-  constructor(){
+  constructor(  ){
 
   }
 }

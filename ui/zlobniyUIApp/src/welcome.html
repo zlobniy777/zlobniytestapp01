@@ -1,10 +1,12 @@
 <template>
   <div>
-    Welcome - ${message}
+    ${message}
   </div>
   <div class="welcome">
-    <ul repeat.for="nav of router.navigation">
-      <li><a href.bind="nav.href"> ${nav.title}</a></li>
-    </ul>
+    <div repeat.for="nav of router.navigation">
+      <span>
+        <a href.bind="nav.href"> ${nav.title}</a>
+      </span>
+    </div>
   </div>
 </template>

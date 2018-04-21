@@ -1,143 +1,15 @@
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
-    <title>API Level 0 Mission - Spring Boot</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
+    <title>Aurelia Navigation Skeleton</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/">
+    <!-- imported CSS are concatenated and added automatically -->
+  </head>
+  <body aurelia-app="main">
+    
 
-<body>
-<div class="container">
-    <div class="row">
-        <div class="sect1">
-            <h2 id="_http_booster">HTTP Booster</h2>
-            <div class="sectionbody">
-                <div class="paragraph">
-                    <p>An example of simple mapping of a business operation to a remote endpoint. By taking this
-                        approach, clients use the HTTP protocol as a transport mechanism to call services. Application
-                        engineers define the APIs using a broad interpretation of the REST fundamentals, encouraging
-                        freedom in design and quick prototyping.</p>
-                </div>
-                <div class="sect2">
-                    <h3 id="_using_the_greeting_service">Using the greeting service</h3>
-
-                </div>
-            </div>
-        </div>
-
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="World">
-            </div>
-            <button id="invoke" type="submit" class="btn btn-success">Invoke</button>
-        </form>
-
-        <p class="lead">Result:</p>
-        <pre><code id="greeting-result">Invoke the service to see the result.</code></pre>
-    </div>
-
-    <div class="row">
-        <div class="sect1">
-            <h2 id="findClient">Find client</h2>
-            <div class="sectionbody">
-                <div class="paragraph">
-                    <p>Find a client</p>
-                </div>
-                <div class="sect2">
-                    <h3 id="find-client_service">Using the find client service</h3>
-
-                </div>
-            </div>
-        </div>
-
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="findById">Id</label>
-                <input type="text" class="form-control" id="findById" placeholder="Id">
-            </div>
-            <button id="findButton" type="submit" class="btn btn-success">Find</button>
-        </form>
-
-        <p class="lead">Result:</p>
-        <pre><code id="find-result">Invoke the service to see the result.</code></pre>
-    </div>
-
-    <div class="row">
-        <div class="sect1">
-            <h2 id="createClient">create client</h2>
-            <div class="sectionbody">
-                <div class="paragraph">
-                    <p>create a client</p>
-                </div>
-                <div class="sect2">
-                    <h3 id="create_client_service">Using the create client service</h3>
-
-                </div>
-            </div>
-        </div>
-
-        <form class="form-inline">
-
-            <button id="create" type="submit" class="btn btn-success">Create</button>
-        </form>
-
-        <p class="lead">Result:</p>
-        <pre><code id="create-result">Invoke the service to see the result.</code></pre>
-    </div>
-
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-
-<script>
-    $( document ).ready( function () {
-        $( "#invoke" ).click( function ( e ) {
-            var n = $( "#name" ).val() || "-1";
-            $.getJSON( "/api/greeting?name=" + n, function ( res ) {
-                $( "#greeting-result" ).text( JSON.stringify( res ) );
-            } );
-            e.preventDefault();
-        } );
-
-        $( "#findButton" ).click( function ( e ) {
-            var n = $( "#findById" ).val() || "World";
-            $.getJSON( "/api/findClient?id=" + n, function ( res ) {
-                $( "#find-result" ).text( JSON.stringify( res ) );
-            } );
-            e.preventDefault();
-        } );
-
-        $("#create").click(function (e) {
-
-            var client = {
-                id:9,
-                name: "vasia 2",
-                email: "Test 2"
-            };
-
-            $.ajax({
-                url: '/api/createClient',
-                dataType: "json",
-                method: 'POST',
-                contentType: 'application/json',
-                mimeType: 'application/json',
-                async: false,
-                data: JSON.stringify( client ),
-                success: function ( data ) {
-                    $("#create-result").text( JSON.stringify( data ) );
-                }
-            });
-
-            e.preventDefault();
-        });
-
-    } );
-</script>
-
-</body>
-
+    
+  <script type="text/javascript" src="/app.522748639df379d0f1f7.bundle.js"></script><script type="text/javascript" src="/vendor.522748639df379d0f1f7.bundle.js"></script></body>
 </html>
