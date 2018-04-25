@@ -1,0 +1,20 @@
+<template>
+    <div class="login-form">
+      <div class="formRow">
+        <input type="text" id="login" value.bind="loginValue" placeholder="${loginPlaceholder}" />
+      </div>
+      <div class="formRow">
+        <input type="password" id="password" value.bind="passwordValue" placeholder="${passwordPlaceholder}">
+      </div>
+      <div class="formRow" style="text-align: center">
+        <button type="button" id="submit" click.trigger="loginAction()">Login</button>
+        <a href="/registration">Registration</a>
+      </div>
+    </div>
+
+    <div class="account-info">
+
+    </div>
+
+
+</template>
