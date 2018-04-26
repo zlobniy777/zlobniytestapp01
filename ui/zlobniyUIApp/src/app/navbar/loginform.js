@@ -10,8 +10,8 @@ export class Loginform {
   loginPlaceholder = "login";
   passwordPlaceholder = "password";
 
-  constructor() {
-
+  constructor(http) {
+    this.http = http;
   }
 
   loginAction() {
