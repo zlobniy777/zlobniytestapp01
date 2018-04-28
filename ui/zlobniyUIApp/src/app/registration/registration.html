@@ -1,0 +1,28 @@
+<template>
+  <div class="registration-form">
+    <div class="table-title">
+      ${title}
+    </div>
+    <div >
+      <div class="table-row">
+        <input type="text" id="name" value.bind="nameValue" placeholder="${namePlaceholder}" />
+      </div>
+      <div class="table-row">
+        <input type="text" id="surname" value.bind="surnameValue" placeholder="${surnamePlaceholder}" />
+      </div>
+      <div class="table-row">
+        <input type="text" id="login" value.bind="loginValue" placeholder="${loginPlaceholder}" />
+      </div>
+      <div class="table-row">
+        <input type="password" id="password" value.bind="passwordValue" placeholder="${passwordPlaceholder}">
+      </div>
+      <div class="table-row">
+        <input type="text" id="email" value.bind="emailValue" placeholder="${emailPlaceholder}" />
+      </div>
+      <div class="table-row" style="text-align: center">
+        <button type="button" id="submit" click.trigger="registration()">Registration</button>
+      </div>
+    </div>
+  </div>
+
+</template>

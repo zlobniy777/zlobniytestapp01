@@ -1,4 +1,4 @@
 export class Welcome {
-    message = 'Welcome page';
+    message = 'Welcome to Zlobniy application';
 
 }

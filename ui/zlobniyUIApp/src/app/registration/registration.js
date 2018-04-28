@@ -4,24 +4,37 @@ import {HttpClient} from 'aurelia-fetch-client';
 import {Ui} from "../ui";
 
 @inject( HttpClient, Router, Ui )
-export class Loginform extends Ui {
+export class Registration extends Ui{
+  title = 'Registration form';
 
-  loginValue = "";
-  passwordValue = "";
-  loginPlaceholder = "login";
-  passwordPlaceholder = "password";
+  nameValue;
+  surnameValue;
+  loginValue;
+  passwordValue;
+  emailValue;
 
-  constructor(http, ...rest) {
+  namePlaceholder = "Name";
+  surnamePlaceholder = "Surname";
+  loginPlaceholder = "Login";
+  passwordPlaceholder = "Password";
+  emailPlaceholder = "e-mail@domain.com";
+
+  constructor(http, router, ...rest) {
     super(...rest);
     this.http = http;
+    this.router = router;
   }
 
-  loginAction() {
-    console.log('Login action: ' + this.loginValue + " " + this.passwordValue);
+  registration() {
+    console.log( 'registration action: ' + this.loginValue );
+    this.test('registration');
 
     let clientData = {
       login: this.loginValue,
-      password: this.passwordValue
+      password: this.passwordValue,
+      name: this.nameValue,
+      surname: this.surnameValue,
+      email: this.emailValue,
     };
 
     this.http.fetch('api/login', {
@@ -35,7 +48,6 @@ export class Loginform extends Ui {
       .then(response => response.json())
       .then(response => {
         this.apiKey = response.APIKey;
-        this.client = response;
         console.log(response);
         if (response.hasLogged) {
           console.log("success");
