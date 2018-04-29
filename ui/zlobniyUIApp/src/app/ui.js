@@ -4,7 +4,6 @@ import {HttpClient} from 'aurelia-fetch-client';
 
 @inject( HttpClient, Router )
 export class Ui {
-  client = {};
 
 
   constructor(http, router) {
