@@ -9,6 +9,9 @@ add new dependency
 npm install aurelia-fetch-client --save
 npm install aurelia-router --save
 
+sortable draggable dependency
+npm install sortablejs --save
+
 then update:
 npm install gulp --save
 

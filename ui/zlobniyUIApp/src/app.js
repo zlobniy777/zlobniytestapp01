@@ -26,6 +26,7 @@ export class App {
       {route: '/', name: 'welcome', moduleId: PLATFORM.moduleName( "./welcome" ), nav: false, title: 'Welcome'}, // <- first page
       {route: '/registration', name: 'regForm', moduleId: PLATFORM.moduleName( "./app/registration/registration" ), nav: true, title: 'Registration Form'},
       {route: '/dashboard', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/main/dashboard" ), nav: false, title: 'Dashboard'},
+      {route: '/survey', name: 'survey', moduleId: PLATFORM.moduleName( "./app/main/survey/survey" ), nav: false, title: 'Survey'},
     ] );
   }
 

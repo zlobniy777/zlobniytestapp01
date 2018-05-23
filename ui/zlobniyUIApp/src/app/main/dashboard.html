@@ -1,10 +1,14 @@
 <template>
-  <div class="registration-form">
-    ${title}
+  <require from="app/main/center/Overview"></require>
+  <require from="app/main/leftbar/Leftbar"></require>
+
+  <div class="dashboard">
+    <div class="leftbar">
+      <leftbar></leftbar>
+    </div>
+    <div class="overview">
+      <overview></overview>
+    </div>
+
   </div>
-
-  <div>${info}</div>
-
-  <button type="button" id="submit" click.trigger="test()">test</button>
-
 </template>

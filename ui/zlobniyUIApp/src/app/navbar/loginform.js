@@ -29,5 +29,13 @@ export class Loginform extends Ui {
 
     this.client.loginAction( clientData );
 
+    this.client.clientInfo.hasLogged = true;
+    this.client.clientInfo.id = "test 1";
+    this.client.clientInfo.name = 'Vasia';
+
+  }
+
+  attached(){
+    console.log('attached login form: ');
   }
 }

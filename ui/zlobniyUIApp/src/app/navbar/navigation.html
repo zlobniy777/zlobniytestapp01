@@ -1,11 +1,20 @@
 <template>
   <require from="app/navbar/Loginform"></require>
+  <require from="app/navbar/Userinfo"></require>
   <div class="navigation-bar">
-    <div class="title">${title}</div>
-    <loginform></loginform>
 
-    <div class="account-info">
+    <div if.bind="client.clientInfo.hasLogged">
+      <!--<button type="button" click.trigger="survey()" >Survey</button>-->
+    </div>
+    <div class="title" else>
+      ${title}
+    </div>
 
+    <div if.bind="client.clientInfo.hasLogged">
+      <userinfo></userinfo>
+    </div>
+    <div else>
+      <loginform logingParamater="fromNavi" ></loginform>
     </div>
   </div>
 
