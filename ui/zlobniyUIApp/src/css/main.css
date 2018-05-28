@@ -3,17 +3,13 @@ body{
 }
 
 .formRow{
-  margin-top: 25px;
   margin-left: 10px;
-  float: left;
 }
 
 .title{
-  float: left;
-  margin-top: 25px;
   width: 50%;
-  min-height: 55px;
-  text-align: center;
+  margin-left: 25px;
+  /*text-align: center;*/
 }
 
 .login-form{
@@ -30,8 +26,11 @@ body{
 
 .navigation-bar{
   width: 100%;
-  min-height: 80px;
-  background-color: aquamarine;
+  min-height: 70px;
+  border-bottom: solid 1px black;
+  display: flex;
+  align-items: center;
+  /*background-color: aquamarine;*/
 }
 
 .registration-form{
@@ -60,14 +59,16 @@ body{
 .leftbar{
   float: left;
   width: 20%;
-  background-color: aqua;
+  border-right: solid 1px black;
+  margin-right: -1px;
+  /*background-color: aqua;*/
   height: 90vh;
 }
 
 .overview{
   float: left;
   width: 80%;
-  background-color: greenyellow;
+  /*background-color: greenyellow;*/
   height: 90vh;
 }
 

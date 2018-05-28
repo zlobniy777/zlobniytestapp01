@@ -7,6 +7,7 @@ export class Client {
 
   test = false;
   clientInfo = {};
+  isWizard = false;
 
   constructor( http, router ) {
     this.http = http;

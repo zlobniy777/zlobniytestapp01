@@ -8,8 +8,15 @@ export class Dragdrop {
 
   droppedItems = [];
 
+  availableItems = [];
+
   constructor(eventAggregator) {
     this.eventAggregator = eventAggregator;
+
+    this.availableItems = [
+      {'title':'Only one answer', 'type':'closed'},
+      {'title':'Matrix', 'type':'matrix'}
+    ];
   }
 
   /**
@@ -67,17 +74,18 @@ export class Dragdrop {
 
       // Dragging widget into new page
       if (item.dataset.type) {
-        let animalType = item.dataset.type;
+        let questionType = item.dataset.type;
+        let sourceTitle = item.dataset.value;
 
         let itemInstance = {};
         let questionNumber = parseInt( that.droppedItems.length ) + 1;
-        itemInstance.title = "new question " + questionNumber;
+        itemInstance.title = sourceTitle + " " + questionNumber;
 
 
-        if (animalType === 'cat') {
-          itemInstance.type = 'cat';
+        if ( questionType === 'closed' ) {
+          itemInstance.type = 'closed';
         } else {
-          itemInstance.type = 'dog';
+          itemInstance.type = 'matrix';
         }
 
         that.droppedItems.splice(evt.newIndex, 0, itemInstance);

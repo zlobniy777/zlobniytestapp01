@@ -3,17 +3,14 @@
   <require from="app/navbar/Userinfo"></require>
   <div class="navigation-bar">
 
-    <div if.bind="client.clientInfo.hasLogged">
-      <!--<button type="button" click.trigger="survey()" >Survey</button>-->
-    </div>
-    <div class="title" else>
-      ${title}
+    <div class="actionButtons title" repeat.for="button of buttons">
+      <compose view-model="./actionbutton" class="actionButton" model.bind="button"></compose>
     </div>
 
-    <div if.bind="client.clientInfo.hasLogged">
+    <div style="width: 50%;" if.bind="client.clientInfo.hasLogged">
       <userinfo></userinfo>
     </div>
-    <div else>
+    <div style="width: 50%;" else>
       <loginform logingParamater="fromNavi" ></loginform>
     </div>
   </div>

@@ -1,26 +1,20 @@
 <template>
   <div id="wrapper" style="width: 100%; height: 100%">
 
-    <div id="drag-source" style="width: 100%; height: 40px; background-color: gainsboro">
-      <a href="javascript:void(0);" data-type="cat">Random Cat </a>
-      <a href="javascript:void(0);" data-type="dog">Random Dog </a>
-      <button click.trigger="test()">Test</button>
-      <button click.trigger="sort()">Sort</button>
+    <div id="drag-source" class="source-items">
+
+      <div class="available-items" data-type="${item.type}" data-value="${item.title}" repeat.for="item of availableItems">
+        <div class="item">
+          ${item.title}
+        </div>
+      </div>
+      <!--<button click.trigger="test()">Test</button>-->
+      <!--<button click.trigger="sort()">Sort</button>-->
     </div>
 
-    <div id="drag-target" style="width: 100%; height: 500px; background-color: goldenrod">
+    <div id="drag-target" class="target-items">
       <div class="dragged-element" repeat.for="item of droppedItems">
-        <div class="question">
-          <div class="header">
-            <div class="title">${item.title}</div>
-          </div>
-          <div class="body">
-
-          </div>
-          <div class="bottom">
-
-          </div>
-        </div>
+        <compose view-model="./questions/question" model.bind="item"></compose>
       </div>
     </div>
 
