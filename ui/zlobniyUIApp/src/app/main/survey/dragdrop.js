@@ -8,6 +8,8 @@ export class Dragdrop {
 
   droppedItems = [];
 
+  test = {};
+
   availableItems = [];
 
   constructor(eventAggregator) {
@@ -26,12 +28,12 @@ export class Dragdrop {
    */
   attached() {
     this.setupSource(document.getElementById('drag-source'), false, {
-      name: 'catsAndDogs',
+      name: 'questions',
       pull: 'clone',
       put: false
     });
 
-    this.setupTarget(document.getElementById('drag-target'), '.dragged-element', true, 'catsAndDogs');
+    this.setupTarget(document.getElementById('drag-target'), '.dragged-element', true, 'questions');
 
     this.eventListeners();
   }
@@ -62,6 +64,25 @@ export class Dragdrop {
 
     let that = this;
 
+    // this.eventAggregator.subscribe('dragSource.onClone', evt => {
+    //   var origEl = evt.item;
+    //
+    //   var cloneEl = evt.clone;
+    //
+    //   //origEl.innerHTML = "<div>TEST</div>";
+    //
+    // });
+    //
+    // this.eventAggregator.subscribe('dragTarget.onStart', evt => {
+    //   var origEl = evt.item;
+    //
+    //   var cloneEl = evt.clone;
+    //
+    //   cloneEl.innerHTML = "<div>TEST</div>";
+    //
+    // });
+
+
     // Event triggered when item is added
     this.eventAggregator.subscribe('dragTarget.onAdd', evt => {
       let src = evt.from;
@@ -80,10 +101,16 @@ export class Dragdrop {
         let itemInstance = {};
         let questionNumber = parseInt( that.droppedItems.length ) + 1;
         itemInstance.title = sourceTitle + " " + questionNumber;
-
+        itemInstance.id = questionNumber;
 
         if ( questionType === 'closed' ) {
           itemInstance.type = 'closed';
+
+          itemInstance.options = [];
+          itemInstance.options.push( {path:"./../questions/option", title:'single 1', type:itemInstance.type, qId:itemInstance.id, index:0} );
+          itemInstance.options.push( {path:"./../questions/option", title:'single 2', type:itemInstance.type, qId:itemInstance.id, index:1} );
+          itemInstance.options.push( {path:"./../questions/option", title:'single 3', type:itemInstance.type, qId:itemInstance.id, index:2} );
+
         } else {
           itemInstance.type = 'matrix';
         }
@@ -144,9 +171,13 @@ export class Dragdrop {
     let that = this;
     new sortable(el, {
       sort: sort,
+      ghostClass: "ghost",
       group: group,
       onStart: evt => {
         that.eventAggregator.publish('dragSource.onStart', evt);
+      },
+      onClone: evt => {
+        that.eventAggregator.publish('dragSource.onClone', evt);
       },
       onEnd: evt => {
         that.eventAggregator.publish('dragSource.onEnd', evt);
@@ -171,6 +202,9 @@ export class Dragdrop {
       group: group,
       onAdd: evt => {
         that.eventAggregator.publish('dragTarget.onAdd', evt);
+      },
+      onStart: evt => {
+        that.eventAggregator.publish('dragTarget.onStart', evt);
       },
       onUpdate: evt => {
         that.eventAggregator.publish('dragTarget.onUpdate', evt);

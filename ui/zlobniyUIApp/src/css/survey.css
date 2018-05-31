@@ -13,7 +13,7 @@
 
 .body{
   /*background-color: grey;*/
-  height: 40px;
+  min-height: 40px;
 }
 
 .bottom{
@@ -42,4 +42,8 @@
   height: 80vh;
   overflow: auto;
   background-color: #f2f2f2;
+}
+
+.ghost {
+  opacity: 0.4;
 }

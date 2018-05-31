@@ -6,10 +6,9 @@ import {Ui} from "../../../ui";
 import {Router} from 'aurelia-router';
 
 @inject( Client, Router, Ui )
-export class Question extends Ui {
+export class Option extends Ui {
 
   item = {};
-
 
   constructor( client, router, ...rest ) {
     super(...rest);
@@ -19,6 +18,7 @@ export class Question extends Ui {
 
   activate( item ){
     this.item = item;
+    this.item.name = item.type+'_'+item.qId;
   }
 
 }

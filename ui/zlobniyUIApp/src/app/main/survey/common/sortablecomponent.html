@@ -1,0 +1,12 @@
+<template>
+  <div id="wrapper_${id}" style="width: 100%; height: 100%">
+
+    <div id="sortable-list_${id}" class="sorted-element_${id}">
+      <div class="sorted-element_${id}" repeat.for="element of elements">
+        <!--  view-model="./questions/question" -->
+        <compose view-model='${element.path}' model.bind="element"></compose>
+      </div>
+    </div>
+
+  </div>
+</template>
