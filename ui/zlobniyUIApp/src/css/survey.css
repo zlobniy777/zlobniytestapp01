@@ -8,16 +8,25 @@
 
 .header{
   /*background-color: cornsilk;*/
-  height: 20px;
+  min-height: 20px;
+  margin: 10px 10px 10px 15px;
+
+}
+
+.questionNumber{
+  margin-right: 10px;
+  float: left;
 }
 
 .body{
   /*background-color: grey;*/
   min-height: 40px;
+  margin: 10px;
 }
 
 .bottom{
-
+  min-height: 10px;
+  margin: 10px;
 }
 
 .available-items{

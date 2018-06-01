@@ -1,7 +1,8 @@
 <template>
   <div class="question">
     <div class="header">
-      <div class="title">${item.title}</div>
+      <div class="questionNumber" style="display: ${client.surveySettings.showQuestionNumber ? 'block' : 'none'}">${item.index+1}</div>
+      <div class="questionTitle">${item.title}</div>
     </div>
     <div class="body">
       <compose view-model="./../common/sortablecomponent" model.bind="item"></compose>

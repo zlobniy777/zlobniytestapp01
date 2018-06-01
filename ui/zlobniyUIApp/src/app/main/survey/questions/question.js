@@ -10,7 +10,6 @@ export class Question extends Ui {
 
   item = {};
 
-
   constructor( client, router, ...rest ) {
     super(...rest);
     this.client = client;

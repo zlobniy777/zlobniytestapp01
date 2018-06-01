@@ -98,29 +98,29 @@ export class Dragdrop {
         let questionType = item.dataset.type;
         let sourceTitle = item.dataset.value;
 
-        let itemInstance = {};
+        let question = {};
         let questionNumber = parseInt( that.droppedItems.length ) + 1;
-        itemInstance.title = sourceTitle + " " + questionNumber;
-        itemInstance.id = questionNumber;
+        question.title = sourceTitle + " " + questionNumber;
+        question.id = questionNumber;
 
         if ( questionType === 'closed' ) {
-          itemInstance.type = 'closed';
+          question.type = 'closed';
 
-          itemInstance.options = [];
-          itemInstance.options.push( {path:"./../questions/option", title:'single 1', type:itemInstance.type, qId:itemInstance.id, index:0} );
-          itemInstance.options.push( {path:"./../questions/option", title:'single 2', type:itemInstance.type, qId:itemInstance.id, index:1} );
-          itemInstance.options.push( {path:"./../questions/option", title:'single 3', type:itemInstance.type, qId:itemInstance.id, index:2} );
+          question.options = [];
+          question.options.push( {path:"./../questions/option", title:'single 1', type:question.type, qId:question.id, index:0} );
+          question.options.push( {path:"./../questions/option", title:'single 2', type:question.type, qId:question.id, index:1} );
+          question.options.push( {path:"./../questions/option", title:'single 3', type:question.type, qId:question.id, index:2} );
 
         } else {
-          itemInstance.type = 'matrix';
+          question.type = 'matrix';
         }
 
-        that.droppedItems.splice(evt.newIndex, 0, itemInstance);
+        that.droppedItems.splice(evt.newIndex, 0, question);
 
         var i = 0;
-        that.droppedItems.forEach(function(element) {
-          console.log(element);
-          element.index = i;
+        that.droppedItems.forEach(function(question) {
+          console.log(question);
+          question.index = i;
           i++;
         });
 

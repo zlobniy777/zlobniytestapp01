@@ -8,10 +8,16 @@ export class Client {
   test = false;
   clientInfo = {};
   isWizard = false;
+  surveySettings = {};
 
   constructor( http, router ) {
     this.http = http;
     this.router = router;
+    this.initSurveySettings();
+  }
+
+  initSurveySettings() {
+    this.surveySettings.showQuestionNumber = true;
   }
 
   loginAction( clientData ) {
