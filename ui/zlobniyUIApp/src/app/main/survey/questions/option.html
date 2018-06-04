@@ -1,5 +1,5 @@
 <template>
-  <label>
-    <input type="radio" value="1" name="${item.name}" > ${item.title}
-  </label>
+  <div class="line">
+    <input type="radio" value="1" name="${item.name}" ><compose view-model="./../common/editable-item" model.bind="item"></compose>
+  </div>
 </template>

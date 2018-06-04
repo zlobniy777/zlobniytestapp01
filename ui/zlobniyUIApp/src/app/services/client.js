@@ -9,6 +9,7 @@ export class Client {
   clientInfo = {};
   isWizard = false;
   surveySettings = {};
+  editedModel;
 
   constructor( http, router ) {
     this.http = http;
@@ -18,6 +19,25 @@ export class Client {
 
   initSurveySettings() {
     this.surveySettings.showQuestionNumber = true;
+  }
+
+  setEditedModel( model ){
+    console.log( 'start editing ' + model.name );
+    if( this.editedModel ){
+      this.editedModel.finishEdit();
+    }
+    this.editedModel = model;
+  }
+
+  unsetEditedModel(){
+    if( this.editedModel ){
+      this.editedModel.finishEdit();
+      this.editedModel = undefined;
+    }
+  }
+
+  isEditedModel(){
+    return this.editedModel !== undefined;
   }
 
   loginAction( clientData ) {

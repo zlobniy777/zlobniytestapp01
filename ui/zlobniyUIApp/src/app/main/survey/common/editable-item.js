@@ -6,22 +6,15 @@ import {Ui} from "../../../ui";
 import {Router} from 'aurelia-router';
 
 @inject( Client, Router, Ui )
-export class Question extends Ui {
+export class EditableItem extends Ui {
 
   item = {};
-  name;
   isEdit = false;
 
   constructor( client, router, ...rest ) {
     super(...rest);
     this.client = client;
     this.router = router;
-    this.name = 'Question';
-
-    // this.handleBodyClick = e => {
-    //   console.log("Question " + e.target);
-    // };
-
   }
 
   startEdit(){

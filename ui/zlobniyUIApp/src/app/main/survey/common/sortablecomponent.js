@@ -15,7 +15,11 @@ export class SortableComponent {
     this.eventAggregator = eventAggregator;
 
     this.test = "test";
+
+
   }
+
+
 
   /**
    * Attached
