@@ -10,7 +10,7 @@ To run this booster on your local host:
 
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ git clone git@github.com:${loggedUser}/zlobniytestapp01
+$ git clone git@github.com:Zlobniy77/zlobniytestapp01
 
 $ cd zlobniytestapp01
 
