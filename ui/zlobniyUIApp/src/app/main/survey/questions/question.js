@@ -1,32 +1,33 @@
 import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
-import {Client} from "../../../services/client";
+import {SurveyService} from "../../../services/survey-service";
 import {Ui} from "../../../ui";
 import {Router} from 'aurelia-router';
 
-@inject( Client, Router, Ui )
+@inject( SurveyService, Router, Ui )
 export class Question extends Ui {
 
-  item = {};
+  question = {};
   name;
   isEdit = false;
 
-  constructor( client, router, ...rest ) {
+  constructor( surveyService, router, ...rest ) {
     super(...rest);
-    this.client = client;
+    this.surveyService = surveyService;
     this.router = router;
     this.name = 'Question';
 
-    // this.handleBodyClick = e => {
-    //   console.log("Question " + e.target);
-    // };
+  }
 
+  addItem(){
+    console.log( 'add item' );
+    this.question.options.push( this.surveyService.createOption( 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
   }
 
   startEdit(){
     if( !this.isEdit ){
-      this.client.setEditedModel( this );
+      this.surveyService.setEditedModel( this );
       this.isEdit = true;
     }
   }
@@ -37,8 +38,8 @@ export class Question extends Ui {
     }
   }
 
-  activate( item ){
-    this.item = item;
+  activate( question ){
+    this.question = question;
   }
 
 }

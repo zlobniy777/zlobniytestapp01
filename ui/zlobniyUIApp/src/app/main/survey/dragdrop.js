@@ -1,9 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {SurveyService} from "../../services/survey-service";
 
 import sortable from 'sortablejs';
 
-@inject(EventAggregator)
+@inject(EventAggregator, SurveyService)
 export class Dragdrop {
 
   droppedItems = [];
@@ -12,8 +13,9 @@ export class Dragdrop {
 
   availableItems = [];
 
-  constructor(eventAggregator) {
+  constructor( eventAggregator, surveyService ) {
     this.eventAggregator = eventAggregator;
+    this.surveyService = surveyService;
 
     this.availableItems = [
       {'title':'Only one answer', 'type':'closed'},
@@ -50,7 +52,6 @@ export class Dragdrop {
       if (a.index > b.index) {
         return 1;
       }
-      // a должно быть равным b
       return 0;
     } );
   }
@@ -63,25 +64,6 @@ export class Dragdrop {
   eventListeners() {
 
     let that = this;
-
-    // this.eventAggregator.subscribe('dragSource.onClone', evt => {
-    //   var origEl = evt.item;
-    //
-    //   var cloneEl = evt.clone;
-    //
-    //   //origEl.innerHTML = "<div>TEST</div>";
-    //
-    // });
-    //
-    // this.eventAggregator.subscribe('dragTarget.onStart', evt => {
-    //   var origEl = evt.item;
-    //
-    //   var cloneEl = evt.clone;
-    //
-    //   cloneEl.innerHTML = "<div>TEST</div>";
-    //
-    // });
-
 
     // Event triggered when item is added
     this.eventAggregator.subscribe('dragTarget.onAdd', evt => {
@@ -98,32 +80,7 @@ export class Dragdrop {
         let questionType = item.dataset.type;
         let sourceTitle = item.dataset.value;
 
-        let question = {};
-        let questionNumber = parseInt( that.droppedItems.length ) + 1;
-        question.title = sourceTitle + " " + questionNumber;
-        question.id = questionNumber;
-
-        if ( questionType === 'closed' ) {
-          question.type = 'closed';
-
-          question.options = [];
-          question.options.push( {path:"./../questions/option", title:'single 1', type:question.type, qId:question.id, index:0} );
-          question.options.push( {path:"./../questions/option", title:'single 2', type:question.type, qId:question.id, index:1} );
-          question.options.push( {path:"./../questions/option", title:'single 3', type:question.type, qId:question.id, index:2} );
-
-        } else {
-          question.type = 'matrix';
-        }
-
-        that.droppedItems.splice(evt.newIndex, 0, question);
-
-        var i = 0;
-        that.droppedItems.forEach(function(question) {
-          console.log(question);
-          question.index = i;
-          i++;
-        });
-
+        that.surveyService.createQuestion( questionType, sourceTitle, evt.newIndex, that.droppedItems );
       }
     });
 

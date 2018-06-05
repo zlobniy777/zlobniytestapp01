@@ -7,37 +7,10 @@ export class Client {
 
   test = false;
   clientInfo = {};
-  isWizard = false;
-  surveySettings = {};
-  editedModel;
 
   constructor( http, router ) {
     this.http = http;
     this.router = router;
-    this.initSurveySettings();
-  }
-
-  initSurveySettings() {
-    this.surveySettings.showQuestionNumber = true;
-  }
-
-  setEditedModel( model ){
-    console.log( 'start editing ' + model.name );
-    if( this.editedModel ){
-      this.editedModel.finishEdit();
-    }
-    this.editedModel = model;
-  }
-
-  unsetEditedModel(){
-    if( this.editedModel ){
-      this.editedModel.finishEdit();
-      this.editedModel = undefined;
-    }
-  }
-
-  isEditedModel(){
-    return this.editedModel !== undefined;
   }
 
   loginAction( clientData ) {

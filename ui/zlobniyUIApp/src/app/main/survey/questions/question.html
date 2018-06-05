@@ -1,13 +1,16 @@
 <template>
   <div class="question">
     <div class="header">
-      <div class="questionNumber" style="display: ${client.surveySettings.showQuestionNumber ? 'block' : 'none'}">${item.index+1}</div>
+      <div class="questionNumber" style="display: ${client.surveySettings.showQuestionNumber ? 'block' : 'none'}">${question.index+1}</div>
       <div class="questionTitle">
-        <compose view-model="./../common/editable-item" model.bind="item"></compose>
+        <compose view-model="./../common/editable-item" model.bind="question"></compose>
       </div>
     </div>
     <div class="body">
-      <compose view-model="./../common/sortablecomponent" model.bind="item"></compose>
+      <compose view-model="./../common/sortablecomponent" model.bind="question"></compose>
+      <div class="line ghost add-input" click.delegate="addItem()">
+        <input type="radio" value="1" disabled name="create" ><div>Add item</div>
+      </div>
     </div>
     <div class="bottom">
 

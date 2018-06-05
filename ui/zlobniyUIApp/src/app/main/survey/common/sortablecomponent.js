@@ -16,10 +16,7 @@ export class SortableComponent {
 
     this.test = "test";
 
-
   }
-
-
 
   /**
    * Attached
@@ -38,7 +35,6 @@ export class SortableComponent {
       if ( a.index > b.index ) {
         return 1;
       }
-      // a должно быть равным b
       return 0;
     } );
   }

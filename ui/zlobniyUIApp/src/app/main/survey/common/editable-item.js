@@ -1,25 +1,25 @@
 import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
-import {Client} from "../../../services/client";
+import {SurveyService} from "../../../services/survey-service";
 import {Ui} from "../../../ui";
 import {Router} from 'aurelia-router';
 
-@inject( Client, Router, Ui )
+@inject( SurveyService, Router, Ui )
 export class EditableItem extends Ui {
 
   item = {};
   isEdit = false;
 
-  constructor( client, router, ...rest ) {
+  constructor( surveyService, router, ...rest ) {
     super(...rest);
-    this.client = client;
+    this.surveyService = surveyService;
     this.router = router;
   }
 
   startEdit(){
     if( !this.isEdit ){
-      this.client.setEditedModel( this );
+      this.surveyService.setEditedModel( this );
       this.isEdit = true;
     }
   }
@@ -32,6 +32,12 @@ export class EditableItem extends Ui {
 
   activate( item ){
     this.item = item;
+
+    if( this.item.isNew ){
+      this.startEdit();
+      this.item.isNew = false;
+    }
+
   }
 
 }

@@ -54,9 +54,14 @@
 }
 
 .ghost {
-  opacity: 0.4;
+  opacity: 0.5;
+}
+
+.add-input{
+  margin-top: 5px;
 }
 
 .line{
   display: inline-flex;
 }
+
