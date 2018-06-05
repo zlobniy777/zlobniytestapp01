@@ -23,6 +23,7 @@ public class ClientService {
         }
 
         client.setHasLogged( true );
+        System.out.println( client.toString() );
         return client;
     }
 

@@ -56,4 +56,9 @@ public class Client {
     public void setHasLogged( boolean hasLogged ){
         this.hasLogged = hasLogged;
     }
+
+    @Override
+    public String toString(){
+        return this.id + " " + this.name;
+    }
 }
