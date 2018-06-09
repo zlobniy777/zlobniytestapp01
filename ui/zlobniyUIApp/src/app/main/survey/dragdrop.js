@@ -157,6 +157,9 @@ export class Dragdrop {
       draggable: draggable,
       sort: sort,
       group: group,
+      scroll: true,
+      scrollSensitivity: 100,
+      scrollSpeed: 30,
       onAdd: evt => {
         that.eventAggregator.publish('dragTarget.onAdd', evt);
       },

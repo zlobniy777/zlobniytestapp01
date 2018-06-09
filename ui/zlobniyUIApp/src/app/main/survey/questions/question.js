@@ -20,9 +20,10 @@ export class Question extends Ui {
 
   }
 
-  addItem(){
+  addItem( options ){
     console.log( 'add item' );
-    this.question.options.push( this.surveyService.createOption( 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
+    options.elements.push( this.surveyService.createOption( 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
+    // this.question.options.elements.push( this.surveyService.createOption( 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
   }
 
   startEdit(){

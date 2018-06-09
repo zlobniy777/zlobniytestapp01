@@ -6,7 +6,7 @@ import {Ui} from "../../../ui";
 import {Router} from 'aurelia-router';
 
 @inject( SurveyService, Router, Ui )
-export class Option extends Ui {
+export class Scale extends Ui {
 
   item = {};
 
@@ -20,5 +20,9 @@ export class Option extends Ui {
     this.item = item;
     this.item.name = item.type+'_'+item.qId;
   }
+
+  // addItem(){
+  //   console.log('add scale step');
+  // }
 
 }

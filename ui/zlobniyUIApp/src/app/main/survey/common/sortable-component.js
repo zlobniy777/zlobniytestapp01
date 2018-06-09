@@ -10,12 +10,11 @@ export class SortableComponent {
   identifier = "";
   nameOnUpdate = "";
   nameOnAdd = "";
+  type = "";
 
   constructor( eventAggregator ) {
     this.eventAggregator = eventAggregator;
-
     this.test = "test";
-
   }
 
   /**
@@ -40,8 +39,10 @@ export class SortableComponent {
   }
 
   activate( item ) {
-    this.elements = item.options;
+    this.elements = item.elements;
     this.identifier = item.id;
+    this.cssClass = item.cssClass;
+    this.type = item.type;
 
     this.nameOnUpdate = 'sortedList_' + this.identifier + '.onUpdate';
     this.nameOnAdd = 'sortedList_' + this.identifier + '.onAdd';

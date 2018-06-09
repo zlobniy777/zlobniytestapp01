@@ -1,0 +1,8 @@
+<template>
+  <!-- Matrix -->
+  <compose view-model="./../../common/sortable-component" model.bind="question.scales"></compose>
+  <compose view-model="./../../common/sortable-component" model.bind="question.options"></compose>
+  <div class="line ghost add-input" click.delegate="addItem( question.options )">
+    <div>Add item</div>
+  </div>
+</template>

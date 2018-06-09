@@ -1,0 +1,7 @@
+<template>
+  <!-- ./../common/sortablecomponent -->
+  <compose view-model="./../../common/sortable-component" model.bind="question.options"></compose>
+  <div class="line ghost add-input" click.delegate="addItem( question.options )">
+    <input type="radio" value="1" disabled name="create" ><div>Add item</div>
+  </div>
+</template>

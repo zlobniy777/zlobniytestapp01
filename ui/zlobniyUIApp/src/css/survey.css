@@ -57,6 +57,10 @@
   opacity: 0.5;
 }
 
+.common-option{
+  padding: 5px;
+}
+
 .add-input{
   margin-top: 5px;
 }
@@ -65,3 +69,62 @@
   display: inline-flex;
 }
 
+.scale-steps{
+  display: flex;
+}
+
+.scales-view{
+  width: 80%;
+  /*height: 80px;*/
+  /*background-color: azure;*/
+  display: flex;
+  margin-left: 20%;
+}
+
+.scale{
+  margin: 10px;
+  /*background-color: aqua;*/
+  padding: 10px;
+}
+
+.options-scales-block{
+  display: flex;
+}
+
+.options-scales{
+  display: flex;
+  margin-left: 10px;
+
+}
+
+.sorted-element_scales{
+  width: 100%;
+}
+
+.sorted-element_steps{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.scale-option{
+  /*width: 5%;*/
+  display: flex;
+  justify-content: center;
+}
+
+.width40{
+  width: 40%;
+}
+
+.scale-title{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.add-scale-step{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

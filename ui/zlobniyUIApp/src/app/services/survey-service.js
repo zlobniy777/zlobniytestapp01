@@ -49,15 +49,38 @@ export class SurveyService {
 
     if ( questionType === 'closed' ) {
       question.type = 'closed';
+      question.view = './../questions/subView/closed-question';
 
-      question.options = [];
-      question.options.push( this.createOption( 'single 1', question.type, question.id, 0, false ) );
-      question.options.push( this.createOption( 'single 2', question.type, question.id, 1, false ) );
-      question.options.push( this.createOption( 'single 3', question.type, question.id, 2, false ) );
+      question.options = {};
+      question.options.id = "options_"+question.id;
+      question.options.type = "options";
+      question.options.elements = [];
+      question.options.elements.push( this.createOption( 'single 1', question.type, question.id, 0, false ) );
+      question.options.elements.push( this.createOption( 'single 2', question.type, question.id, 1, false ) );
+      question.options.elements.push( this.createOption( 'single 3', question.type, question.id, 2, false ) );
 
 
     } else {
       question.type = 'matrix';
+      question.view = './../questions/subView/matrix';
+
+      question.options = {};
+      question.options.id = "options_"+question.id;
+      question.options.type = "options";
+      question.options.elements = [];
+      question.options.elements.push( this.createOption( 'single 1', question.type, question.id, 0, false, 'common-option', question ) );
+      question.options.elements.push( this.createOption( 'single 2', question.type, question.id, 1, false, 'common-option', question ) );
+      question.options.elements.push( this.createOption( 'single 3', question.type, question.id, 2, false, 'common-option', question ) );
+
+      question.scales = {};
+      question.scales.id = "scales_"+question.id;
+      question.scales.type = "scales";
+      question.scales.cssClass = "scales-view";
+      question.scales.elements = [];
+      question.scales.elements.push( this.createScale( 'Scale 1', question.type, question.id, 0, false ) );
+      question.scales.elements.push( this.createScale( 'Scale 2', question.type, question.id, 1, false ) );
+      question.scales.elements.push( this.createScale( 'Scale 3', question.type, question.id, 2, false ) );
+
     }
 
     qArray.splice( index, 0, question );
@@ -71,16 +94,39 @@ export class SurveyService {
 
   }
 
-  createOption( title, type, qId, index, isNew ){
+  createOption( title, type, qId, index, isNew, cssClass, question ){
     let option = {
-      path: "./../questions/option",
+      view: "./../common/option",
+      title: title,
+      type: type,
+      qId: qId,
+      index: index,
+      isNew: isNew,
+      cssClass: cssClass ? cssClass : 'common-option',
+      question: question
+    };
+    return option;
+  }
+
+  createScale( title, type, qId, index, isNew ){
+    let scale = {
+      view: "./../common/scale",
       title: title,
       type: type,
       qId: qId,
       index: index,
       isNew: isNew
     };
-    return option;
+
+    scale.options = [];
+    scale.options.id = "steps_"+index;
+    scale.options.cssClass = "scale-steps";
+    scale.options.type = "steps";
+    scale.options.elements = [];
+    scale.options.elements.push( this.createOption( 'step 1', type, qId, 0, false ) );
+    scale.options.elements.push( this.createOption( 'step 2', type, qId, 1, false ) );
+    scale.options.elements.push( this.createOption( 'step 3', type, qId, 2, false ) );
+    return scale;
   }
 
 }
