@@ -1,24 +1,32 @@
 import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
+import {NavigationService} from "./navigation-service";
 
-@inject( HttpClient, Router )
+@inject( HttpClient, NavigationService )
 export class Client {
 
   test = false;
   clientInfo = {};
+  hasLogged;
 
-  constructor( http, router ) {
+  constructor( http, navigationService ) {
     this.http = http;
-    this.router = router;
+    this.navigationService = navigationService;
+    this.loginAction();
   }
 
   loginAction( clientData ) {
+    if( clientData === undefined ){
+      clientData = {};
+    }
+    var that = this;
     console.log('Login action: ' + clientData );
 
-    var _this = this;
-
-    this.clientInfo = {login:'test'};
+    if( clientData.login === 'test' ){
+      this.clientInfo = { login:'test', hasLogged: true, name: 'Test'};
+      this.hasLogged = true;
+      this.navigationService.goTo( this.navigationService.NAV_DASHBOARD );
+    }
 
     this.http.fetch('api/login', {
       method: 'post',
@@ -28,14 +36,15 @@ export class Client {
         'Accept': 'application/json'
       }
     })
-      .then(response => response.json())
+      .then(response => response.json() )
       .then(response => {
         this.apiKey = response.APIKey;
-        _this.clientInfo = response;
+        that.clientInfo = response;
+        that.hasLogged = response.hasLogged;
         console.log(response);
         if (response.hasLogged) {
-          console.log("success");
-          this.router.navigate("/dashboard");
+          console.log("login success");
+          this.navigationService.goTo( this.navigationService.NAV_DASHBOARD );
         }
       });
 

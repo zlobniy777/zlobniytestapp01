@@ -3,9 +3,10 @@
   <div class="scale">
     <compose class="scale-title" view-model="./../common/editable-item" model.bind="item"></compose>
 
-    <compose view-model="./../common/sortable-component" model.bind="item.options"></compose>
-    <div class="add-scale-step ghost add-input" click.delegate="addItem( item.options )">
+    <compose view-model="./../common/sortable-component" model.bind="item.scaleSteps"></compose>
+    <div class="add-scale-step ghost add-input" click.delegate="addItem( item.scaleSteps )">
       <div>Add item</div>
     </div>
   </div>
+
 </template>

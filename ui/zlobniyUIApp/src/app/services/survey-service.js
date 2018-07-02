@@ -1,24 +1,27 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
+import {SurveyModelTransformer} from '../transformer/survey-model-transformer';
+import {SurveyHelper} from './survey-helper';
 
-@inject( HttpClient, Router )
+@inject( HttpClient, Router, SurveyModelTransformer, SurveyHelper )
 export class SurveyService {
 
   test = false;
   isWizard = false;
-  surveySettings = {};
+  surveyModel = {};
   editedModel;
 
-
-  constructor( http, router ) {
+  constructor( http, router, surveyTransformer, surveyHelper ) {
     this.http = http;
     this.router = router;
-    this.initSurveySettings();
+    this.surveyTransformer = surveyTransformer;
+    this.surveyHelper = surveyHelper;
+
   }
 
   initSurveySettings() {
-    this.surveySettings.showQuestionNumber = true;
+    this.surveyModel.surveySettings.showQuestionNumber = true;
   }
 
   setEditedModel( model ){
@@ -36,97 +39,99 @@ export class SurveyService {
     }
   }
 
+  loadSurvey( id ){
+    let that = this;
+    this.http.fetch( 'api/survey/' + id, {
+      method: 'GET'
+    })
+      .then(surveyModel => surveyModel.json())
+      .then(surveyModel => {
+        that.surveyModel = that.surveyTransformer.deSerialize( surveyModel );
+        console.log( surveyModel );
+      });
+  }
+
+  saveSurvey(  ){
+    let that = this;
+    this.http.fetch( 'api/saveSurvey', {
+      method: 'post',
+      body: JSON.stringify( that.surveyTransformer.serialize( that.surveyModel ) ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+      .then( response => response.json())
+      .then( response => {
+        console.log( response );
+      });
+  }
+
+  loadSurveys( surveyInfoList ){
+    this.http.fetch( 'api/surveys', {
+      method: 'GET'
+    })
+      .then( data => data.json() )
+      .then( data => {
+        for ( let obj of data ) {
+          surveyInfoList.push( obj );
+        }
+
+        console.log( data );
+      });
+  }
+
+  initNewSurveyModel(){
+    this.surveyModel = {};
+    this.surveyModel.title = "new survey";
+    this.surveyModel.questionnaire = {};
+    this.surveyModel.questionnaire.questions = [];
+    this.surveyModel.surveySettings = {};
+
+    this.initSurveySettings();
+  }
+  //surveyModel.questionnaire.questions;
+
   isEditedModel(){
     return this.editedModel !== undefined;
   }
 
-  createQuestion( questionType, title, index, qArray ){
+  updatePositions( newIndex, oldIndex ){
+    if (newIndex != oldIndex) {
+      let questions = this.surveyModel.questionnaire.questions;
 
-    let question = {};
-    let questionNumber = parseInt( qArray.length ) + 1;
-    question.title = title + " " + questionNumber;
-    question.id = questionNumber;
+      if( oldIndex > newIndex ){
+        questions[oldIndex].index = newIndex;
+        for( var i = newIndex; i < oldIndex ; i++ ){
+          questions[i].index =questions[i].index + 1;
+        }
+      }else{
+        questions[oldIndex].index = newIndex;
+        for( var i = newIndex; i > oldIndex ; i-- ){
+          questions[i].index = questions[i].index - 1;
+        }
+      }
 
-    if ( questionType === 'closed' ) {
-      question.type = 'closed';
-      question.view = './../questions/subView/closed-question';
-
-      question.options = {};
-      question.options.id = "options_"+question.id;
-      question.options.type = "options";
-      question.options.elements = [];
-      question.options.elements.push( this.createOption( 'single 1', question.type, question.id, 0, false ) );
-      question.options.elements.push( this.createOption( 'single 2', question.type, question.id, 1, false ) );
-      question.options.elements.push( this.createOption( 'single 3', question.type, question.id, 2, false ) );
-
-
-    } else {
-      question.type = 'matrix';
-      question.view = './../questions/subView/matrix';
-
-      question.options = {};
-      question.options.id = "options_"+question.id;
-      question.options.type = "options";
-      question.options.elements = [];
-      question.options.elements.push( this.createOption( 'single 1', question.type, question.id, 0, false, 'common-option', question ) );
-      question.options.elements.push( this.createOption( 'single 2', question.type, question.id, 1, false, 'common-option', question ) );
-      question.options.elements.push( this.createOption( 'single 3', question.type, question.id, 2, false, 'common-option', question ) );
-
-      question.scales = {};
-      question.scales.id = "scales_"+question.id;
-      question.scales.type = "scales";
-      question.scales.cssClass = "scales-view";
-      question.scales.elements = [];
-      question.scales.elements.push( this.createScale( 'Scale 1', question.type, question.id, 0, false ) );
-      question.scales.elements.push( this.createScale( 'Scale 2', question.type, question.id, 1, false ) );
-      question.scales.elements.push( this.createScale( 'Scale 3', question.type, question.id, 2, false ) );
-
+      this.sort();
     }
-
-    qArray.splice( index, 0, question );
-
-    var i = 0;
-    qArray.forEach(function(question) {
-      console.log(question);
-      question.index = i;
-      i++;
-    });
-
   }
 
-  createOption( title, type, qId, index, isNew, cssClass, question ){
-    let option = {
-      view: "./../common/option",
-      title: title,
-      type: type,
-      qId: qId,
-      index: index,
-      isNew: isNew,
-      cssClass: cssClass ? cssClass : 'common-option',
-      question: question
-    };
-    return option;
+  sort(){
+    this.surveyModel.questionnaire.questions.sort( function compare(a, b) {
+      if (a.index < b.index) {
+        return -1;
+      }
+      if (a.index > b.index) {
+        return 1;
+      }
+      return 0;
+    } );
   }
 
-  createScale( title, type, qId, index, isNew ){
-    let scale = {
-      view: "./../common/scale",
-      title: title,
-      type: type,
-      qId: qId,
-      index: index,
-      isNew: isNew
-    };
-
-    scale.options = [];
-    scale.options.id = "steps_"+index;
-    scale.options.cssClass = "scale-steps";
-    scale.options.type = "steps";
-    scale.options.elements = [];
-    scale.options.elements.push( this.createOption( 'step 1', type, qId, 0, false ) );
-    scale.options.elements.push( this.createOption( 'step 2', type, qId, 1, false ) );
-    scale.options.elements.push( this.createOption( 'step 3', type, qId, 2, false ) );
-    return scale;
+  createQuestion( id, questionType, title, index, options, scales ){
+    let questionNumber = this.surveyModel.questionnaire.questions.length;
+    let question = this.surveyHelper.createQuestion( id, questionType, title, questionNumber, options, scales );
+    this.surveyHelper.insertQuestion( this.surveyModel.questionnaire.questions, question, index );
   }
 
 }

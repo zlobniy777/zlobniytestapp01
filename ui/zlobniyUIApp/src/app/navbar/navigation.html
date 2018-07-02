@@ -3,14 +3,19 @@
   <require from="app/navbar/Userinfo"></require>
   <div class="navigation-bar">
 
-    <div class="actionButtons title" repeat.for="button of buttons">
-      <compose view-model="./actionbutton" class="actionButton" model.bind="button"></compose>
+    <div class="action-buttons">
+      <compose class="action-button"
+               view-model="./actionbutton"
+               model.bind="button"
+               repeat.for="button of navigationService.buttons"></compose>
     </div>
 
-    <div style="width: 50%;" if.bind="client.clientInfo.hasLogged">
+    <compose class="object-title" view-model="app/main/survey/common/editable-item" model.bind="navigationService.objectTitle"></compose>
+
+    <div css="width: 50%;" if.bind="client.clientInfo.hasLogged">
       <userinfo></userinfo>
     </div>
-    <div style="width: 50%;" else>
+    <div css="width: 50%;" else>
       <loginform logingParamater="fromNavi" ></loginform>
     </div>
   </div>

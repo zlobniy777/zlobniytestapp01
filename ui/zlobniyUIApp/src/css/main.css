@@ -79,3 +79,20 @@ body{
   display: flex;
   align-items: center;
 }
+
+.action-buttons{
+  margin-left: 20px;
+  min-width: 20%;
+}
+
+.object-title{
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 49%;
+  text-align: center;
+}
+
+.action-button{
+  margin: 5px;
+}
+

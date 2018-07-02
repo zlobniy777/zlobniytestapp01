@@ -1,0 +1,28 @@
+.overview-table{
+  padding: 5px;
+  display: inline-flex;
+  width: 98%;
+}
+
+.overview-table-header{
+  background-color: #1ffa31;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.overview-table-body{
+  background-color: antiquewhite;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.overview-table-body:hover {
+  background-color: #7ec2fa;
+}
+
+.overview-table-cell{
+  width: 100%;
+}
+

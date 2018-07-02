@@ -14,10 +14,6 @@ export class App {
     this.http = http;
   }
 
-  goTo( route ) {
-    this.router.navigate( route );
-  }
-
   configureRouter( config, router ) {
     this.router = router;
     config.title = 'Aurelia';
@@ -27,6 +23,7 @@ export class App {
       {route: '/registration', name: 'regForm', moduleId: PLATFORM.moduleName( "./app/registration/registration" ), nav: true, title: 'Registration Form'},
       {route: '/dashboard', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/main/dashboard" ), nav: false, title: 'Dashboard'},
       {route: '/survey', name: 'survey', moduleId: PLATFORM.moduleName( "./app/main/survey/survey" ), nav: false, title: 'Survey'},
+      {route: '/survey/:id', name: 'survey', moduleId: PLATFORM.moduleName( "./app/main/survey/survey" ), nav: false, title: 'Edit survey'},
     ] );
   }
 

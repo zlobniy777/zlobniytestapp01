@@ -33,7 +33,7 @@ export class EditableItem extends Ui {
   activate( item ){
     this.item = item;
 
-    if( this.item.isNew ){
+    if(  this.item && this.item.isNew ){
       this.startEdit();
       this.item.isNew = false;
     }

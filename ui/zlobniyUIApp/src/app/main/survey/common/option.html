@@ -7,9 +7,9 @@
   </div>
   <div class="${item.cssClass}" if.bind="item.type === 'matrix'">
     <div class="options-scales-block">
-      <compose style="width:${scales.length > 0 ? '20%' : '100%'}" view-model="./../common/editable-item" model.bind="item"></compose>
-      <div style="width: ${80 / scales.length}%" class="options-scales" repeat.for="scale of scales">
-        <div style="width: ${100 / scale.options.elements.length}%" class="scale-option" repeat.for="option of scale.options.elements">
+      <compose css="width:${scales.length > 0 ? '20%' : '100%'}" view-model="./../common/editable-item" model.bind="item"></compose>
+      <div css="width: ${80 / scales.length}%" class="options-scales" repeat.for="scale of scales">
+        <div css="width: ${100 / scale.scaleSteps.elements.length}%" class="scale-option" repeat.for="option of scale.scaleSteps.elements">
           <input type="radio">
         </div>
       </div>

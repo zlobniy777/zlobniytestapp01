@@ -1,21 +1,23 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyService} from "../../services/survey-service";
+import {HttpClient} from 'aurelia-fetch-client';
 
 import sortable from 'sortablejs';
 
-@inject(EventAggregator, SurveyService)
+@inject(EventAggregator, HttpClient, SurveyService)
 export class Dragdrop {
 
-  droppedItems = [];
-
   test = {};
+  eventTargetAdd;
+  eventTargetUpdate;
 
   availableItems = [];
 
-  constructor( eventAggregator, surveyService ) {
+  constructor( eventAggregator, http, surveyService ) {
     this.eventAggregator = eventAggregator;
     this.surveyService = surveyService;
+    this.http = http;
 
     this.availableItems = [
       {'title':'Only one answer', 'type':'closed'},
@@ -40,20 +42,11 @@ export class Dragdrop {
     this.eventListeners();
   }
 
-  test(){
-    console.log( this.droppedItems.length );
-  }
+  detached() {
+    //clean up the subscription when app component is removed from the DOM
+    this.eventTargetAdd.dispose();
+    this.eventTargetUpdate.dispose();
 
-  sort(){
-    this.droppedItems.sort( function compare(a, b) {
-      if (a.index < b.index) {
-        return -1;
-      }
-      if (a.index > b.index) {
-        return 1;
-      }
-      return 0;
-    } );
   }
 
   /**
@@ -66,7 +59,7 @@ export class Dragdrop {
     let that = this;
 
     // Event triggered when item is added
-    this.eventAggregator.subscribe('dragTarget.onAdd', evt => {
+    this.eventTargetAdd = this.eventAggregator.subscribe('dragTarget.onAdd', evt => {
       let src = evt.from;
       let dest = evt.to;
       let item = evt.item;
@@ -80,13 +73,13 @@ export class Dragdrop {
         let questionType = item.dataset.type;
         let sourceTitle = item.dataset.value;
 
-        that.surveyService.createQuestion( questionType, sourceTitle, evt.newIndex, that.droppedItems );
+        that.surveyService.createQuestion( undefined, questionType, sourceTitle, evt.newIndex );
       }
     });
 
     // Events for when sorting takes place, we need to update the array to let
     // Aurelia know that changes have taken place and our repeater is up-to-date
-    this.eventAggregator.subscribe('dragTarget.onUpdate', evt => {
+    this.eventTargetUpdate = this.eventAggregator.subscribe('dragTarget.onUpdate', evt => {
       // The item being dragged
       let el = evt.item;
 
@@ -97,22 +90,7 @@ export class Dragdrop {
       let newIndex = evt.newIndex;
 
       // If item isn't being dropped into its original place
-      if (newIndex != oldIndex) {
-
-        if( oldIndex > newIndex ){
-          that.droppedItems[oldIndex].index = newIndex;
-          for( var i = newIndex; i < oldIndex ; i++ ){
-            that.droppedItems[i].index = that.droppedItems[i].index + 1;
-          }
-        }else{
-          that.droppedItems[oldIndex].index = newIndex;
-          for( var i = newIndex; i > oldIndex ; i-- ){
-            that.droppedItems[i].index = that.droppedItems[i].index - 1;
-          }
-        }
-
-        that.sort();
-      }
+      that.surveyService.updatePositions( newIndex, oldIndex );
     });
   }
 
@@ -171,6 +149,29 @@ export class Dragdrop {
       }
     });
   }
+
+  activate( data ){
+    // if( data.id !== undefined ){
+    //   // load survey from server
+    //   this.surveyService.loadSurvey( this.surveyModel, data.id );
+    // }
+
+    //this.surveyService.loadSurvey( data.id );
+
+    // let that = this;
+    // this.http.fetch( 'api/survey/' + 1, {
+    //   method: 'GET'
+    // })
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     this.apiKey = response.APIKey;
+    //     that.surveyModel = response;
+    //     that.questions = response.questionnaire.questions;
+    //     console.log(response);
+    // });
+
+  }
+
 }
 
 function swapArrayElements(theArray, a, b) {

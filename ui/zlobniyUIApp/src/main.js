@@ -38,7 +38,17 @@ function configureContainer(container) {
   http.configure(config => {
     config
       .useStandardConfiguration()
-      .withBaseUrl('/');
+      .withBaseUrl('/')
+      .withInterceptor({
+        request(request) {
+          console.log(`Requesting ${request.method} ${request.url}`);
+          return request;
+        },
+        response(response) {
+          console.log(`Received ${response.status} ${response.url}`);
+          return response;
+        }
+      });
   });
   container.registerInstance(HttpClient, http); // <---- this line ensures everyone that `@inject`s a `HttpClient` instance will get the instance we configured above.
 }

@@ -2,16 +2,20 @@ import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
 import {SurveyService} from "../../services/survey-service";
+import {NavigationService} from "../../services/navigation-service";
 import {Ui} from "../../ui";
 import {Router} from 'aurelia-router';
 
-@inject( SurveyService, Router, Ui )
+@inject( SurveyService, Router, NavigationService, Ui )
 export class Survey extends Ui {
 
-  constructor( surveyService, router, ...rest ) {
+
+
+  constructor( surveyService, router, navigationService, ...rest ) {
     super( ...rest );
     this.surveyService = surveyService;
     this.router = router;
+    this.navigationService = navigationService;
 
     this.initSurveyMouseHandler();
 
@@ -48,5 +52,34 @@ export class Survey extends Ui {
     document.removeEventListener( 'click', this.surveyMouseHandler );
   }
 
+  activate( data ){
+
+    let that = this;
+    let buttons = [
+      {
+        title: 'Exit', action: function () {
+        that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+      }
+      },
+      {
+        title: 'Save', action: function () {
+        that.surveyService.saveSurvey();
+      }
+      }
+    ];
+
+    this.navigationService.setButtons( buttons );
+
+    if( data.id !== undefined ){
+      // load survey from server
+      this.surveyService.loadSurvey( data.id );
+    }else{
+      // init new survey model
+      this.surveyService.initNewSurveyModel();
+    }
+
+    this.navigationService.setTitle( this.surveyService.surveyModel );
+
+  }
 
 }

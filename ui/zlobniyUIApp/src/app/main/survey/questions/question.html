@@ -3,10 +3,8 @@
   <require from="app/main/survey/questions/subView/matrix"></require>
   <div class="question">
     <div class="header">
-      <div class="questionNumber" style="display: ${surveyService.surveySettings.showQuestionNumber ? 'block' : 'none'}">${question.index+1}</div>
-      <div class="questionTitle">
-        <compose view-model="./../common/editable-item" model.bind="question"></compose>
-      </div>
+      <div class="questionNumber" css="display: ${surveyService.surveyModel.surveySettings.showQuestionNumber ? 'block' : 'none'}">${question.index+1}</div>
+      <compose class="questionTitle" view-model="./../common/editable-item" model.bind="question"></compose>
     </div>
     <compose class="body" view-model="${question.view}" model.bind="question"></compose>
     <div class="bottom">

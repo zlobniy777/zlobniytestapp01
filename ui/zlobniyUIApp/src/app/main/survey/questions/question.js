@@ -2,19 +2,21 @@ import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
 import {SurveyService} from "../../../services/survey-service";
+import {SurveyHelper} from "../../../services/survey-helper";
 import {Ui} from "../../../ui";
 import {Router} from 'aurelia-router';
 
-@inject( SurveyService, Router, Ui )
+@inject( SurveyService, Router, SurveyHelper, Ui )
 export class Question extends Ui {
 
   question = {};
   name;
   isEdit = false;
 
-  constructor( surveyService, router, ...rest ) {
+  constructor( surveyService, router, surveyHelper, ...rest ) {
     super(...rest);
     this.surveyService = surveyService;
+    this.surveyHelper = surveyHelper;
     this.router = router;
     this.name = 'Question';
 
@@ -22,8 +24,7 @@ export class Question extends Ui {
 
   addItem( options ){
     console.log( 'add item' );
-    options.elements.push( this.surveyService.createOption( 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
-    // this.question.options.elements.push( this.surveyService.createOption( 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
+    options.elements.push( this.surveyHelper.createOption( undefined, 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
   }
 
   startEdit(){
