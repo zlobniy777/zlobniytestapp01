@@ -17,14 +17,15 @@ package com.zlobniy;
 
 import com.zlobniy.greetings.GreetingProperties;
 import org.hamcrest.core.Is;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
-import static org.hamcrest.core.Is.is;
 
 public abstract class AbstractBoosterApplicationTest {
 
+    @Ignore
     @Test
     public void testGreetingEndpoint() {
         when().get()
@@ -33,6 +34,7 @@ public abstract class AbstractBoosterApplicationTest {
                 .body("content", Is.is(String.format(getProperties().getMessage(), "World")));
     }
 
+    @Ignore
     @Test
     public void testGreetingEndpointWithNameParameter() {
         given().param("name", "John")
