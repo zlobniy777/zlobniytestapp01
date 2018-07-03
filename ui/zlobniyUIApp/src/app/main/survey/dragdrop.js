@@ -73,7 +73,7 @@ export class Dragdrop {
         let questionType = item.dataset.type;
         let sourceTitle = item.dataset.value;
 
-        that.surveyService.createQuestion( undefined, questionType, sourceTitle, evt.newIndex );
+        that.surveyService.addQuestion( undefined, questionType, sourceTitle, evt.newIndex );
       }
     });
 
@@ -151,25 +151,6 @@ export class Dragdrop {
   }
 
   activate( data ){
-    // if( data.id !== undefined ){
-    //   // load survey from server
-    //   this.surveyService.loadSurvey( this.surveyModel, data.id );
-    // }
-
-    //this.surveyService.loadSurvey( data.id );
-
-    // let that = this;
-    // this.http.fetch( 'api/survey/' + 1, {
-    //   method: 'GET'
-    // })
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     this.apiKey = response.APIKey;
-    //     that.surveyModel = response;
-    //     that.questions = response.questionnaire.questions;
-    //     console.log(response);
-    // });
-
   }
 
 }

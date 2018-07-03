@@ -9,6 +9,7 @@ export class NavigationService {
 
   NAV_DASHBOARD = "/dashboard";
   NAV_SURVEY = "/survey";
+  NAV_START_PAGE = "/";
 
   objectTitle;
   buttons = [];

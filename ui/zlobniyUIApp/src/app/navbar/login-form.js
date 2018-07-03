@@ -1,10 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
-import {Client} from "../services/client";
+import {ClientService} from "../services/client-service";
 import {Ui} from "../ui";
 
-@inject( HttpClient, Router, Client, Ui )
+@inject( HttpClient, Router, ClientService, Ui )
 export class Loginform extends Ui {
 
   loginValue = "";
@@ -12,14 +12,14 @@ export class Loginform extends Ui {
   loginPlaceholder = "login";
   passwordPlaceholder = "password";
 
-  constructor(http, router, client, ...rest) {
+  constructor(http, router, clientService, ...rest) {
     super(...rest);
     this.http = http;
     this.router = router;
-    this.client = client;
+    this.clientService = clientService;
   }
 
-  loginAction() {
+  doLogin() {
     console.log('Login action: ' + this.loginValue + " " + this.passwordValue);
 
     let clientData = {
@@ -27,12 +27,7 @@ export class Loginform extends Ui {
       password: this.passwordValue
     };
 
-    this.client.loginAction( clientData );
-
-    this.client.clientInfo.hasLogged = true;
-    this.client.clientInfo.id = "test 1";
-    this.client.clientInfo.name = 'Vasia';
-
+    this.clientService.loginAction( clientData );
   }
 
   attached(){

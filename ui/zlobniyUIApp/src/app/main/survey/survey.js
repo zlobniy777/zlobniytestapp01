@@ -9,8 +9,6 @@ import {Router} from 'aurelia-router';
 @inject( SurveyService, Router, NavigationService, Ui )
 export class Survey extends Ui {
 
-
-
   constructor( surveyService, router, navigationService, ...rest ) {
     super( ...rest );
     this.surveyService = surveyService;
@@ -40,10 +38,6 @@ export class Survey extends Ui {
     };
   }
 
-  exit() {
-    this.router.navigate( "/dashboard" );
-  }
-
   attached() {
     document.addEventListener( 'click', this.surveyMouseHandler );
   }
@@ -59,6 +53,7 @@ export class Survey extends Ui {
       {
         title: 'Exit', action: function () {
         that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+        that.navigationService.setTitle( {} );
       }
       },
       {
@@ -72,13 +67,18 @@ export class Survey extends Ui {
 
     if( data.id !== undefined ){
       // load survey from server
-      this.surveyService.loadSurvey( data.id );
+      this.surveyService.loadSurvey( data.id )
+        .then(surveyModel => surveyModel.json())
+        .then(surveyModel => {
+          that.surveyService.setSurveyModel( surveyModel );
+          that.navigationService.setTitle( that.surveyService.surveyModel );
+          console.log( surveyModel );
+        });
     }else{
       // init new survey model
       this.surveyService.initNewSurveyModel();
+      this.navigationService.setTitle( this.surveyService.surveyModel );
     }
-
-    this.navigationService.setTitle( this.surveyService.surveyModel );
 
   }
 

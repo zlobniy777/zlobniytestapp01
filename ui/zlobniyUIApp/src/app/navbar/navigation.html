@@ -1,23 +1,18 @@
 <template>
-  <require from="app/navbar/Loginform"></require>
-  <require from="app/navbar/Userinfo"></require>
   <div class="navigation-bar">
 
     <div class="action-buttons">
       <compose class="action-button"
-               view-model="./actionbutton"
+               view-model="./action-button"
                model.bind="button"
                repeat.for="button of navigationService.buttons"></compose>
     </div>
 
     <compose class="object-title" view-model="app/main/survey/common/editable-item" model.bind="navigationService.objectTitle"></compose>
 
-    <div css="width: 50%;" if.bind="client.clientInfo.hasLogged">
-      <userinfo></userinfo>
-    </div>
-    <div css="width: 50%;" else>
-      <loginform logingParamater="fromNavi" ></loginform>
-    </div>
+    <compose if.bind="clientService.clientInfo.hasLogged" class="object-title" view-model="./user-info" model.bind="clientService.clientInfo"></compose>
+    <compose else class="object-title" view-model="./login-form" model.bind="clientService.clientInfo"></compose>
+
   </div>
 
 </template>

@@ -1,13 +1,13 @@
 import {inject} from 'aurelia-framework';
-import {Client} from "../../services/client";
+import {ClientService} from "../../services/client-service";
 import {Ui} from "../../ui";
 
-@inject( Client, Ui )
+@inject( ClientService, Ui )
 export class Leftbar extends Ui {
 
-  constructor( client, ...rest ) {
+  constructor( clientService, ...rest ) {
     super(...rest);
-    this.client = client;
+    this.clientService = clientService;
   }
 
 }

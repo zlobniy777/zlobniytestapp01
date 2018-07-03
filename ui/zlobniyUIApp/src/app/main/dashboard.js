@@ -1,31 +1,23 @@
 import 'css/dashboard.css';
 
 import {inject} from 'aurelia-framework';
-import {Client} from "../services/client";
+import {ClientService} from "../services/client-service";
 import {HttpClient} from 'aurelia-fetch-client';
 import {NavigationService} from "../services/navigation-service";
 import {Ui} from "../ui";
 
 
-@inject( Client, HttpClient, NavigationService, Ui )
+@inject( ClientService, HttpClient, NavigationService, Ui )
 export class Dashboard extends Ui {
   title = 'Dashboard';
 
   info = "";
 
-  constructor( client, http, navigationService, ...rest ){
+  constructor( clientService, http, navigationService, ...rest ){
     super(...rest);
-    this.client = client;
+    this.clientService = clientService;
     this.http = http;
     this.navigationService = navigationService;
-
-    var that = this;
-
-
-
-    // this.data = [
-    //   {id:1, title:'Test mock', date:"21.06.2018 00:18"},
-    // ];
   }
 
   activate(){
@@ -39,10 +31,6 @@ export class Dashboard extends Ui {
     ];
 
     this.navigationService.setButtons( buttons );
-  }
-
-  test(){
-    console.log( this.client.clientInfo );
   }
 
 }

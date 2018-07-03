@@ -9,9 +9,7 @@ export class SurveyModelTransformer {
   }
 
   serialize( surveyModel ){
-    // let data = JSON.parse(JSON.stringify( surveyModel ));
     let data = this.clone( surveyModel );
-    // let data = Object.assign( {}, surveyModel );
 
     for ( let question of data.questionnaire.questions ) {
 
@@ -41,7 +39,6 @@ export class SurveyModelTransformer {
         }
         question.scales = scales;
       }
-
     }
 
     return data;
@@ -49,7 +46,6 @@ export class SurveyModelTransformer {
 
   deSerialize( data ){
     let that = this;
-
     let questions = data.questionnaire.questions;
 
     data.questionnaire.questions = [];

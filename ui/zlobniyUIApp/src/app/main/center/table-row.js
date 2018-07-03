@@ -1,16 +1,16 @@
 import {inject} from 'aurelia-framework';
-import {Client} from "../../services/client";
+import {ClientService} from "../../services/client-service";
 import {NavigationService} from "../../services/navigation-service";
 import {Ui} from "../../ui";
 
-@inject( Client, NavigationService,  Ui )
+@inject( ClientService, NavigationService,  Ui )
 export class TableRow extends Ui {
 
   rowData = {};
 
-  constructor( client, navigationService, ...rest ) {
+  constructor( clientService, navigationService, ...rest ) {
     super(...rest);
-    this.client = client;
+    this.clientService = clientService;
     this.navigationService = navigationService;
   }
 

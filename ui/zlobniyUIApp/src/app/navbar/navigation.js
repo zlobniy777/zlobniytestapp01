@@ -1,16 +1,16 @@
 import {inject} from 'aurelia-framework';
 import {Ui} from "../ui";
-import {Client} from "../services/client";
+import {ClientService} from "../services/client-service";
 import {NavigationService} from "../services/navigation-service";
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject( Client, NavigationService, EventAggregator, Ui )
+@inject( ClientService, NavigationService, EventAggregator, Ui )
 export class Navigation extends Ui{
   title = "navigation";
 
-  constructor( client, navigationService, eventAggregator, ...rest ) {
+  constructor( clientService, navigationService, eventAggregator, ...rest ) {
     super(...rest);
-    this.client = client;
+    this.clientService = clientService;
     this.navigationService = navigationService;
     this.eventAggregator = eventAggregator;
 

@@ -3,7 +3,7 @@ import {HttpClient} from 'aurelia-fetch-client';
 import {NavigationService} from "./navigation-service";
 
 @inject( HttpClient, NavigationService )
-export class Client {
+export class ClientService {
 
   test = false;
   clientInfo = {};
@@ -15,16 +15,26 @@ export class Client {
     this.loginAction();
   }
 
+  logOff(){
+
+    this.clientInfo = {};
+    this.hasLogged = false;
+    this.navigationService.setButtons( [] );
+    this.navigationService.setTitle( {} );
+    this.navigationService.goTo( this.navigationService.NAV_START_PAGE );
+  }
+
   loginAction( clientData ) {
     if( clientData === undefined ){
       clientData = {};
     }
-    var that = this;
+    let that = this;
     console.log('Login action: ' + clientData );
 
     if( clientData.login === 'test' ){
-      this.clientInfo = { login:'test', hasLogged: true, name: 'Test'};
+      this.clientInfo = { id:'0', login:'test', hasLogged: true, name: 'Test'};
       this.hasLogged = true;
+
       this.navigationService.goTo( this.navigationService.NAV_DASHBOARD );
     }
 

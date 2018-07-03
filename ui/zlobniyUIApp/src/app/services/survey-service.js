@@ -7,8 +7,6 @@ import {SurveyHelper} from './survey-helper';
 @inject( HttpClient, Router, SurveyModelTransformer, SurveyHelper )
 export class SurveyService {
 
-  test = false;
-  isWizard = false;
   surveyModel = {};
   editedModel;
 
@@ -17,7 +15,6 @@ export class SurveyService {
     this.router = router;
     this.surveyTransformer = surveyTransformer;
     this.surveyHelper = surveyHelper;
-
   }
 
   initSurveySettings() {
@@ -39,16 +36,18 @@ export class SurveyService {
     }
   }
 
+  isEditedModel(){
+    return this.editedModel !== undefined;
+  }
+
   loadSurvey( id ){
-    let that = this;
-    this.http.fetch( 'api/survey/' + id, {
+    return this.http.fetch( 'api/survey/' + id, {
       method: 'GET'
-    })
-      .then(surveyModel => surveyModel.json())
-      .then(surveyModel => {
-        that.surveyModel = that.surveyTransformer.deSerialize( surveyModel );
-        console.log( surveyModel );
-      });
+    });
+  }
+
+  setSurveyModel( surveyModel ){
+    this.surveyModel = this.surveyTransformer.deSerialize( surveyModel );
   }
 
   saveSurvey(  ){
@@ -83,17 +82,12 @@ export class SurveyService {
 
   initNewSurveyModel(){
     this.surveyModel = {};
-    this.surveyModel.title = "new survey";
+    this.surveyModel.title = "New survey";
     this.surveyModel.questionnaire = {};
     this.surveyModel.questionnaire.questions = [];
     this.surveyModel.surveySettings = {};
 
     this.initSurveySettings();
-  }
-  //surveyModel.questionnaire.questions;
-
-  isEditedModel(){
-    return this.editedModel !== undefined;
   }
 
   updatePositions( newIndex, oldIndex ){
@@ -128,7 +122,7 @@ export class SurveyService {
     } );
   }
 
-  createQuestion( id, questionType, title, index, options, scales ){
+  addQuestion( id, questionType, title, index, options, scales ){
     let questionNumber = this.surveyModel.questionnaire.questions.length;
     let question = this.surveyHelper.createQuestion( id, questionType, title, questionNumber, options, scales );
     this.surveyHelper.insertQuestion( this.surveyModel.questionnaire.questions, question, index );

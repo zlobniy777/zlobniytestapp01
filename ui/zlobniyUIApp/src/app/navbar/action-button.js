@@ -1,31 +1,20 @@
 import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
-import {Client} from "../services/client";
+import {ClientService} from "../services/client-service";
 import {NavigationService} from "../services/navigation-service";
 import {Ui} from "../ui";
 
-@inject( Client, NavigationService, Ui )
+@inject( ClientService, NavigationService, Ui )
 export class ActionButton extends Ui {
 
   action = {};
   title = "";
 
-  // availableActions = [
-  //   {
-  //     title: 'createSurvey', action: function () {
-  //       this.router.navigate("/survey");
-  //     }
-  //   }
-  //
-  // ];
-
-  constructor( client, navigationService, ...rest ) {
+  constructor( clientService, navigationService, ...rest ) {
     super(...rest);
-    this.client = client;
+    this.clientService = clientService;
     this.navigationService = navigationService;
-
-
   }
 
   activate( button ){
@@ -36,7 +25,5 @@ export class ActionButton extends Ui {
   doAction(){
     this.action.call();
   }
-
-
 
 }

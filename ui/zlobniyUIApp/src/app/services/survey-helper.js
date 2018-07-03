@@ -11,64 +11,73 @@ export class SurveyHelper {
     question.title = title + " " + questionNumber;
     question.id =  id !== undefined ? id : questionNumber;
 
-    if ( questionType === 'closed' ) {
-
-      if( !options ){
-        options = this.createDefaultOptions();
-      }
-
-      question.type = 'closed';
-      question.view = './../questions/subView/closed-question';
-
-      question.options = {};
-      question.options.id = "options_"+question.id;
-      question.options.type = "options";
-      question.options.elements = [];
-      let optionIndex = 0;
-      for ( let option of options ) {
-        question.options.elements.push( this.createOption( option.id, option.title, question.type, question.id, optionIndex, false ) );
-        optionIndex++;
-      }
-
-    } else {
-
-      if( !options ){
-        options = this.createDefaultOptions();
-      }
-
-      if( !scales ){
-        scales = this.createDefaultScales();
-      }
-
-      question.type = 'matrix';
-      question.view = './../questions/subView/matrix';
-
-      question.options = {};
-      question.options.id = "options_"+question.id;
-      question.options.type = "options";
-      question.options.elements = [];
-      let optionIndex = 0;
-      for ( let option of options ) {
-        question.options.elements.push( this.createOption( option.id, option.title, question.type, question.id, optionIndex, false, 'common-option', question ) );
-        optionIndex++;
-      }
-
-      question.scales = {};
-      question.scales.id = "scales_"+question.id;
-      question.scales.type = "scales";
-      question.scales.cssClass = "scales-view";
-      question.scales.elements = [];
-
-      let scaleIndex = 0;
-      for ( let scale of scales ) {
-        question.scales.elements.push( this.createScale( scale.id, scale.title, question.type, question.id, scaleIndex, false, scale.scaleSteps ) );
-        scaleIndex++;
-      }
-
+    switch ( questionType ){
+      case 'closed':
+        this.createClosedQuestion( question, options );
+        break;
+      case 'matrix':
+        this.createMatrixQuestion( question, options, scales );
+        break;
+      default:
+        console.log( 'unsupported question type ' + questionType );
+        break;
     }
 
     return question;
+  }
 
+  createMatrixQuestion( question, options, scales ){
+    if( !options ){
+      options = this.createDefaultOptions();
+    }
+
+    if( !scales ){
+      scales = this.createDefaultScales();
+    }
+
+    question.type = 'matrix';
+    question.view = './../questions/subView/matrix';
+
+    question.options = {};
+    question.options.id = "options_"+question.id;
+    question.options.type = "options";
+    question.options.elements = [];
+    let optionIndex = 0;
+    for ( let option of options ) {
+      question.options.elements.push( this.createOption( option.id, option.title, question.type, question.id, optionIndex, false, 'common-option', question ) );
+      optionIndex++;
+    }
+
+    question.scales = {};
+    question.scales.id = "scales_"+question.id;
+    question.scales.type = "scales";
+    question.scales.cssClass = "scales-view";
+    question.scales.elements = [];
+
+    let scaleIndex = 0;
+    for ( let scale of scales ) {
+      question.scales.elements.push( this.createScale( scale.id, scale.title, question.type, question.id, scaleIndex, false, scale.scaleSteps ) );
+      scaleIndex++;
+    }
+  }
+
+  createClosedQuestion( question, options ){
+    if( !options ){
+      options = this.createDefaultOptions();
+    }
+
+    question.type = 'closed';
+    question.view = './../questions/subView/closed-question';
+
+    question.options = {};
+    question.options.id = "options_"+question.id;
+    question.options.type = "options";
+    question.options.elements = [];
+    let optionIndex = 0;
+    for ( let option of options ) {
+      question.options.elements.push( this.createOption( option.id, option.title, question.type, question.id, optionIndex, false ) );
+      optionIndex++;
+    }
   }
 
   insertQuestion( questions, question, index ){
