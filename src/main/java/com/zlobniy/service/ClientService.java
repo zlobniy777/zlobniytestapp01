@@ -39,6 +39,14 @@ public class ClientService {
         return client;
     }
 
+    public boolean logOut( String sessionId ){
+        if( loggedClients.containsKey( sessionId ) ){
+            loggedClients.remove( sessionId );
+            return true;
+        }
+        return false;
+    }
+
     public void putToLoggedIn( Client client, String sessionId ){
         loggedClients.putIfAbsent( sessionId, client );
     }

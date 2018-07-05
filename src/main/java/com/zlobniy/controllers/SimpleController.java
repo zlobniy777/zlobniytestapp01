@@ -2,6 +2,7 @@ package com.zlobniy.controllers;
 
 import com.zlobniy.client.entity.Client;
 import com.zlobniy.entity.Dashboard;
+import com.zlobniy.entity.Status;
 import com.zlobniy.entity.survey.SurveyInfo;
 import com.zlobniy.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,13 @@ public class SimpleController {
         return nClient;
     }
 
+    @RequestMapping( value = "/api/logout", method = RequestMethod.POST )
+    public Status logout( @RequestBody Client client, HttpServletRequest request ) {
+        System.out.println( "log out " + client.toString() );
+        Status status = new Status();
+        status.setStatus( clientService.logOut( request.getSession().getId() ) );
+        return status;
+    }
 
 
 }

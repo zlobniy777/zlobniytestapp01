@@ -16,12 +16,27 @@ export class ClientService {
   }
 
   logOff(){
+    let that = this;
+    let clientData = this.clientInfo;
 
-    this.clientInfo = {};
-    this.hasLogged = false;
-    this.navigationService.setButtons( [] );
-    this.navigationService.setTitle( {} );
-    this.navigationService.goTo( this.navigationService.NAV_START_PAGE );
+    this.http.fetch('api/logout', {
+      method: 'post',
+      body: JSON.stringify( clientData ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }).then(response => response.json() )
+      .then(response => {
+        if( response.status ){
+          that.clientInfo = {};
+          that.hasLogged = false;
+          that.navigationService.setButtons( [] );
+          that.navigationService.setTitle( {} );
+          that.navigationService.goTo( this.navigationService.NAV_START_PAGE );
+        }
+      });
+
   }
 
   loginAction( clientData ) {
