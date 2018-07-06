@@ -48,6 +48,10 @@ export class SurveyService {
     this.surveyModel = this.surveyTransformer.deSerialize( surveyModel );
   }
 
+  unSetSurveyModel(){
+    this.surveyModel = {};
+  }
+
   saveSurvey(  ){
     let that = this;
 

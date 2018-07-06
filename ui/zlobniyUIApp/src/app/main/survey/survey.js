@@ -51,7 +51,7 @@ export class Survey extends Ui {
 
   clearSurveyInfo(){
     this.navigationService.setTitle( {} );
-    this.surveyService.setSurveyModel( {} );
+    this.surveyService.unSetSurveyModel();
   }
 
   activate( data ){
