@@ -1,10 +1,9 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {HttpClient} from 'aurelia-fetch-client';
 import {SurveyService} from './survey-service';
 
 
-@inject( HttpClient, Router, SurveyService )
+@inject( Router, SurveyService )
 export class NavigationService {
 
   NAV_DASHBOARD = "/dashboard";
@@ -14,8 +13,7 @@ export class NavigationService {
   objectTitle;
   buttons = [];
 
-  constructor( http, router, surveyService ) {
-    this.http = http;
+  constructor( router, surveyService ) {
     this.router = router;
     this.surveyService = surveyService;
     this.objectTitle = {};

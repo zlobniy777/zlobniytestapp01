@@ -39,11 +39,19 @@ export class Survey extends Ui {
   }
 
   attached() {
+    console.log('attached survey ');
     document.addEventListener( 'click', this.surveyMouseHandler );
   }
 
   detached() {
+    console.log('detached survey ');
     document.removeEventListener( 'click', this.surveyMouseHandler );
+    this.clearSurveyInfo();
+  }
+
+  clearSurveyInfo(){
+    this.navigationService.setTitle( {} );
+    this.surveyService.setSurveyModel( {} );
   }
 
   activate( data ){
@@ -53,7 +61,6 @@ export class Survey extends Ui {
       {
         title: 'Exit', action: function () {
         that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
-        that.navigationService.setTitle( {} );
       }
       },
       {
@@ -68,12 +75,17 @@ export class Survey extends Ui {
     if( data.id !== undefined ){
       // load survey from server
       this.surveyService.loadSurvey( data.id )
-        .then(surveyModel => surveyModel.json())
-        .then(surveyModel => {
-          that.surveyService.setSurveyModel( surveyModel );
-          that.navigationService.setTitle( that.surveyService.surveyModel );
-          console.log( surveyModel );
-        });
+        .then( function ( response ) {
+          return response.json()
+        } ).then( function ( surveyModel ) {
+        console.log( 'parsed json', surveyModel );
+        that.surveyService.setSurveyModel( surveyModel );
+        that.navigationService.setTitle( that.surveyService.surveyModel );
+        console.log( surveyModel );
+      } ).catch( function ( ex ) {
+        console.log( 'parsing failed', ex )
+      } );
+
     }else{
       // init new survey model
       this.surveyService.initNewSurveyModel();

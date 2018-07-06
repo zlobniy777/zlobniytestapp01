@@ -1,11 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyService} from "../../services/survey-service";
-import {HttpClient} from 'aurelia-fetch-client';
 
 import sortable from 'sortablejs';
 
-@inject(EventAggregator, HttpClient, SurveyService)
+@inject(EventAggregator, SurveyService)
 export class Dragdrop {
 
   test = {};
@@ -14,10 +13,9 @@ export class Dragdrop {
 
   availableItems = [];
 
-  constructor( eventAggregator, http, surveyService ) {
+  constructor( eventAggregator, surveyService ) {
     this.eventAggregator = eventAggregator;
     this.surveyService = surveyService;
-    this.http = http;
 
     this.availableItems = [
       {'title':'Only one answer', 'type':'closed'},

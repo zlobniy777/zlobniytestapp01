@@ -1,16 +1,12 @@
 import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {HttpClient} from 'aurelia-fetch-client';
 import {ClientService} from "./services/client-service";
 
-@inject( Element, HttpClient, Router, ClientService )
+@inject( Element, ClientService )
 export class Ui {
 
   name = "ui";
 
-  constructor( element, http, router, clientService ) {
-    this.http = http;
-    this.router = router;
+  constructor( element, clientService ) {
     this.element = element;
     this.clientService = clientService;
   }

@@ -8,6 +8,7 @@ install dependencies to project folder
 add new dependency
 npm install aurelia-fetch-client --save
 npm install aurelia-router --save
+npm install whatwg-fetch --save
 
 sortable draggable dependency
 npm install sortablejs --save

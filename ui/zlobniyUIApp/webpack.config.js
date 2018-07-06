@@ -29,7 +29,7 @@ module.exports = ({production, server, extractCss, coverage, analyze} = {}) => (
     modules: [srcDir, 'node_modules'],
   },
   entry: {
-    app: ['aurelia-bootstrapper'],
+    app: [ 'whatwg-fetch', 'aurelia-bootstrapper' ],
     vendor: ['bluebird'],
   },
   mode: production ? 'production' : 'development',

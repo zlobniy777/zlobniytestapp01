@@ -1,9 +1,5 @@
 import 'css/main.css';
-import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
 
-
-@inject( HttpClient )
 export class App {
 
   loginPlaceholder = 'Please enter valid login';
@@ -11,7 +7,6 @@ export class App {
 
   constructor( http ) {
     this.message = 'Hello World 12!';
-    this.http = http;
   }
 
   configureRouter( config, router ) {

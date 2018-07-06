@@ -1,9 +1,7 @@
 import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {HttpClient} from 'aurelia-fetch-client';
 import {Ui} from "../ui";
 
-@inject( HttpClient, Router, Ui )
+@inject( Ui )
 export class Registration extends Ui{
   title = 'Registration form';
 
@@ -19,10 +17,8 @@ export class Registration extends Ui{
   passwordPlaceholder = "Password";
   emailPlaceholder = "e-mail@domain.com";
 
-  constructor(http, router, ...rest) {
+  constructor( ...rest ) {
     super(...rest);
-    this.http = http;
-    this.router = router;
   }
 
   registration() {
@@ -37,23 +33,23 @@ export class Registration extends Ui{
       email: this.emailValue,
     };
 
-    this.http.fetch('api/login', {
-      method: 'post',
-      body: JSON.stringify(clientData),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(response => {
-        this.apiKey = response.APIKey;
-        console.log(response);
-        if (response.hasLogged) {
-          console.log("success");
-          this.router.navigate("/dashboard");
-        }
-      });
+    // this.http.fetch('api/login', {
+    //   method: 'post',
+    //   body: JSON.stringify(clientData),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json'
+    //   }
+    // })
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     this.apiKey = response.APIKey;
+    //     console.log(response);
+    //     if (response.hasLogged) {
+    //       console.log("success");
+    //       this.router.navigate("/dashboard");
+    //     }
+    //   });
 
   }
 }

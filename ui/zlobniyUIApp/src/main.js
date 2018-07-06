@@ -1,11 +1,10 @@
 import environment from './environment';
 import {PLATFORM} from 'aurelia-pal';
-import 'babel-polyfill';
 import * as Bluebird from 'bluebird';
-import {HttpClient} from 'aurelia-fetch-client';
+import {fetch} from 'whatwg-fetch';
 
 // remove out if you don't want a Promise polyfill (remove also from webpack.config.js)
-Bluebird.config({ warnings: { wForgottenReturn: false } });
+Bluebird.config({ warnings: { wForgottenReturn: false }, longStackTraces: false });
 
 export function configure(aurelia) {
   aurelia.use
@@ -34,21 +33,21 @@ export function configure(aurelia) {
 }
 
 function configureContainer(container) {
-  let http = new HttpClient();
-  http.configure(config => {
-    config
-      .useStandardConfiguration()
-      .withBaseUrl('/')
-      .withInterceptor({
-        request(request) {
-          console.log(`Requesting ${request.method} ${request.url}`);
-          return request;
-        },
-        response(response) {
-          console.log(`Received ${response.status} ${response.url}`);
-          return response;
-        }
-      });
-  });
-  container.registerInstance(HttpClient, http); // <---- this line ensures everyone that `@inject`s a `HttpClient` instance will get the instance we configured above.
+  // let http = new fetch();
+  // http.configure(config => {
+  //   config
+  //     .useStandardConfiguration()
+  //     .withBaseUrl('/')
+  //     .withInterceptor({
+  //       request(request) {
+  //         console.log(`Requesting ${request.method} ${request.url}`);
+  //         return request;
+  //       },
+  //       response(response) {
+  //         console.log(`Received ${response.status} ${response.url}`);
+  //         return response;
+  //       }
+  //     });
+  // });
+  // container.registerInstance(fetch, http); // <---- this line ensures everyone that `@inject`s a `HttpClient` instance will get the instance we configured above.
 }

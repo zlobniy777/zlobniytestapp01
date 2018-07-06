@@ -2,21 +2,19 @@ import 'css/dashboard.css';
 
 import {inject} from 'aurelia-framework';
 import {ClientService} from "../services/client-service";
-import {HttpClient} from 'aurelia-fetch-client';
 import {NavigationService} from "../services/navigation-service";
 import {Ui} from "../ui";
 
 
-@inject( ClientService, HttpClient, NavigationService, Ui )
+@inject( ClientService, NavigationService, Ui )
 export class Dashboard extends Ui {
-  title = 'Dashboard';
 
+  title = 'Dashboard';
   info = "";
 
-  constructor( clientService, http, navigationService, ...rest ){
+  constructor( clientService, navigationService, ...rest ){
     super(...rest);
     this.clientService = clientService;
-    this.http = http;
     this.navigationService = navigationService;
   }
 

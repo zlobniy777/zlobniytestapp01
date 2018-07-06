@@ -1,17 +1,17 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {HttpClient} from 'aurelia-fetch-client';
 import {SurveyModelTransformer} from '../transformer/survey-model-transformer';
 import {SurveyHelper} from './survey-helper';
+import {HttpService} from './http-service';
 
-@inject( HttpClient, Router, SurveyModelTransformer, SurveyHelper )
+@inject( HttpService, Router, SurveyModelTransformer, SurveyHelper )
 export class SurveyService {
 
   surveyModel = {};
   editedModel;
 
-  constructor( http, router, surveyTransformer, surveyHelper ) {
-    this.http = http;
+  constructor( httpService, router, surveyTransformer, surveyHelper ) {
+    this.http = httpService;
     this.router = router;
     this.surveyTransformer = surveyTransformer;
     this.surveyHelper = surveyHelper;
@@ -41,9 +41,7 @@ export class SurveyService {
   }
 
   loadSurvey( id ){
-    return this.http.fetch( 'api/survey/' + id, {
-      method: 'GET'
-    });
+    return this.http.get( 'api/survey/' + id );
   }
 
   setSurveyModel( surveyModel ){
@@ -52,32 +50,32 @@ export class SurveyService {
 
   saveSurvey(  ){
     let that = this;
-    this.http.fetch( 'api/saveSurvey', {
-      method: 'post',
-      body: JSON.stringify( that.surveyTransformer.serialize( that.surveyModel ) ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then( response => response.json())
-      .then( response => {
-        console.log( response );
-      });
+
+    let promis = this.http.post( 'api/saveSurvey', that.surveyTransformer.serialize( that.surveyModel ) );
+    promis.then(function(response) {
+      console.log('response', response)
+      return response.json()
+    }).then(function(json) {
+      console.log('parsed json', json)
+    }).catch(function(ex) {
+      console.log('parsing failed', ex)
+    });
+
   }
 
   loadSurveys( surveyInfoList ){
-    this.http.fetch( 'api/surveys', {
-      method: 'GET'
-    })
-      .then( data => data.json() )
-      .then( data => {
-        for ( let obj of data ) {
-          surveyInfoList.push( obj );
-        }
-
-        console.log( data );
-      });
+    let promis = this.http.get( 'api/surveys' );
+    promis.then(function(response) {
+      console.log('response', response)
+      return response.json()
+    }).then(function(json) {
+      console.log('parsed json', json)
+      for ( let obj of json ) {
+        surveyInfoList.push( obj );
+      }
+    }).catch(function(ex) {
+      console.log('parsing failed', ex)
+    });
   }
 
   initNewSurveyModel(){
