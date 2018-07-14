@@ -2,6 +2,7 @@ import environment from './environment';
 import {PLATFORM} from 'aurelia-pal';
 import * as Bluebird from 'bluebird';
 import {fetch} from 'whatwg-fetch';
+import 'bootstrap';
 
 // remove out if you don't want a Promise polyfill (remove also from webpack.config.js)
 Bluebird.config({ warnings: { wForgottenReturn: false }, longStackTraces: false });

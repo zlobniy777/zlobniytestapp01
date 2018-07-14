@@ -1,13 +1,13 @@
 import 'css/survey.css';
 
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {SurveyService} from "../../../services/survey-service";
 import {Ui} from "../../../ui";
 
 @inject( SurveyService, Ui )
 export class EditableItem extends Ui {
 
-  item = {};
+  @bindable item;
   isEdit = false;
 
   constructor( surveyService, ...rest ) {
@@ -26,6 +26,11 @@ export class EditableItem extends Ui {
     if( this.isEdit ){
       this.isEdit = false;
     }
+  }
+
+  bind(bindingContext, overrideContext) {
+    console.log('EditableItem bind');
+    // Invoked once the databinding is activated...
   }
 
   activate( item ){

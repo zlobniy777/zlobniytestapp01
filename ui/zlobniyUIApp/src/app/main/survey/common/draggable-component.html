@@ -1,0 +1,14 @@
+<template>
+  <div id="drag-source" class="source-items">
+
+    <div class="available-items"
+         data-type="${item.type}"
+         data-value="${item.title}"
+         data-html="${item.path}"
+         repeat.for="item of data">
+      <div class="item">
+        ${item.title}
+      </div>
+    </div>
+  </div>
+</template>

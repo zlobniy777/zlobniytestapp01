@@ -149,6 +149,7 @@ export class Dragdrop {
   }
 
   activate( data ){
+    console.log( data );
   }
 
 }

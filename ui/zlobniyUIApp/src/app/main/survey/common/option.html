@@ -1,21 +1,23 @@
 <template>
+  <require from="app/main/survey/common/editable-item"></require>
 
   <div class="${item.cssClass}" if.bind="item.type === 'closed'">
     <div class="line">
-      <input type="radio" value="1" name="${item.name}" ><compose view-model="./../common/editable-item" model.bind="item"></compose>
+      <input type="radio" value="1" name="${item.name}">
+      <editable-item item.bind="item"></editable-item>
     </div>
   </div>
   <div class="${item.cssClass}" if.bind="item.type === 'matrix'">
     <div class="options-scales-block">
-      <compose css="width:${scales.length > 0 ? '20%' : '100%'}" view-model="./../common/editable-item" model.bind="item"></compose>
+      <editable-item css="width:${scales.length > 0 ? '20%' : '100%'}" item.bind="item"></editable-item>
       <div css="width: ${80 / scales.length}%" class="options-scales" repeat.for="scale of scales">
-        <div css="width: ${100 / scale.scaleSteps.elements.length}%" class="scale-option" repeat.for="option of scale.scaleSteps.elements">
+        <div css="width: ${100 / scale.scaleSteps.elements.length}%" class="scale-option"
+             repeat.for="option of scale.scaleSteps.elements">
           <input type="radio">
         </div>
       </div>
     </div>
 
   </div>
-
 
 </template>

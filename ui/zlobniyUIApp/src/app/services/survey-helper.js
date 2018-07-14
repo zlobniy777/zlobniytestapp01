@@ -35,7 +35,7 @@ export class SurveyHelper {
     }
 
     question.type = 'matrix';
-    question.view = './../questions/subView/matrix';
+    question.view = './../questions/subView/matrix.html';
 
     question.options = {};
     question.options.id = "options_"+question.id;
@@ -66,7 +66,7 @@ export class SurveyHelper {
     }
 
     question.type = 'closed';
-    question.view = './../questions/subView/closed-question';
+    question.view = './../questions/subView/closed-question.html';
 
     question.options = {};
     question.options.id = "options_"+question.id;
@@ -152,7 +152,7 @@ export class SurveyHelper {
     };
 
     scale.scaleSteps = [];
-    scale.scaleSteps.id = "steps_"+index;
+    scale.scaleSteps.id = "steps_"+index+"_"+qId;
     scale.scaleSteps.cssClass = "scale-steps";
     scale.scaleSteps.type = "steps";
     scale.scaleSteps.elements = [];

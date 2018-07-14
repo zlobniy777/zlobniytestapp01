@@ -13,6 +13,11 @@ npm install whatwg-fetch --save
 sortable draggable dependency
 npm install sortablejs --save
 
+some extra dependency
+npm install bootstrap --save
+npm install jquery --save
+remove bootstrap.js and rename bootstrap.bundle.js to bootstrap.js
+
 then update:
 npm install gulp --save
 

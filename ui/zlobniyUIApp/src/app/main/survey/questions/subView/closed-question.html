@@ -1,7 +1,13 @@
-<template>
+<template bindable="question">
+  <require from="app/main/survey/common/sortable-component"></require>
   <!-- ./../common/sortablecomponent -->
-  <compose view-model="./../../common/sortable-component" model.bind="question.options"></compose>
+  <sortable-component elements.bind="question.options.elements"
+                      identifier.bind="question.options.id"
+                      css.bind="question.options.cssClass"
+                      type.bind="question.options.type"></sortable-component>
+
   <div class="line ghost add-input" click.delegate="addItem( question.options )">
-    <input type="radio" value="1" disabled name="create" ><div>Add item</div>
+    <input type="radio" value="1" disabled name="create">
+    <div>Add item</div>
   </div>
 </template>

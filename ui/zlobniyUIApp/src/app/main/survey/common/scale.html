@@ -1,9 +1,14 @@
 <template>
+  <require from="app/main/survey/common/editable-item"></require>
+  <require from="app/main/survey/common/sortable-component"></require>
 
   <div class="scale">
-    <compose class="scale-title" view-model="./../common/editable-item" model.bind="item"></compose>
+    <editable-item class="scale-title" item.bind="item"></editable-item>
 
-    <compose view-model="./../common/sortable-component" model.bind="item.scaleSteps"></compose>
+    <sortable-component elements.bind="item.scaleSteps.elements"
+                        identifier.bind="item.scaleSteps.id"
+                        css.bind="item.scaleSteps.cssClass"
+                        type.bind="item.scaleSteps.type"></sortable-component>
     <div class="add-scale-step ghost add-input" click.delegate="addItem( item.scaleSteps )">
       <div>Add item</div>
     </div>

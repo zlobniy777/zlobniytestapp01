@@ -9,6 +9,9 @@ import {Router} from 'aurelia-router';
 @inject( SurveyService, Router, NavigationService, Ui )
 export class Survey extends Ui {
 
+  availableItems = [];
+  sortableData;
+
   constructor( surveyService, router, navigationService, ...rest ) {
     super( ...rest );
     this.surveyService = surveyService;
@@ -16,6 +19,18 @@ export class Survey extends Ui {
     this.navigationService = navigationService;
 
     this.initSurveyMouseHandler();
+
+    this.availableItems = [
+      {'title':'Only one answer', 'type':'closed'},
+      {'title':'Matrix', 'type':'matrix'}
+    ];
+
+    this.sortableData = {};
+    this.sortableData.elements = [];
+    this.sortableData.identifier = 'questions';
+    this.sortableData.cssClass = '';
+    this.sortableData.type = '';
+    this.sortableData.groupName = 'questions';
 
   }
 

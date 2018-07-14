@@ -1,19 +1,23 @@
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {SurveyService} from "../../../services/survey-service";
 
 import sortable from 'sortablejs';
 
-@inject( EventAggregator )
+@inject( EventAggregator, SurveyService )
 export class SortableComponent {
 
-  elements = [];
-  identifier = "";
+  @bindable elements;
+  @bindable identifier;
+  @bindable css;
+  @bindable type;
+
   nameOnUpdate = "";
   nameOnAdd = "";
-  type = "";
 
-  constructor( eventAggregator ) {
+  constructor( eventAggregator, surveyService ) {
     this.eventAggregator = eventAggregator;
+    this.surveyService = surveyService;
     this.test = "test";
   }
 
@@ -23,7 +27,13 @@ export class SortableComponent {
    *
    */
   attached() {
+
+    this.nameOnUpdate = 'sortedList_' + this.identifier + '.onUpdate';
+    this.nameOnAdd = 'sortedList_' + this.identifier + '.onAdd';
+
     this.setupTarget( document.getElementById( 'sortable-list_' + this.identifier ), '.sorted-element_' + this.identifier, true, 'elements_' + this.identifier );
+
+    this.eventListeners();
   }
 
   sort() {
@@ -36,18 +46,6 @@ export class SortableComponent {
       }
       return 0;
     } );
-  }
-
-  activate( item ) {
-    this.elements = item.elements;
-    this.identifier = item.id;
-    this.cssClass = item.cssClass;
-    this.type = item.type;
-
-    this.nameOnUpdate = 'sortedList_' + this.identifier + '.onUpdate';
-    this.nameOnAdd = 'sortedList_' + this.identifier + '.onAdd';
-
-    this.eventListeners();
   }
 
   /**

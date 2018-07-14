@@ -1,14 +1,15 @@
 import 'css/survey.css';
 
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {SurveyService} from "../../../services/survey-service";
 import {SurveyHelper} from "../../../services/survey-helper";
 import {Ui} from "../../../ui";
+import $ from 'jquery';
 
 @inject( SurveyService, SurveyHelper, Ui )
 export class Question extends Ui {
 
-  question = {};
+  @bindable question;
   name;
   isEdit = false;
 
@@ -26,14 +27,23 @@ export class Question extends Ui {
     }
   }
 
+  addItem( options ){
+    console.log( 'add item' );
+    options.elements.push( this.surveyHelper.createOption( undefined, 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
+  }
+
   finishEdit(){
     if( this.isEdit ){
       this.isEdit = false;
     }
   }
 
-  activate( question ){
-    this.question = question;
+  attached(){
+    $('[data-toggle="tooltip"]').tooltip();
   }
+
+  // activate( question ){
+  //   this.question = question;
+  // }
 
 }

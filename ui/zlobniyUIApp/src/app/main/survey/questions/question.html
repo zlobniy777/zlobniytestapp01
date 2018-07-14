@@ -1,12 +1,13 @@
 <template>
-  <require from="app/main/survey/questions/subView/closed-question"></require>
-  <require from="app/main/survey/questions/subView/matrix"></require>
+  <require from="app/main/survey/questions/subView/closed-question.html"></require>
+  <require from="app/main/survey/questions/subView/matrix.html"></require>
+  <require from="app/main/survey/common/editable-item"></require>
   <div class="question">
-    <div class="header">
+    <div class="header" data-toggle="tooltip" data-placement="top" title="title">
       <div class="questionNumber" css="display: ${surveyService.surveyModel.surveySettings.showQuestionNumber ? 'block' : 'none'}">${question.index+1}</div>
-      <compose class="questionTitle" view-model="./../common/editable-item" model.bind="question"></compose>
+      <editable-item item.bind="question"></editable-item>
     </div>
-    <compose class="body" view-model="${question.view}" model.bind="question"></compose>
+    <compose class="body" view="${question.view}" question.bind="question"></compose>
     <div class="bottom">
 
     </div>

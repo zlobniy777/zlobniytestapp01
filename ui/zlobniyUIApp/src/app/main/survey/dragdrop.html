@@ -1,4 +1,5 @@
 <template>
+  <require from="app/main/survey/questions/question"></require>
   <div id="wrapper" css="width: 100%; height: 100%">
 
     <div id="drag-source" class="source-items">
@@ -12,7 +13,7 @@
 
     <div id="drag-target" class="target-items">
       <div class="dragged-element" repeat.for="question of surveyService.surveyModel.questionnaire.questions">
-        <compose view-model="./questions/question" model.bind="question"></compose>
+        <question question.bind="question"></question>
       </div>
     </div>
 
