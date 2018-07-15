@@ -1,17 +1,21 @@
 import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
-import {SurveyService} from "../../../services/survey-service";
+import {SurveyHelper} from "../../../services/survey-helper";
 import {Ui} from "../../../ui";
 
-@inject( SurveyService, Ui )
+@inject( SurveyHelper, Ui )
 export class Scale extends Ui {
 
   item = {};
 
-  constructor( surveyService, ...rest ) {
+  constructor( surveyHelper, ...rest ) {
     super(...rest);
-    this.surveyService = surveyService;
+    this.surveyHelper = surveyHelper;
+  }
+
+  addItem( options ){
+    options.elements.push( this.surveyHelper.createOption( undefined, 'new step', this.item.type,  this.item.id, options.length, true ) );
   }
 
   activate( item ){

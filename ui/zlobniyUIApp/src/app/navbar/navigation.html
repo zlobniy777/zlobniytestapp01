@@ -1,11 +1,14 @@
 <template>
+  <require from="app/navbar/action-button"></require>
   <div class="navigation-bar">
 
     <div class="action-buttons">
-      <compose class="action-button"
-               view-model="./action-button"
-               model.bind="button"
-               repeat.for="button of navigationService.buttons"></compose>
+      <action-button class="action-button"
+        action.one-way="button.action"
+        title.bind="button.title"
+        css.bind="button.css"
+        repeat.for="button of navigationService.buttons">
+      </action-button>
     </div>
 
     <compose class="object-title" view-model="app/main/survey/common/editable-item" model.bind="navigationService.objectTitle"></compose>

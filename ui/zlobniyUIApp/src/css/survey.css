@@ -1,3 +1,7 @@
+input{
+  margin-right: 10px;
+}
+
 .question{
   border: solid 1px black;
   border-radius: 5px;
@@ -63,10 +67,12 @@
 
 .add-input{
   margin-top: 5px;
+  margin-left: 25px;
 }
 
 .line{
   display: inline-flex;
+  align-items: center;
 }
 
 .scale-steps{
@@ -89,6 +95,7 @@
 
 .options-scales-block{
   display: flex;
+  align-items: center;
 }
 
 .options-scales{
@@ -117,9 +124,17 @@
   width: 40%;
 }
 
-.scale-title{
-  width: 100%;
+.upper-sacle-title{
   display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.scale-title{
+  display: flex;
+  align-items: center;
+  width: 100%;
   justify-content: center;
 }
 

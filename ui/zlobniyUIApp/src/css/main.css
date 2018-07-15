@@ -1,4 +1,13 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/all.css";
+
+.fa-times-circle:before {
+  color: #ec0404;
+}
+
+.fa-plus-circle:before {
+  color: #4261ec;
+}
 
 body{
   margin: 0;

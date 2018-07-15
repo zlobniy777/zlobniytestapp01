@@ -1,3 +1,7 @@
 <template>
-  <button type="button" click.trigger="doAction()">${title}</button>
+  <require from="resources/attributes/tooltip"></require>
+  <button tooltip='title:test tooltip; placement: top;' type="button" click.trigger="doAction()">
+    <i class=${css}></i>
+    ${title}
+  </button>
 </template>

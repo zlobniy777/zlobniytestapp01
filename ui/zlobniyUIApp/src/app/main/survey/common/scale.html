@@ -1,16 +1,20 @@
 <template>
+  <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/editable-item"></require>
   <require from="app/main/survey/common/sortable-component"></require>
 
   <div class="scale">
-    <editable-item class="scale-title" item.bind="item"></editable-item>
+    <div class="scale-title">
+      <editable-item item.bind="item"></editable-item>
+      <i click.delegate="removeOption($index)" tooltip='title:Delete scale; placement: top;' class="fa fa-times-circle"></i>
+    </div>
 
     <sortable-component elements.bind="item.scaleSteps.elements"
                         identifier.bind="item.scaleSteps.id"
                         css.bind="item.scaleSteps.cssClass"
                         type.bind="item.scaleSteps.type"></sortable-component>
-    <div class="add-scale-step ghost add-input" click.delegate="addItem( item.scaleSteps )">
-      <div>Add item</div>
+    <div class="add-scale-step add-input" click.delegate="addItem( item.scaleSteps )">
+      <i tooltip='title:Add scale step; placement: right;' class="fa fa-plus-circle"></i>
     </div>
   </div>
 

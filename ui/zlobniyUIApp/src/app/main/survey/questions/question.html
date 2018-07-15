@@ -2,8 +2,9 @@
   <require from="app/main/survey/questions/subView/closed-question.html"></require>
   <require from="app/main/survey/questions/subView/matrix.html"></require>
   <require from="app/main/survey/common/editable-item"></require>
+
   <div class="question">
-    <div class="header" data-toggle="tooltip" data-placement="top" title="title">
+    <div class="header">
       <div class="questionNumber" css="display: ${surveyService.surveyModel.surveySettings.showQuestionNumber ? 'block' : 'none'}">${question.index+1}</div>
       <editable-item item.bind="question"></editable-item>
     </div>

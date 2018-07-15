@@ -21,6 +21,10 @@ export class SortableComponent {
     this.test = "test";
   }
 
+  removeOption( index ){
+    this.elements.splice( index, 1 );
+  }
+
   /**
    * Attached
    * Called when view is attached

@@ -1,4 +1,5 @@
 <template bindable="question">
+  <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/sortable-component"></require>
 
   <!-- Matrix -->
@@ -13,7 +14,7 @@
                       css.bind="question.options.cssClass"
                       type.bind="question.options.type"></sortable-component>
 
-  <div class="line ghost add-input" click.delegate="addItem( question.options )">
-    <div>Add item</div>
+  <div tooltip='title:Add option; placement: right;' class="line add-input" click.delegate="addItem( question.options )">
+    <i class="fa fa-plus-circle"></i>
   </div>
 </template>

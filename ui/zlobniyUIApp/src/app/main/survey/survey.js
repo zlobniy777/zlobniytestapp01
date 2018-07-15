@@ -76,12 +76,12 @@ export class Survey extends Ui {
       {
         title: 'Exit', action: function () {
         that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
-      }
+      }, css: 'fa fa-arrow-circle-left'
       },
       {
         title: 'Save', action: function () {
         that.surveyService.saveSurvey();
-      }
+      }, css: 'fa fa-arrow-circle-left'
       }
     ];
 

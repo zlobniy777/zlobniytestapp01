@@ -29,7 +29,7 @@ export class Question extends Ui {
 
   addItem( options ){
     console.log( 'add item' );
-    options.elements.push( this.surveyHelper.createOption( undefined, 'new option', this.question.type, this.question.id, this.question.options.length, true ) );
+    options.elements.push( this.surveyHelper.createOption( undefined, 'new option', this.question.type, this.question.id, this.question.options.length, true, undefined, this.question ) );
   }
 
   finishEdit(){

@@ -1,6 +1,6 @@
 import 'css/survey.css';
 
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {ClientService} from "../services/client-service";
 import {NavigationService} from "../services/navigation-service";
 import {Ui} from "../ui";
@@ -8,8 +8,9 @@ import {Ui} from "../ui";
 @inject( ClientService, NavigationService, Ui )
 export class ActionButton extends Ui {
 
-  action = {};
-  title = "";
+  @bindable action = {};
+  @bindable title = "";
+  @bindable css;
 
   constructor( clientService, navigationService, ...rest ) {
     super(...rest);

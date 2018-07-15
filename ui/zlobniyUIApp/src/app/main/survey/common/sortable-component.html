@@ -1,7 +1,8 @@
 <template>
-    <div id="sortable-list_${identifier}" class="${css} sorted-element_${identifier}">
-      <div class="sorted-element_${type}" repeat.for="element of elements">
-        <compose view-model='${element.view}' model.bind="element"></compose>
-      </div>
+  <div id="sortable-list_${identifier}" class="${css} sorted-element_${identifier}">
+    <div class="sorted-element_${type}" repeat.for="element of elements">
+      <compose view-model='${element.view}' model.bind="element"></compose>
     </div>
+  </div>
+
 </template>

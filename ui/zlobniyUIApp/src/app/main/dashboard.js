@@ -24,7 +24,7 @@ export class Dashboard extends Ui {
       {
         title: 'createSurvey', action: function () {
         that.navigationService.goTo( that.navigationService.NAV_SURVEY );
-      }
+      }, css: 'fa fa-file-invoice'
       }
     ];
 
