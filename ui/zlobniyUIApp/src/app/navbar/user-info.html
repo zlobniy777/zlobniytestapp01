@@ -1,6 +1,9 @@
 <template>
-  <div class="user-info">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+     aria-haspopup="true" aria-expanded="false">
     ${clientService.clientInfo.id} - ${clientService.clientInfo.name}
-    <button type="button" click.trigger="doLogOff()" >Log off</button>
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <a class="dropdown-item" click.delegate="doLogOff()" href="#">Log off</a>
   </div>
 </template>

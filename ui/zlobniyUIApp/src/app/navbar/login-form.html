@@ -1,14 +1,8 @@
 <template>
-    <div class="login-form">
-      <div class="formRow">
-        <input type="text" id="login" value.bind="loginValue" placeholder="${loginPlaceholder}" />
-      </div>
-      <div class="formRow">
-        <input type="password" id="password" value.bind="passwordValue" placeholder="${passwordPlaceholder}">
-      </div>
-      <div class="formRow" css="text-align: center">
-        <button type="button" id="submit" click.trigger="doLogin()">Login</button>
-        <a href="/registration">Registration</a>
-      </div>
-    </div>
+  <form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" value.bind="loginValue" placeholder="${loginPlaceholder}" aria-label="Search">
+    <input class="form-control mr-sm-2" type="search" value.bind="passwordValue"  placeholder="${passwordPlaceholder}" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" click.delegate="doLogin()" >Login</button>
+    <a href="/registration">Registration</a>
+  </form>
 </template>

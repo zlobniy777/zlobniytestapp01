@@ -13,10 +13,6 @@ body{
   margin: 0;
 }
 
-.formRow{
-  margin-left: 10px;
-}
-
 .title{
   width: 50%;
   margin-left: 25px;
@@ -31,15 +27,15 @@ body{
 
 .user-info{
   text-align: right;
+  width: 20%;
 }
 
-.navigation-bar{
-  width: 100%;
-  min-height: 70px;
-  border-bottom: solid 1px black;
-  display: flex;
-  align-items: center;
-  /*background-color: aquamarine;*/
+.navbar{
+  border-bottom: solid 1px;
+}
+
+.dropdown-menu{
+  min-width: unset;
 }
 
 .registration-form{
@@ -95,8 +91,7 @@ body{
 }
 
 .object-title{
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 200px;
   width: 49%;
   text-align: center;
 }

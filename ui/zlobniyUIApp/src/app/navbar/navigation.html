@@ -1,21 +1,26 @@
 <template>
   <require from="app/navbar/action-button"></require>
-  <div class="navigation-bar">
 
-    <div class="action-buttons">
-      <action-button class="action-button"
-        action.one-way="button.action"
-        title.bind="button.title"
-        css.bind="button.css"
-        repeat.for="button of navigationService.buttons">
-      </action-button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav mr-auto">
+        <action-button action.one-way="button.action"
+                       title.bind="button.title"
+                       css.bind="button.css"
+                       repeat.for="button of navigationService.buttons">
+        </action-button>
+      </ul>
+
+      <compose class="navbar-nav mr-auto" view-model="app/main/survey/common/editable-item" model.bind="navigationService.objectTitle"></compose>
+
+      <compose if.bind="clientService.clientInfo.hasLogged" class="nav-item dropdown" view-model="./user-info" model.bind="clientService.clientInfo"></compose>
+      <compose else view-model="./login-form" model.bind="clientService.clientInfo"></compose>
+
     </div>
-
-    <compose class="object-title" view-model="app/main/survey/common/editable-item" model.bind="navigationService.objectTitle"></compose>
-
-    <compose if.bind="clientService.clientInfo.hasLogged" class="object-title" view-model="./user-info" model.bind="clientService.clientInfo"></compose>
-    <compose else class="object-title" view-model="./login-form" model.bind="clientService.clientInfo"></compose>
-
-  </div>
-
+  </nav>
 </template>
