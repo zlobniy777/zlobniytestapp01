@@ -2,21 +2,23 @@ import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
 import {SurveyService} from "../../services/survey-service";
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {NavigationService} from "../../services/navigation-service";
 import {Ui} from "../../ui";
 import {Router} from 'aurelia-router';
 
-@inject( SurveyService, Router, NavigationService, Ui )
+@inject( SurveyService, Router, NavigationService, EventAggregator, Ui )
 export class Survey extends Ui {
 
   availableItems = [];
   sortableData;
 
-  constructor( surveyService, router, navigationService, ...rest ) {
+  constructor( surveyService, router, navigationService, eventAggregator, ...rest ) {
     super( ...rest );
     this.surveyService = surveyService;
     this.router = router;
     this.navigationService = navigationService;
+    this.eventAggregator = eventAggregator;
 
     this.initSurveyMouseHandler();
 
