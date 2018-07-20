@@ -8,39 +8,42 @@ import {Ui} from "../../../ui";
 export class EditableItem extends Ui {
 
   @bindable item;
-  isEdit = false;
+  edit;
 
   constructor( surveyService, ...rest ) {
     super(...rest);
     this.surveyService = surveyService;
+    this.edit = false;
   }
 
   startEdit(){
-    if( !this.isEdit ){
+    if( !this.edit ){
       this.surveyService.setEditedModel( this );
-      this.isEdit = true;
+      this.edit = true;
     }
   }
 
   finishEdit(){
-    if( this.isEdit ){
-      this.isEdit = false;
+    if ( this.edit ) {
+      this.edit = false;
+    }
+  }
+
+  attached() {
+    console.log('EditableItem attached');
+    if( this.item && this.item.isNew ){
+      this.startEdit();
+      this.item.isNew = false;
     }
   }
 
   bind(bindingContext, overrideContext) {
     console.log('EditableItem bind');
-    // Invoked once the databinding is activated...
+
   }
 
-  activate( item ){
-    this.item = item;
-
-    if(  this.item && this.item.isNew ){
-      this.startEdit();
-      this.item.isNew = false;
-    }
-
+  activate( data ) {
+    console.log( 'activate ' + data );
   }
 
 }

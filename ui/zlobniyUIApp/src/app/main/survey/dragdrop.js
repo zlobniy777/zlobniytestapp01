@@ -1,4 +1,4 @@
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyService} from "../../services/survey-service";
 
@@ -7,9 +7,7 @@ import sortable from 'sortablejs';
 @inject(EventAggregator, SurveyService)
 export class Dragdrop {
 
-  test = {};
-  eventTargetAdd;
-  eventTargetUpdate;
+  @bindable surveyModel;
 
   availableItems = [];
 
@@ -21,6 +19,12 @@ export class Dragdrop {
       {'title':'Only one answer', 'type':'closed'},
       {'title':'Matrix', 'type':'matrix'}
     ];
+  }
+
+  // add new question by double click on availableItems.item
+  addQuestion( item ){
+    console.log('addQuestion ' + item );
+    this.surveyService.addQuestion( undefined, item.type, item.title, this.surveyModel.questionnaire.questions.length, undefined, undefined, this.surveyModel );
   }
 
   /**
@@ -44,7 +48,7 @@ export class Dragdrop {
     //clean up the subscription when app component is removed from the DOM
     this.eventTargetAdd.dispose();
     this.eventTargetUpdate.dispose();
-
+    this.removeQuestionSub.dispose();
   }
 
   /**
@@ -71,7 +75,7 @@ export class Dragdrop {
         let questionType = item.dataset.type;
         let sourceTitle = item.dataset.value;
 
-        that.surveyService.addQuestion( undefined, questionType, sourceTitle, evt.newIndex );
+        that.surveyService.addQuestion( undefined, questionType, sourceTitle, evt.newIndex, undefined, undefined, that.surveyModel );
       }
     });
 
@@ -88,8 +92,13 @@ export class Dragdrop {
       let newIndex = evt.newIndex;
 
       // If item isn't being dropped into its original place
-      that.surveyService.updatePositions( newIndex, oldIndex );
+      that.surveyService.updatePositions( newIndex, oldIndex, that.surveyModel );
     });
+
+    this.removeQuestionSub = this.eventAggregator.subscribe( 'remove-question', index => {
+      that.surveyService.deleteQuestion( that.surveyModel, index );
+
+    } );
   }
 
   /**
@@ -105,6 +114,7 @@ export class Dragdrop {
     new sortable(el, {
       sort: sort,
       ghostClass: "ghost",
+      delay: 10,
       group: group,
       onStart: evt => {
         that.eventAggregator.publish('dragSource.onStart', evt);
@@ -148,14 +158,5 @@ export class Dragdrop {
     });
   }
 
-  activate( data ){
-    console.log( data );
-  }
-
 }
 
-function swapArrayElements(theArray, a, b) {
-  var temp = theArray[a];
-  theArray[a] = theArray[b];
-  theArray[b] = temp;
-}

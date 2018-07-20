@@ -21,9 +21,9 @@ export class SortableComponent {
     this.test = "test";
   }
 
-  removeOption( index ){
-    this.elements.splice( index, 1 );
-  }
+  // removeOption( index ){
+  //   this.elements.splice( index, 1 );
+  // }
 
   /**
    * Attached

@@ -12,8 +12,8 @@
     </div>
 
     <div id="drag-target" class="target-items">
-      <div class="dragged-element" repeat.for="question of surveyService.surveyModel.questionnaire.questions">
-        <question question.bind="question"></question>
+      <div class="dragged-element" repeat.for="question of surveyModel.questionnaire.questions">
+        <question class="question" question.one-way="question"></question>
       </div>
     </div>
 

@@ -12,6 +12,7 @@ export class Survey extends Ui {
 
   availableItems = [];
   sortableData;
+  surveyModel;
 
   constructor( surveyService, router, navigationService, eventAggregator, ...rest ) {
     super( ...rest );
@@ -96,8 +97,8 @@ export class Survey extends Ui {
           return response.json()
         } ).then( function ( surveyModel ) {
         console.log( 'parsed json', surveyModel );
-        that.surveyService.setSurveyModel( surveyModel );
-        that.navigationService.setTitle( that.surveyService.surveyModel );
+        that.surveyModel = surveyModel;
+        that.navigationService.setTitle( that.surveyModel );
         console.log( surveyModel );
       } ).catch( function ( ex ) {
         console.log( 'parsing failed', ex )
@@ -105,8 +106,8 @@ export class Survey extends Ui {
 
     }else{
       // init new survey model
-      this.surveyService.initNewSurveyModel();
-      this.navigationService.setTitle( this.surveyService.surveyModel );
+      this.surveyModel = this.surveyService.initNewSurveyModel();
+      this.navigationService.setTitle( this.surveyModel );
     }
 
   }

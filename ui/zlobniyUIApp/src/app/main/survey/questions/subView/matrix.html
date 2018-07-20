@@ -1,20 +1,14 @@
 <template bindable="question">
   <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/sortable-component"></require>
+  <require from="app/main/survey/common/scales"></require>
+  <require from="app/main/survey/common/options"></require>
 
   <!-- Matrix -->
-  <sortable-component elements.bind="question.scales.elements"
-                      identifier.bind="question.scales.id"
-                      css.bind="question.scales.cssClass"
-                      type.bind="question.scales.type"></sortable-component>
+  <scales scales.one-way="question.scales"></scales>
 
-  <!-- ./../common/sortablecomponent -->
-  <sortable-component elements.bind="question.options.elements"
-                      identifier.bind="question.options.id"
-                      css.bind="question.options.cssClass"
-                      type.bind="question.options.type"></sortable-component>
-
-  <div tooltip='title:Add option; placement: right;' class="line add-input" click.delegate="addItem( question.options )">
-    <i class="fa fa-plus-circle"></i>
+  <div style="width: 95%">
+    <options question.one-way="question"></options>
   </div>
+
 </template>

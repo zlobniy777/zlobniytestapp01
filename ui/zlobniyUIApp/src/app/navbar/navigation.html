@@ -1,5 +1,6 @@
 <template>
   <require from="app/navbar/action-button"></require>
+  <require from="app/main/survey/common/editable-item"></require>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +17,7 @@
         </action-button>
       </ul>
 
-      <compose class="navbar-nav mr-auto" view-model="app/main/survey/common/editable-item" model.bind="navigationService.objectTitle"></compose>
+      <editable-item class="navbar-nav mr-auto" item.one-way="navigationService.objectTitle" ></editable-item>
 
       <compose if.bind="clientService.clientInfo.hasLogged" class="nav-item dropdown" view-model="./user-info" model.bind="clientService.clientInfo"></compose>
       <compose else view-model="./login-form" model.bind="clientService.clientInfo"></compose>

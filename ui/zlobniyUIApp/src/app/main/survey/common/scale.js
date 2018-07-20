@@ -16,8 +16,12 @@ export class Scale extends Ui {
     this.eventAggregator = eventAggregator;
   }
 
-  addItem( options ){
-    options.elements.push( this.surveyHelper.createOption( undefined, 'new step', this.item.type,  this.item.id, options.length, true ) );
+  addItem(  ){
+    this.item.elements.push( this.surveyHelper.createOption( undefined, 'new step', this.item.type,  this.item.id, this.item.elements.length, true, undefined, undefined, this.item.id ) );
+  }
+
+  removeOption( index ){
+    this.eventAggregator.publish( this.item.scaleId + '-remove', index );
   }
 
   activate( item ){

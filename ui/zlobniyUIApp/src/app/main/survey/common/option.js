@@ -1,18 +1,22 @@
 import 'css/survey.css';
 
 import {inject} from 'aurelia-framework';
-import {SurveyService} from "../../../services/survey-service";
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {Ui} from "../../../ui";
 
-@inject( SurveyService, Ui )
+@inject( EventAggregator, Ui )
 export class Option extends Ui {
 
   item = {};
   scales = [];
 
-  constructor( surveyService, ...rest ) {
+  constructor( eventAggregator, ...rest ) {
     super(...rest);
-    this.surveyService = surveyService;
+    this.eventAggregator = eventAggregator;
+  }
+
+  removeOption( index ){
+    this.eventAggregator.publish( this.item.optionsId + '-remove', index );
   }
 
   activate( item ){

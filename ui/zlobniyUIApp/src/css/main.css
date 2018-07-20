@@ -9,6 +9,10 @@
   color: #4261ec;
 }
 
+.fa-braille:before {
+  color: #4261ec;
+}
+
 body{
   margin: 0;
 }

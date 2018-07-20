@@ -1,13 +1,8 @@
 <template bindable="question">
   <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/sortable-component"></require>
-  <!-- ./../common/sortablecomponent -->
-  <sortable-component elements.bind="question.options.elements"
-                      identifier.bind="question.options.id"
-                      css.bind="question.options.cssClass"
-                      type.bind="question.options.type"></sortable-component>
+  <require from="app/main/survey/common/options"></require>
 
-  <div tooltip='title:Add option; placement: right;' class="line add-input" click.delegate="addItem( question.options )">
-    <i class="fas fa-plus-circle"></i>
-  </div>
+  <options question.one-way="question"></options>
+
 </template>

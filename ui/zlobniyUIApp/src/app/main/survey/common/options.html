@@ -1,0 +1,18 @@
+<template>
+  <require from="app/main/survey/common/sortable-component"></require>
+  <require from="resources/attributes/tooltip"></require>
+
+  <sortable-component elements.one-way="question.options.elements"
+                      identifier.one-way="question.options.id"
+                      css.one-way="question.options.cssClass"
+                      type.one-way="question.options.type"></sortable-component>
+
+  <div class="text-right d-flex align-items-center" css="margin-right: 5px; width:${question.options.type === 'options' ? '1' : '100'}%">
+    <div style="width: 100%">
+      <i click.delegate="addItem()" tooltip='title:Add option; placement: right;'
+         style="margin-right: 5px;" class="fa fa-plus-circle"></i>
+    </div>
+
+  </div>
+
+</template>

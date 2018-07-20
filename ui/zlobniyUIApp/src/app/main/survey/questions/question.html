@@ -3,14 +3,23 @@
   <require from="app/main/survey/questions/subView/matrix.html"></require>
   <require from="app/main/survey/common/editable-item"></require>
 
-  <div class="question">
-    <div class="header">
-      <div class="questionNumber" css="display: ${surveyService.surveyModel.surveySettings.showQuestionNumber ? 'block' : 'none'}">${question.index+1}</div>
-      <editable-item item.bind="question"></editable-item>
-    </div>
-    <compose class="body" view="${question.view}" question.bind="question"></compose>
-    <div class="bottom">
 
+  <div class="border border-primary rounded d-flex text-white">
+    <div class="p-2 flex-grow-1 bg-primary">
+      <div class="questionNumber"
+           css="display: ${surveyService.surveyModel.surveySettings.showQuestionNumber ? 'block' : 'none'}">
+        ${question.index+1}
+      </div>
+      <editable-item item.one-way="question"></editable-item>
+    </div>
+    <div class="p-2 bg-primary">
+      <i click.delegate="removeQuestion()" tooltip='title:Delete question; placement: right;' class="far fa-trash-alt"></i>
     </div>
   </div>
+
+  <compose class="body" view="${question.view}" question.one-way="question"></compose>
+  <div class="bottom">
+
+  </div>
+
 </template>

@@ -7,7 +7,6 @@ import {HttpService} from './http-service';
 @inject( HttpService, Router, SurveyModelTransformer, SurveyHelper )
 export class SurveyService {
 
-  surveyModel = {};
   editedModel;
 
   constructor( httpService, router, surveyTransformer, surveyHelper ) {
@@ -17,16 +16,16 @@ export class SurveyService {
     this.surveyHelper = surveyHelper;
   }
 
-  initSurveySettings() {
-    this.surveyModel.surveySettings.showQuestionNumber = true;
-  }
+
 
   setEditedModel( model ){
     console.log( 'start editing ' + model.name );
     if( this.editedModel ){
+      console.log( 'already editing ' + this.editedModel );
       this.editedModel.finishEdit();
     }
     this.editedModel = model;
+    console.log( 'editedModel = ' + this.editedModel );
   }
 
   unsetEditedModel(){
@@ -83,18 +82,18 @@ export class SurveyService {
   }
 
   initNewSurveyModel(){
-    this.surveyModel = {};
-    this.surveyModel.title = "New survey";
-    this.surveyModel.questionnaire = {};
-    this.surveyModel.questionnaire.questions = [];
-    this.surveyModel.surveySettings = {};
+    let surveyModel = {};
+    surveyModel.title = "New survey";
+    surveyModel.questionnaire = {};
+    surveyModel.questionnaire.questions = [];
+    surveyModel.surveySettings = {};
 
-    this.initSurveySettings();
+    return surveyModel;
   }
 
-  updatePositions( newIndex, oldIndex ){
+  updatePositions( newIndex, oldIndex, surveyModel ){
     if (newIndex != oldIndex) {
-      let questions = this.surveyModel.questionnaire.questions;
+      let questions = surveyModel.questionnaire.questions;
 
       if( oldIndex > newIndex ){
         questions[oldIndex].index = newIndex;
@@ -108,12 +107,12 @@ export class SurveyService {
         }
       }
 
-      this.sort();
+      this.sort( surveyModel );
     }
   }
 
-  sort(){
-    this.surveyModel.questionnaire.questions.sort( function compare(a, b) {
+  sort( surveyModel ){
+    surveyModel.questionnaire.questions.sort( function compare(a, b) {
       if (a.index < b.index) {
         return -1;
       }
@@ -124,10 +123,15 @@ export class SurveyService {
     } );
   }
 
-  addQuestion( id, questionType, title, index, options, scales ){
-    let questionNumber = this.surveyModel.questionnaire.questions.length;
+  deleteQuestion( surveyModel, index ){
+    surveyModel.questionnaire.questions.splice( index, 1 );
+    this.surveyHelper.updateIndex( surveyModel.questionnaire.questions );
+  }
+
+  addQuestion( id, questionType, title, index, options, scales, surveyModel ){
+    let questionNumber = surveyModel.questionnaire.questions.length;
     let question = this.surveyHelper.createQuestion( id, questionType, title, questionNumber, options, scales );
-    this.surveyHelper.insertQuestion( this.surveyModel.questionnaire.questions, question, index );
+    this.surveyHelper.insertQuestion( surveyModel.questionnaire.questions, question, index );
   }
 
 }
