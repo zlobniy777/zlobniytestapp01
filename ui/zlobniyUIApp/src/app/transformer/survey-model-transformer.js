@@ -28,13 +28,13 @@ export class SurveyModelTransformer {
         for ( let scale of question.scales.elements ) {
           let nScale = scale;
           let scaleSteps = [];
-          for ( let scaleStep of scale.scaleSteps.elements ) {
+          for ( let scaleStep of scale.options.elements ) {
             let nScaleStep = scaleStep;
             nScaleStep.question = undefined;
             scaleSteps.push( nScaleStep );
           }
 
-          nScale.scaleSteps = scaleSteps;
+          nScale.options = scaleSteps;
           scales.push( nScale );
         }
         question.scales = scales;

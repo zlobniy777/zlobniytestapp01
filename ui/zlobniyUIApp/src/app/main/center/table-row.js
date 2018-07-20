@@ -1,25 +1,15 @@
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {ClientService} from "../../services/client-service";
-import {NavigationService} from "../../services/navigation-service";
 import {Ui} from "../../ui";
 
-@inject( ClientService, NavigationService,  Ui )
+@inject( ClientService,  Ui )
 export class TableRow extends Ui {
 
-  rowData = {};
+  @bindable data = {};
 
-  constructor( clientService, navigationService, ...rest ) {
+  constructor( clientService, ...rest ) {
     super(...rest);
     this.clientService = clientService;
-    this.navigationService = navigationService;
-  }
-
-  open(){
-    this.navigationService.goTo( this.navigationService.NAV_SURVEY + "/" + this.rowData.id );
-  }
-
-  activate( rowData ){
-    this.rowData = rowData;
   }
 
 }

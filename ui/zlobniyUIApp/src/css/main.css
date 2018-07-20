@@ -13,6 +13,10 @@
   color: #4261ec;
 }
 
+.dropdown-menu{
+  left: -40px !important;
+}
+
 body{
   margin: 0;
 }

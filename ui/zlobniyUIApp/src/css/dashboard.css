@@ -5,14 +5,14 @@
 }
 
 .overview-table-header{
-  background-color: #1ffa31;
-  border-top: 1px solid;
-  border-left: 1px solid;
-  border-right: 1px solid;
+  background-color: #6610f2;
+  /*border-top: 1px solid;*/
+  /*border-left: 1px solid;*/
+  /*border-right: 1px solid;*/
 }
 
 .overview-table-body{
-  background-color: antiquewhite;
+  background-color: #ffffff;
   border-bottom: 1px solid;
   border-left: 1px solid;
   border-right: 1px solid;
@@ -20,6 +20,10 @@
 
 .overview-table-body:hover {
   background-color: #7ec2fa;
+}
+
+.even-row {
+  background-color: #d9edfb;
 }
 
 .overview-table-cell{

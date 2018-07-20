@@ -23,12 +23,6 @@ input{
   float: left;
 }
 
-.body{
-  /*background-color: grey;*/
-  min-height: 40px;
-  margin: 10px;
-}
-
 .bottom{
   min-height: 10px;
   margin: 10px;
@@ -56,6 +50,7 @@ input{
   height: 80vh;
   overflow: auto;
   background-color: #f2f2f2;
+  padding-bottom: 20px;
 }
 
 .ghost {

@@ -14,7 +14,14 @@ export class TooltipCustomAttribute {
   }
 
   attached() {
-    $( this.element ).tooltip( {title: this.title, placement: this.placement} );
+    let value;
+    if( this.element.dataset.value ){
+      value = this.element.dataset.value;
+    }else{
+      value = this.title;
+    }
+
+    $( this.element ).tooltip( {title: value, placement: this.placement} );
   }
 
   detached() {

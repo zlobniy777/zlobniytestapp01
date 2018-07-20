@@ -2,6 +2,7 @@
   <require from="app/main/survey/questions/subView/closed-question.html"></require>
   <require from="app/main/survey/questions/subView/matrix.html"></require>
   <require from="app/main/survey/common/editable-item"></require>
+  <require from="resources/attributes/tooltip"></require>
 
 
   <div class="border border-primary rounded d-flex text-white">
@@ -13,11 +14,11 @@
       <editable-item item.one-way="question"></editable-item>
     </div>
     <div class="p-2 bg-primary">
-      <i click.delegate="removeQuestion()" tooltip='title:Delete question; placement: right;' class="far fa-trash-alt"></i>
+      <i click.delegate="removeQuestion()" tooltip='title:Delete question; placement: top;' class="far fa-trash-alt"></i>
     </div>
   </div>
 
-  <compose class="body" view="${question.view}" question.one-way="question"></compose>
+  <compose view="${question.view}" question.one-way="question"></compose>
   <div class="bottom">
 
   </div>

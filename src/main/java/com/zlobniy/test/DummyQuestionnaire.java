@@ -54,15 +54,15 @@ public class DummyQuestionnaire {
         scale.setId( id );
         scale.setTitle( "Dummy scale " + id );
 
-        scale.getScaleSteps().add( createDummyScaleStep( 1L ) );
-        scale.getScaleSteps().add( createDummyScaleStep( 2L ) );
-        scale.getScaleSteps().add( createDummyScaleStep( 3L ) );
+        scale.getOptions().add( createDummyScaleStep( 1L ) );
+        scale.getOptions().add( createDummyScaleStep( 2L ) );
+        scale.getOptions().add( createDummyScaleStep( 3L ) );
 
         return scale;
     }
 
-    public ScaleStep createDummyScaleStep( Long id ){
-        ScaleStep scaleStep = new ScaleStep();
+    public Option createDummyScaleStep( Long id ){
+        Option scaleStep = new Option();
         scaleStep.setId( id );
         scaleStep.setTitle( "Dummy scale step " + id );
 

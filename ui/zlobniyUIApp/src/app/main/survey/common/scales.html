@@ -2,17 +2,19 @@
   <require from="app/main/survey/common/sortable-component"></require>
   <require from="resources/attributes/tooltip"></require>
 
-  <div style="width: 100%; display: flex">
-    <div style="width: 95%">
-      <sortable-component elements.one-way="scales.elements"
-                          identifier.one-way="scales.id"
-                          css.one-way="scales.cssClass"
-                          type.one-way="scales.type"></sortable-component>
+  <div class="d-flex">
+    <div style="width: 100%">
+      <sortable-component elements.one-way="question.scales.elements"
+                          identifier.one-way="question.scales.id"
+                          css.one-way="question.scales.cssClass"
+                          type.one-way="question.scales.type"></sortable-component>
     </div>
 
     <div class="text-center d-flex align-items-center" style="width: 5%">
-      <div style="width: 100%">
-        <i tooltip='title:Add new scale; placement: top;' class="fas fa-braille fa-2x"></i>
+      <div if.one-way="canAdd" style="width: 100%">
+        <i tooltip='title:Add new scale; placement: top;'
+           click.delegate="addScale()" class="fas fa-braille fa-2x">
+        </i>
       </div>
     </div>
   </div>

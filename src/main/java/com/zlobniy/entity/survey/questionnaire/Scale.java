@@ -7,7 +7,7 @@ public class Scale {
 
     private Long id;
     private String title;
-    private List<ScaleStep> scaleSteps = new ArrayList<>(  );
+    private List<Option> options = new ArrayList<>(  );
 
     public Long getId(){
         return id;
@@ -25,11 +25,11 @@ public class Scale {
         this.title = title;
     }
 
-    public List<ScaleStep> getScaleSteps(){
-        return scaleSteps;
+    public List<Option> getOptions(){
+        return options;
     }
 
-    public void setScaleSteps( List<ScaleStep> scaleSteps ){
-        this.scaleSteps = scaleSteps;
+    public void setOptions( List<Option> options ){
+        this.options = options;
     }
 }

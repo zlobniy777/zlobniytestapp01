@@ -1,13 +1,17 @@
 <template>
+  <require from="app/main/center/table-row"></require>
+
   <div>${title}</div>
-  <div class="overview-table overview-table-header">
+  <div class="text-white font-weight-bold overview-table overview-table-header">
     <div class="overview-table-cell">Title</div>
     <div class="overview-table-cell">Id</div>
     <div class="overview-table-cell">Creation date</div>
   </div>
-  <compose class="overview-table overview-table-body"
-           view-model="app/main/center/table-row"
-           model.bind="surveyInfo"
-           repeat.for="surveyInfo of surveyInfoList">
-  </compose>
+
+  <table-row repeat.for="data of surveyInfoList"
+             class="overview-table overview-table-body ${$even ? 'even-row' : ''}"
+             click.delegate="open(data.id)"
+             data.one-way="data">
+  </table-row>
+
 </template>

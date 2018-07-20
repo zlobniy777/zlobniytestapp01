@@ -1,7 +1,10 @@
 <template>
+  <require from="resources/attributes/tooltip"></require>
+
   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-     aria-haspopup="true" aria-expanded="false">
-    ${clientService.clientInfo.id} - ${clientService.clientInfo.name}
+     aria-haspopup="true" aria-expanded="false" data-value="${clientService.clientInfo.name}"
+     tooltip='title: 123; placement: right;'>
+    <i class="fas fa-user-tie"></i>
   </a>
   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
     <a class="dropdown-item" click.delegate="doLogOff()" href="#">Log off</a>

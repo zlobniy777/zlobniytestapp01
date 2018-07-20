@@ -51,10 +51,10 @@ export class SurveyService {
     this.surveyModel = {};
   }
 
-  saveSurvey(  ){
+  saveSurvey( surveyModel ){
     let that = this;
 
-    let promis = this.http.post( 'api/saveSurvey', that.surveyTransformer.serialize( that.surveyModel ) );
+    let promis = this.http.post( 'api/saveSurvey', that.surveyTransformer.serialize( surveyModel ) );
     promis.then(function(response) {
       console.log('response', response)
       return response.json()

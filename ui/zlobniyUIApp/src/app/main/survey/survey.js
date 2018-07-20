@@ -4,22 +4,24 @@ import {inject} from 'aurelia-framework';
 import {SurveyService} from "../../services/survey-service";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {NavigationService} from "../../services/navigation-service";
+import {SurveyModelTransformer} from '../../transformer/survey-model-transformer';
 import {Ui} from "../../ui";
 import {Router} from 'aurelia-router';
 
-@inject( SurveyService, Router, NavigationService, EventAggregator, Ui )
+@inject( SurveyService, Router, NavigationService, EventAggregator, SurveyModelTransformer, Ui )
 export class Survey extends Ui {
 
   availableItems = [];
   sortableData;
-  surveyModel;
+  surveyModel = {};
 
-  constructor( surveyService, router, navigationService, eventAggregator, ...rest ) {
+  constructor( surveyService, router, navigationService, eventAggregator, surveyModelTransformer, ...rest ) {
     super( ...rest );
     this.surveyService = surveyService;
     this.router = router;
     this.navigationService = navigationService;
     this.eventAggregator = eventAggregator;
+    this.surveyModelTransformer = surveyModelTransformer;
 
     this.initSurveyMouseHandler();
 
@@ -83,8 +85,8 @@ export class Survey extends Ui {
       },
       {
         title: 'Save', action: function () {
-        that.surveyService.saveSurvey();
-      }, css: 'fa fa-arrow-circle-left'
+        that.surveyService.saveSurvey( that.surveyModel );
+      }, css: 'fas fa-save'
       }
     ];
 
@@ -97,7 +99,7 @@ export class Survey extends Ui {
           return response.json()
         } ).then( function ( surveyModel ) {
         console.log( 'parsed json', surveyModel );
-        that.surveyModel = surveyModel;
+        that.surveyModel = that.surveyModelTransformer.deSerialize( surveyModel );
         that.navigationService.setTitle( that.surveyModel );
         console.log( surveyModel );
       } ).catch( function ( ex ) {
