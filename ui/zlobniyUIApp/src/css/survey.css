@@ -6,7 +6,7 @@ input{
   display: block;
   border: solid 1px black;
   border-radius: 5px;
-  margin: 20px 20px 0;
+  /*margin: 20px 20px 0;*/
   padding: 5px;
   background-color: white;
 }
@@ -139,3 +139,8 @@ input{
   justify-content: flex-end;
   width: 100%;
 }
+
+.question-settings{
+  background-color: #f2f2f2;
+}
+

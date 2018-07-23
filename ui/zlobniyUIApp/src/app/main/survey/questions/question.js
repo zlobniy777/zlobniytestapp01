@@ -26,6 +26,10 @@ export class Question extends Ui {
     this.eventAggregator.publish( 'remove-question', this.question.index );
   }
 
+  showSettings(){
+    this.eventAggregator.publish( 'show-settings', this.question.index );
+  }
+
   startEdit(){
     if( !this.isEdit ){
       this.surveyService.setEditedModel( this );
