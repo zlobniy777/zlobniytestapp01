@@ -5,13 +5,12 @@ import {SurveyService} from "../../../services/survey-service";
 import {SurveyHelper} from "../../../services/survey-helper";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Ui} from "../../../ui";
-import $ from 'jquery';
 
 @inject( SurveyService, SurveyHelper, EventAggregator, Ui )
 export class Question extends Ui {
 
   @bindable question;
-  name;
+  @bindable surveySettings;
   isEdit = false;
 
   constructor( surveyService, surveyHelper, eventAggregator, ...rest ) {
@@ -19,7 +18,6 @@ export class Question extends Ui {
     this.surveyService = surveyService;
     this.surveyHelper = surveyHelper;
     this.eventAggregator = eventAggregator;
-    this.name = 'Question';
   }
 
   removeQuestion(){
@@ -27,7 +25,7 @@ export class Question extends Ui {
   }
 
   showSettings(){
-    this.eventAggregator.publish( 'show-settings', this.question.index );
+    this.eventAggregator.publish( 'show-settings', {settings: this.question.settings, isToggle: true} );
   }
 
   startEdit(){
@@ -43,12 +41,5 @@ export class Question extends Ui {
     }
   }
 
-  attached(){
-    $('[data-toggle="tooltip"]').tooltip();
-  }
-
-  // activate( question ){
-  //   this.question = question;
-  // }
 
 }

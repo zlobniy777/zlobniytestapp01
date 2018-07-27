@@ -1,29 +1,24 @@
 import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyService} from "../../../services/survey-service";
+import {CollectionUtil} from "../../../services/collection-util";
 
 import sortable from 'sortablejs';
 
-@inject( EventAggregator, SurveyService )
+@inject( EventAggregator, SurveyService, CollectionUtil )
 export class SortableComponent {
 
-  @bindable elements;
-  @bindable identifier;
-  @bindable css;
-  @bindable type;
+  @bindable object;
 
   nameOnUpdate = "";
   nameOnAdd = "";
 
-  constructor( eventAggregator, surveyService ) {
+  constructor( eventAggregator, surveyService, collectionUtil ) {
     this.eventAggregator = eventAggregator;
     this.surveyService = surveyService;
+    this.collectionUtil = collectionUtil;
     this.test = "test";
   }
-
-  // removeOption( index ){
-  //   this.elements.splice( index, 1 );
-  // }
 
   /**
    * Attached
@@ -32,24 +27,12 @@ export class SortableComponent {
    */
   attached() {
 
-    this.nameOnUpdate = 'sortedList_' + this.identifier + '.onUpdate';
-    this.nameOnAdd = 'sortedList_' + this.identifier + '.onAdd';
+    this.nameOnUpdate = 'sortedList_' + this.object.id + '.onUpdate';
+    this.nameOnAdd = 'sortedList_' + this.object.id + '.onAdd';
 
-    this.setupTarget( document.getElementById( 'sortable-list_' + this.identifier ), '.sorted-element_' + this.identifier, true, 'elements_' + this.identifier );
+    this.setupTarget( document.getElementById( 'sortable-list_' + this.object.id ), '.sorted-element_' + this.object.id, true, 'elements_' + this.object.id );
 
     this.eventListeners();
-  }
-
-  sort() {
-    this.elements.sort( function compare( a, b ) {
-      if ( a.index < b.index ) {
-        return -1;
-      }
-      if ( a.index > b.index ) {
-        return 1;
-      }
-      return 0;
-    } );
   }
 
   /**
@@ -79,10 +62,10 @@ export class SortableComponent {
         itemInstance.path = path;
         itemInstance.name = type + '_' + qId;
 
-        that.elements.splice( evt.newIndex, 0, itemInstance );
+        that.object.elements.splice( evt.newIndex, 0, itemInstance );
 
         var i = 0;
-        that.elements.forEach( function ( element ) {
+        that.object.elements.forEach( function ( element ) {
           console.log( element );
           element.index = i;
           i++;
@@ -104,23 +87,8 @@ export class SortableComponent {
       // New index position of item
       let newIndex = evt.newIndex;
 
-      // If item isn't being dropped into its original place
-      if ( newIndex != oldIndex ) {
+      that.collectionUtil.updatePositions( newIndex, oldIndex, that.object );
 
-        if ( oldIndex > newIndex ) {
-          that.elements[oldIndex].index = newIndex;
-          for ( var i = newIndex; i < oldIndex; i++ ) {
-            that.elements[i].index = that.elements[i].index + 1;
-          }
-        } else {
-          that.elements[oldIndex].index = newIndex;
-          for ( var i = newIndex; i > oldIndex; i-- ) {
-            that.elements[i].index = that.elements[i].index - 1;
-          }
-        }
-
-        that.sort();
-      }
     } );
   }
 
@@ -132,9 +100,9 @@ export class SortableComponent {
    * @param sort (boolean)
    * @param group (object)
    */
-  setupTarget( el, sort = true, group = 'group_' + this.identifier ) {
+  setupTarget( el, sort = true, group = 'group_' + this.object.id ) {
     let that = this;
-    let name = "sorted_" + that.identifier;
+    let name = "sorted_" + that.object.id;
     new sortable( el, {
       name: name,
       sort: sort,

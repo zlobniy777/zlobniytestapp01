@@ -11,8 +11,6 @@ import {Router} from 'aurelia-router';
 @inject( SurveyService, Router, NavigationService, EventAggregator, SurveyModelTransformer, Ui )
 export class Survey extends Ui {
 
-  availableItems = [];
-  sortableData;
   surveyModel = {};
 
   constructor( surveyService, router, navigationService, eventAggregator, surveyModelTransformer, ...rest ) {
@@ -24,18 +22,6 @@ export class Survey extends Ui {
     this.surveyModelTransformer = surveyModelTransformer;
 
     this.initSurveyMouseHandler();
-
-    this.availableItems = [
-      {'title':'Only one answer', 'type':'closed'},
-      {'title':'Matrix', 'type':'matrix'}
-    ];
-
-    this.sortableData = {};
-    this.sortableData.elements = [];
-    this.sortableData.identifier = 'questions';
-    this.sortableData.cssClass = '';
-    this.sortableData.type = '';
-    this.sortableData.groupName = 'questions';
 
   }
 
@@ -59,12 +45,10 @@ export class Survey extends Ui {
   }
 
   attached() {
-    console.log('attached survey ');
     document.addEventListener( 'click', this.surveyMouseHandler );
-  }
+ }
 
   detached() {
-    console.log('detached survey ');
     document.removeEventListener( 'click', this.surveyMouseHandler );
     this.clearSurveyInfo();
   }
@@ -101,15 +85,25 @@ export class Survey extends Ui {
         console.log( 'parsed json', surveyModel );
         that.surveyModel = that.surveyModelTransformer.deSerialize( surveyModel );
         that.navigationService.setTitle( that.surveyModel );
-        console.log( surveyModel );
       } ).catch( function ( ex ) {
         console.log( 'parsing failed', ex )
       } );
 
     }else{
       // init new survey model
-      this.surveyModel = this.surveyService.initNewSurveyModel();
-      this.navigationService.setTitle( this.surveyModel );
+      that.surveyModel = that.surveyService.initNewSurveyModel();
+      that.navigationService.setTitle( that.surveyModel );
+
+      // setTimeout( () => {
+      //   that.surveyModel = that.surveyService.initNewSurveyModel();
+      //   setTimeout( () => {
+      //     that.navigationService.setTitle( that.surveyModel );
+      //     setTimeout( () => {
+      //       //alert('done');
+      //     } );
+      //   } );
+      // } );
+
     }
 
   }

@@ -9,11 +9,11 @@
         <editable-item item.one-way="item"></editable-item>
       </div>
       <div class="p-2">
-        <i click.delegate="removeOption($index)" tooltip='title:Delete scale; placement: top;' class="fa fa-times-circle"></i>
+        <i show.bind="item.question.selected" click.delegate="removeOption($index)" tooltip='title:Delete scale; placement: top;' class="fa fa-times-circle"></i>
       </div>
     </div>
 
-    <options question.one-way="item"></options>
+    <options item.one-way="item"></options>
 
   </div>
 

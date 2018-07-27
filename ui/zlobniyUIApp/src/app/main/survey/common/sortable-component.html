@@ -1,6 +1,6 @@
 <template>
-  <div id="sortable-list_${identifier}" class="${css} sorted-element_${identifier}">
-    <div class="sorted-element_${type}" repeat.for="element of elements">
+  <div id="sortable-list_${object.id}" class="${object.cssClass} sorted-element_${object.id}">
+    <div class="sorted-element_${object.type}" repeat.for="element of object.elements">
       <compose view-model='${element.view}' model.one-way="element"></compose>
     </div>
   </div>

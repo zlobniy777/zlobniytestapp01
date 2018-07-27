@@ -22,7 +22,7 @@ export class Option extends Ui {
   activate( item ){
     this.item = item;
     this.item.name = item.type+'_'+item.qId;
-    if( item.question && item.question.scales ){
+    if( item.question.settings.questionType === 'matrix' && item.type === 'closed-option' ){
       this.scales = item.question.scales.elements;
     }
 

@@ -2,18 +2,18 @@
   <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/editable-item"></require>
 
-  <div class="${item.cssClass}" if.bind="item.type === 'closed'">
+  <div class="${item.cssClass}" if.bind="item.question.settings.questionType === 'closed'">
     <div class="line">
       <input type="radio" value="1" name="${item.name}">
       <editable-item item.one-way="item" ></editable-item>
-      <i click.delegate="removeOption($index)" tooltip='title:Delete option; placement: right;' class="fa fa-times-circle"></i>
+      <i show.bind="item.question.selected" click.delegate="removeOption($index)" tooltip='title:Delete option; placement: right;' class="fa fa-times-circle"></i>
     </div>
   </div>
-  <div class="${item.cssClass}" if.bind="item.type === 'matrix'">
-    <div class="options-scales-block">
+  <div class="${item.cssClass}" if.bind="item.question.settings.questionType === 'matrix'">
+    <div class="${item.cssClass} options-scales-block">
       <div class="options-scales-block" css="width:${scales.length > 0 ? '20%' : '100%'}">
         <editable-item item.one-way="item"></editable-item>
-        <i click.delegate="removeOption($index)" tooltip='title:Delete option; placement: top;' class="fa fa-times-circle"></i>
+        <i show.bind="item.question.selected" click.delegate="removeOption($index)" tooltip='title:Delete option; placement: top;' class="fa fa-times-circle"></i>
       </div>
       <div css="width: ${80 / scales.length}%" class="options-scales" repeat.for="scale of scales">
         <div css="width: ${100 / scale.options.elements.length}%" class="scale-option"

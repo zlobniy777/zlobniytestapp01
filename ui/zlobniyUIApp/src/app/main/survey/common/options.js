@@ -7,7 +7,7 @@ import {SurveyHelper} from "../../../services/survey-helper";
 @inject( EventAggregator, SurveyHelper )
 export class options {
 
-  @bindable question;
+  @bindable item;
 
   constructor( eventAggregator, surveyHelper ) {
     this.eventAggregator = eventAggregator;
@@ -15,35 +15,46 @@ export class options {
   }
 
   addItem(  ){
-    console.log( 'add item' );
-    this.question.options.elements.push(
-      this.surveyHelper.createOption(
+    let option;
+    if( this.item.type === 'scale' ){
+      option = this.surveyHelper.createOption(
         undefined,
         'new option',
-        this.question.type,
-        this.question.id,
-        this.question.options.elements.length,
+        'scale-option',
+        this.item.id,
+        this.item.options.elements.length,
         true,
         undefined,
-        this.question,
-        this.question.options.id )
-    );
+        this.item.question,
+        this.item.options.id,
+      );
+    } else {
+      option = this.surveyHelper.createOption(
+        undefined,
+        'new option',
+        'closed-option',
+        this.item.id,
+        this.item.options.elements.length,
+        true,
+        undefined,
+        this.item,
+        this.item.options.id,
+      );
+    }
+
+    this.item.options.elements.push( option );
   }
 
 
   attached() {
     let that = this;
-    this.removeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-remove', index => {
-      that.question.options.elements.splice( index, 1 );
+    this.removeOptionSub = this.eventAggregator.subscribe( this.item.options.id + '-remove', index => {
+      that.surveyHelper.deleteItem( that.item.options.elements, index );
     } );
   }
 
   detached() {
     this.removeOptionSub.dispose();
-  }
-
-  activate( data ) {
-    console.log( 'activate ' + data );
   }
 
 }

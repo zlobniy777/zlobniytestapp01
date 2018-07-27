@@ -15,6 +15,7 @@ npm install sortablejs --save
 
 some extra dependency
 npm install font-awesome --save
+then download manually font-awesome from site and replace all data in node_module/font-awesome.
 npm install bootstrap --save
 npm install jquery --save
 remove bootstrap.js and rename bootstrap.bundle.js to bootstrap.js

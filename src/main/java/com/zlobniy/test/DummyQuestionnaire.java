@@ -16,7 +16,7 @@ public class DummyQuestionnaire {
     public Question createDummyClosedQuestion( Long id ){
         ClosedQuestion question = new ClosedQuestion();
         question.setId( id );
-        question.setLayout( "radio" );
+        question.setSettings( createDummySettings() );
         question.setTitle( "dummy closed question " + id );
 
         question.getOptions().add( createDummyOption( 1L ) );
@@ -29,7 +29,7 @@ public class DummyQuestionnaire {
     public Question createDummyMatrixQuestion( Long id ){
         MatrixQuestion question = new MatrixQuestion();
         question.setId( id );
-        question.setLayout( "radio" );
+        question.setSettings( createDummySettings() );
         question.setTitle( "Dummy matrix question " + id );
 
         question.getOptions().add( createDummyOption( 1L ) );
@@ -67,6 +67,14 @@ public class DummyQuestionnaire {
         scaleStep.setTitle( "Dummy scale step " + id );
 
         return scaleStep;
+    }
+
+    public Settings createDummySettings(){
+        Settings settings = new Settings();
+        settings.setLayout( "radio" );
+
+
+        return settings;
     }
 
 }

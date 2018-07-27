@@ -8,22 +8,24 @@
   <div class="border border-primary rounded d-flex text-white">
     <div class="p-2 flex-grow-1 bg-primary">
       <div class="questionNumber"
-           css="display: ${surveyService.surveyModel.surveySettings.showQuestionNumber ? 'block' : 'none'}">
+           css="display: ${surveySettings.showQuestionNumber ? 'block' : 'none'}">
         ${question.index+1}
       </div>
       <editable-item item.one-way="question"></editable-item>
     </div>
-    <div class="p-2 bg-primary">
-      <i click.delegate="showSettings()" tooltip='title:Settings; placement: top;' class="far fa-trash-alt"></i>
+    <div class="pt-2 pr-1 pl-1 bg-primary">
+      <i click.delegate="showSettings()" tooltip='title:Settings; placement: top;' class="fas fa-cog"></i>
     </div>
     <div class="p-2 bg-primary">
-      <i click.delegate="removeQuestion()" tooltip='title:Delete question; placement: top;' class="far fa-trash-alt"></i>
+      <i click.delegate="removeQuestion()" tooltip='title:Delete question; placement: top;'
+         class="far fa-trash-alt"></i>
     </div>
   </div>
 
-  <compose view="${question.view}" question.one-way="question"></compose>
+  <compose view="${question.settings.view}" question.one-way="question"></compose>
   <div class="bottom">
 
   </div>
+
 
 </template>

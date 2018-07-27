@@ -11,16 +11,22 @@ export class SurveyModelTransformer {
   serialize( surveyModel ){
     let data = this.clone( surveyModel );
 
-    for ( let question of data.questionnaire.questions ) {
+    data.questionnaire.questions = [];
+
+    for ( let question of data.questionnaire.elements ) {
+
+      question.type = question.settings.questionType;
 
       if( question.options ){
+
         let options = [];
         for ( let option of question.options.elements ) {
           let opt = option;
-          opt.question = undefined;
+          delete opt.question;
           options.push( opt );
         }
         question.options = options;
+
       }
 
       if( question.scales ){
@@ -28,9 +34,11 @@ export class SurveyModelTransformer {
         for ( let scale of question.scales.elements ) {
           let nScale = scale;
           let scaleSteps = [];
+          nScale.question = undefined;
+          delete nScale.question;
           for ( let scaleStep of scale.options.elements ) {
             let nScaleStep = scaleStep;
-            nScaleStep.question = undefined;
+            delete nScaleStep.question;
             scaleSteps.push( nScaleStep );
           }
 
@@ -39,7 +47,11 @@ export class SurveyModelTransformer {
         }
         question.scales = scales;
       }
+
     }
+
+    data.questionnaire.questions = data.questionnaire.elements;
+    delete data.questionnaire.elements;
 
     return data;
   }
@@ -48,13 +60,26 @@ export class SurveyModelTransformer {
     let that = this;
     let questions = data.questionnaire.questions;
 
-    data.questionnaire.questions = [];
+    data.questionnaire.elements = [];
     let qIndex = 0;
     for ( let question of questions ) {
-      let newQuestion = that.surveyHelper.createQuestion( question.id, question.type, question.title, qIndex, question.options, question.scales );
-      this.surveyHelper.insertQuestion( data.questionnaire.questions, newQuestion, qIndex );
+      let scales;
+      if( question.scales ){
+        scales = [];
+        for ( let scale of question.scales ) {
+          let nScale = Object.assign({}, scale);
+          nScale.options = {};
+          nScale.options.elements = scale.options;
+          scales.push( nScale );
+        }
+      }
+
+      let newQuestion = that.surveyHelper.createQuestion( question.id, question.type, question.title, qIndex, question.options, scales, false );
+      this.surveyHelper.insertElement( data.questionnaire.elements, newQuestion, qIndex );
       qIndex++;
     }
+
+    delete data.questionnaire.questions;
 
     return data;
   }

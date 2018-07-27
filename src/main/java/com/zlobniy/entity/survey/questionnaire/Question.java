@@ -15,7 +15,7 @@ public class Question {
 
     private Long id;
     private String title;
-    private String layout;
+    private Settings settings;
 
     public Long getId(){
         return id;
@@ -33,12 +33,11 @@ public class Question {
         this.title = title;
     }
 
-    public void setLayout( String layout ){
-        this.layout = layout;
+    public Settings getSettings(){
+        return settings;
     }
 
-    public String getLayout(){
-        return layout;
+    public void setSettings( Settings settings ){
+        this.settings = settings;
     }
-
 }

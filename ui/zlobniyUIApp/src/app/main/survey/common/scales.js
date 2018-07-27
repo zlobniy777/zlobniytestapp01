@@ -17,7 +17,7 @@ export class scales {
   attached() {
     let that = this;
     this.removeScaleSub = this.eventAggregator.subscribe( that.question.scales.id + '-remove', index => {
-      that.question.scales.elements.splice( index, 1 );
+      that.surveyHelper.deleteItem( that.question.scales.elements, index );
     } );
   }
 
@@ -27,25 +27,23 @@ export class scales {
   }
 
   addScale(){
-    this.question.scales.elements.push(
-      this.surveyHelper.createScale(
-        undefined,
-        'new scale',
-        this.question.type,
-        this.question.id,
-        this.question.scales.length,
-        false,
-        this.surveyHelper.createDefaultScaleSteps(),
-        this.question.scales.id )
-    );
+    let scale = this.surveyHelper.createScale(
+      undefined,
+      'new scale',
+      this.question.settings.questionType,
+      this.question.id,
+      this.question.scales.elements.length,
+      false,
+      this.surveyHelper.createDefaultScaleSteps(),
+      this.question.scales.id,
+      this.question);
+
+    this.question.scales.elements.push( scale );
   }
 
   detached() {
     this.removeScaleSub.dispose();
   }
 
-  activate( data ) {
-    console.log( 'activate ' + data );
-  }
 
 }

@@ -1,22 +1,20 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyModelTransformer} from '../transformer/survey-model-transformer';
-import {SurveyHelper} from './survey-helper';
 import {HttpService} from './http-service';
 
-@inject( HttpService, Router, SurveyModelTransformer, SurveyHelper )
+@inject( HttpService, Router, SurveyModelTransformer, EventAggregator )
 export class SurveyService {
 
   editedModel;
 
-  constructor( httpService, router, surveyTransformer, surveyHelper ) {
+  constructor( httpService, router, surveyTransformer, eventAggregator ) {
     this.http = httpService;
     this.router = router;
     this.surveyTransformer = surveyTransformer;
-    this.surveyHelper = surveyHelper;
+    this.eventAggregator = eventAggregator;
   }
-
-
 
   setEditedModel( model ){
     console.log( 'start editing ' + model.name );
@@ -41,10 +39,6 @@ export class SurveyService {
 
   loadSurvey( id ){
     return this.http.get( 'api/survey/' + id );
-  }
-
-  setSurveyModel( surveyModel ){
-    this.surveyModel = this.surveyTransformer.deSerialize( surveyModel );
   }
 
   unSetSurveyModel(){
@@ -85,53 +79,12 @@ export class SurveyService {
     let surveyModel = {};
     surveyModel.title = "New survey";
     surveyModel.questionnaire = {};
-    surveyModel.questionnaire.questions = [];
+    surveyModel.questionnaire.type = 'questionnaire';
+    surveyModel.questionnaire.elements = [];
     surveyModel.surveySettings = {};
+    surveyModel.surveySettings.showQuestionNumber = false;
 
     return surveyModel;
-  }
-
-  updatePositions( newIndex, oldIndex, surveyModel ){
-    if (newIndex != oldIndex) {
-      let questions = surveyModel.questionnaire.questions;
-
-      if( oldIndex > newIndex ){
-        questions[oldIndex].index = newIndex;
-        for( var i = newIndex; i < oldIndex ; i++ ){
-          questions[i].index =questions[i].index + 1;
-        }
-      }else{
-        questions[oldIndex].index = newIndex;
-        for( var i = newIndex; i > oldIndex ; i-- ){
-          questions[i].index = questions[i].index - 1;
-        }
-      }
-
-      this.sort( surveyModel );
-    }
-  }
-
-  sort( surveyModel ){
-    surveyModel.questionnaire.questions.sort( function compare(a, b) {
-      if (a.index < b.index) {
-        return -1;
-      }
-      if (a.index > b.index) {
-        return 1;
-      }
-      return 0;
-    } );
-  }
-
-  deleteQuestion( surveyModel, index ){
-    surveyModel.questionnaire.questions.splice( index, 1 );
-    this.surveyHelper.updateIndex( surveyModel.questionnaire.questions );
-  }
-
-  addQuestion( id, questionType, title, index, options, scales, surveyModel ){
-    let questionNumber = surveyModel.questionnaire.questions.length;
-    let question = this.surveyHelper.createQuestion( id, questionType, title, questionNumber, options, scales );
-    this.surveyHelper.insertQuestion( surveyModel.questionnaire.questions, question, index );
   }
 
 }

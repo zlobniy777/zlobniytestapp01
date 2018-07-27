@@ -1,30 +1,37 @@
 import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {SurveyService} from "../../services/survey-service";
+import {CollectionUtil} from "../../services/collection-util";
+import {SurveyHelper} from "../../services/survey-helper";
 
 import sortable from 'sortablejs';
 
-@inject(EventAggregator, SurveyService)
+@inject(EventAggregator, SurveyHelper, CollectionUtil)
 export class Dragdrop {
 
   @bindable surveyModel;
+  consumeEvent = false;
 
-  availableItems = [];
-
-  constructor( eventAggregator, surveyService ) {
+  constructor( eventAggregator, surveyHelper, collectionUtil ) {
     this.eventAggregator = eventAggregator;
-    this.surveyService = surveyService;
+    this.surveyHelper = surveyHelper;
+    this.collectionUtil = collectionUtil;
 
-    this.availableItems = [
-      {'title':'Only one answer', 'type':'closed'},
-      {'title':'Matrix', 'type':'matrix'}
-    ];
+    this.availableItems = this.surveyHelper.getAvailableQuestionTypes();
   }
 
   // add new question by double click on availableItems.item
   addQuestion( item ){
-    console.log('addQuestion ' + item );
-    this.surveyService.addQuestion( undefined, item.type, item.title, this.surveyModel.questionnaire.questions.length, undefined, undefined, this.surveyModel );
+    if( !this.consumeEvent ){
+      this.surveyHelper.addQuestion( undefined, item.type, item.title, this.surveyModel.questionnaire.elements.length, undefined, undefined, this.surveyModel );
+    }
+    this.consumeEvent = false;
+  }
+
+  selectQuestion( question ){
+    if( !this.consumeEvent ){
+      this.surveyHelper.selectQuestion( question, this.surveyModel, false );
+    }
+    this.consumeEvent = false;
   }
 
   /**
@@ -75,7 +82,7 @@ export class Dragdrop {
         let questionType = item.dataset.type;
         let sourceTitle = item.dataset.value;
 
-        that.surveyService.addQuestion( undefined, questionType, sourceTitle, evt.newIndex, undefined, undefined, that.surveyModel );
+        that.surveyHelper.addQuestion( undefined, questionType, sourceTitle, evt.newIndex, undefined, undefined, that.surveyModel );
       }
     });
 
@@ -91,13 +98,12 @@ export class Dragdrop {
       // New index position of item
       let newIndex = evt.newIndex;
 
-      // If item isn't being dropped into its original place
-      that.surveyService.updatePositions( newIndex, oldIndex, that.surveyModel );
+      that.collectionUtil.updatePositions( newIndex, oldIndex, that.surveyModel.questionnaire );
     });
 
     this.removeQuestionSub = this.eventAggregator.subscribe( 'remove-question', index => {
-      that.surveyService.deleteQuestion( that.surveyModel, index );
-
+      that.surveyHelper.deleteQuestion( that.surveyModel, index );
+      that.consumeEvent = true;
     } );
   }
 

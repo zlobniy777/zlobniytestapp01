@@ -1,12 +1,12 @@
 import 'css/survey.css';
 
-import {bindable, computedFrom, inject} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject( EventAggregator, Element )
 export class Settings {
 
-  @bindable settings;
+  settings;
 
   constructor( eventAggregator, element ) {
     this.eventAggregator = eventAggregator;
@@ -17,12 +17,34 @@ export class Settings {
 
   attached() {
     let that = this;
-    this.showMeSub = this.eventAggregator.subscribe( 'show-settings', index => {
-
-      console.log('show settings ' + that.element );
-      that.toggleView();
-      //that.css = 'show-settings';
+    this.showMeSub = this.eventAggregator.subscribe( 'show-settings', data => {
+      if( data ){
+        that.settings = data.settings;
+        if( !data.isToggle && !that.show ){
+          that.showView();
+        }else if( data.isToggle ){
+          that.toggleView();
+        }
+      }else{
+        that.hideView();
+      }
     } );
+  }
+
+  DropdownChanged( type ){
+    let object = this.getAvailableType( type );
+    this.settings.questionType = object.type;
+    this.settings.view = object.view;
+  }
+
+  getAvailableType( type ){
+    let result;
+    this.settings.availableQuestionTypes.forEach( value => {
+      if( value.type === type ){
+        result = value;
+      }
+    } );
+    return result;
   }
 
   toggleView(){
@@ -46,10 +68,6 @@ export class Settings {
 
   detached() {
     this.showMeSub.dispose();
-  }
-
-  activate( data ) {
-    console.log( 'activate ' + data );
   }
 
 }

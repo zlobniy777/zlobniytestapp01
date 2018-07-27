@@ -30,20 +30,10 @@ export class EditableItem extends Ui {
   }
 
   attached() {
-    console.log('EditableItem attached');
     if( this.item && this.item.isNew ){
       this.startEdit();
       this.item.isNew = false;
     }
-  }
-
-  bind(bindingContext, overrideContext) {
-    console.log('EditableItem bind');
-
-  }
-
-  activate( data ) {
-    console.log( 'activate ' + data );
   }
 
 }

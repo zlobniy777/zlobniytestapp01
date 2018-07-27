@@ -17,7 +17,12 @@ export class Scale extends Ui {
   }
 
   addItem(  ){
-    this.item.elements.push( this.surveyHelper.createOption( undefined, 'new step', this.item.type,  this.item.id, this.item.elements.length, true, undefined, undefined, this.item.id ) );
+    this.item.elements.push(
+      this.surveyHelper.createOption(
+        undefined, 'new step', 'scale-option',
+        this.item.id, this.item.elements.length,
+        true, undefined, this.item.question, this.item.id )
+    );
   }
 
   removeOption( index ){
