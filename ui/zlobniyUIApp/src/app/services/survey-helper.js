@@ -19,6 +19,9 @@ export class SurveyHelper {
     this.updateIndex( surveyModel.questionnaire.elements );
     if( deletedQuestion.selected ){
       if( surveyModel.questionnaire.elements.length > 0 ){
+        if( surveyModel.questionnaire.elements.length === index ){
+          index = index - 1;
+        }
         let question = surveyModel.questionnaire.elements[index];
         this.selectQuestion( question, surveyModel, true );
       }else{

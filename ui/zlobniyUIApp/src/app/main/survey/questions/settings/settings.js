@@ -25,10 +25,10 @@ export class Settings {
         }else if( data.isToggle ){
           that.toggleView();
         }
+        that.settings = data.settings;
       }else{
         that.hideView();
       }
-      that.settings = data.settings;
     } );
   }
 
