@@ -12,15 +12,15 @@ export class Settings {
     this.eventAggregator = eventAggregator;
     this.element = element;
     this.show = false;
-    //this.css = 'hide-settings';
   }
 
   attached() {
     let that = this;
     this.showMeSub = this.eventAggregator.subscribe( 'show-settings', data => {
       if( data ){
-        that.settings = data.settings;
-        if( !data.isToggle && !that.show ){
+        // show settings if it first time. After added first question.
+        // then if settings was closed we didn't open it, only if it is toggle view
+        if( !data.isToggle && !that.show && !that.settings ){
           that.showView();
         }else if( data.isToggle ){
           that.toggleView();
@@ -28,6 +28,7 @@ export class Settings {
       }else{
         that.hideView();
       }
+      that.settings = data.settings;
     } );
   }
 
