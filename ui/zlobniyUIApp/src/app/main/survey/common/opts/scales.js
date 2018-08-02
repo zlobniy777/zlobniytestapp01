@@ -2,7 +2,7 @@ import 'css/survey.css';
 
 import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {SurveyHelper} from "../../../services/survey-helper";
+import {SurveyHelper} from "../../../../services/survey-helper";
 
 @inject( EventAggregator, SurveyHelper )
 export class scales {
@@ -27,6 +27,7 @@ export class scales {
   }
 
   addScale(){
+    let that = this;
     let scale = this.surveyHelper.createScale(
       undefined,
       'new scale',
@@ -37,8 +38,16 @@ export class scales {
       this.surveyHelper.createDefaultScaleSteps(),
       this.question.scales.id,
       this.question);
+    let groupIndex = this.question.scales.elements.length;
 
     this.question.scales.elements.push( scale );
+
+    this.question.options.elements.forEach( function ( element ) {
+      let group = that.surveyHelper.createGroup( scale, groupIndex );
+      element.scaleGroup.push( group );
+
+    } );
+
   }
 
   detached() {

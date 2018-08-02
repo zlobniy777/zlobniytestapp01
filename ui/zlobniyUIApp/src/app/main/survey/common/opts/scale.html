@@ -1,7 +1,7 @@
 <template>
   <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/editable-item"></require>
-  <require from="app/main/survey/common/options"></require>
+  <require from="app/main/survey/common/opts/options"></require>
 
   <div class="scale">
     <div class="d-flex">
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <options item.one-way="item"></options>
+    <options css="width: ${100 / item.options.elements.length}%" item.one-way="item"></options>
 
   </div>
 

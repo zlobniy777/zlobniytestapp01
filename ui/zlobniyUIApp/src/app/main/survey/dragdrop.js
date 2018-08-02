@@ -9,7 +9,6 @@ import sortable from 'sortablejs';
 export class Dragdrop {
 
   @bindable surveyModel;
-  consumeEvent = false;
 
   constructor( eventAggregator, surveyHelper, collectionUtil ) {
     this.eventAggregator = eventAggregator;
@@ -21,17 +20,15 @@ export class Dragdrop {
 
   // add new question by double click on availableItems.item
   addQuestion( item ){
-    if( !this.consumeEvent ){
       this.surveyHelper.addQuestion( undefined, item.type, item.title, this.surveyModel.questionnaire.elements.length, undefined, undefined, this.surveyModel );
-    }
-    this.consumeEvent = false;
   }
 
   selectQuestion( question ){
-    if( !this.consumeEvent ){
       this.surveyHelper.selectQuestion( question, this.surveyModel, false );
-    }
-    this.consumeEvent = false;
+  }
+
+  removeQuestion( index ){
+    this.surveyHelper.deleteQuestion( this.surveyModel, index );
   }
 
   /**
@@ -102,9 +99,13 @@ export class Dragdrop {
     });
 
     this.removeQuestionSub = this.eventAggregator.subscribe( 'remove-question', index => {
-      that.surveyHelper.deleteQuestion( that.surveyModel, index );
-      that.consumeEvent = true;
+      that.removeQuestion( index );
     } );
+
+    this.removeQuestionSub = this.eventAggregator.subscribe( 'select-question', question => {
+      that.selectQuestion( question );
+    } );
+
   }
 
   /**

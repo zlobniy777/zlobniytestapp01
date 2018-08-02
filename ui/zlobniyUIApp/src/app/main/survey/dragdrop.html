@@ -19,7 +19,7 @@
     <div class="d-flex">
 
       <div id="drag-target" class="target-items">
-        <div click.delegate="selectQuestion( question )" class="dragged-element" repeat.for="question of surveyModel.questionnaire.elements">
+        <div class="dragged-element" repeat.for="question of surveyModel.questionnaire.elements">
           <question class="question m-3 ${question.selected ? 'selected-question' : ''}" question.one-way="question" survey-settings.one-way="surveyModel.surveySettings"></question>
         </div>
       </div>

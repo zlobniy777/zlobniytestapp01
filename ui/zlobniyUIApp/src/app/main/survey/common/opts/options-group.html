@@ -1,0 +1,9 @@
+<template>
+  <input id="${option.id}"
+         name="${option.name}"
+         type="radio"
+         model.bind="option"
+         checked.bind="parent.selected"
+         change.delegate="changeMatrix( option )"
+  >
+</template>

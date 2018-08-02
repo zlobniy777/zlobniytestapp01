@@ -80,7 +80,8 @@ export class CollectionUtil {
         false,
         element.cssClass,
         element.question,
-        element.optionsId );
+        element.optionsId,
+        element.scaleGroup );
       this.surveyHelper.insertElement( copyElements, newElement, element.index );
     }
     return copyElements;
