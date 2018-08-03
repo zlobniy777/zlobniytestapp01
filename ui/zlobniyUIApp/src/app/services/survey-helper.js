@@ -77,6 +77,9 @@ export class SurveyHelper {
       case 'matrix':
         this.createMatrixQuestion( question, options, scales );
         break;
+      case 'test':
+        this.createTestQuestion( question, options, scales );
+        break;
       default:
         console.log( 'unsupported question type ' + questionType );
         break;
@@ -87,6 +90,41 @@ export class SurveyHelper {
 
   createNewTitle( title, questionNumber ){
     return title + " " + questionNumber;
+  }
+
+  createTestQuestion( question, options, scales ){
+    if( !options ){
+      options = this.createDefaultOptions();
+    }
+
+    if( !scales ){
+      scales = this.createDefaultScales();
+    }
+
+    question.settings.view = './../questions/subView/test-question.html';
+
+    question.options = {};
+    question.options.id = "options_"+question.id;
+    question.options.type = "options";
+    question.options.elements = [];
+    let optionIndex = 0;
+    for ( let option of options ) {
+      let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false, 'common-option', question, question.options.id, scales );
+      question.options.elements.push( newOption );
+      optionIndex++;
+    }
+
+    question.scales = {};
+    question.scales.id = "scales_"+question.id;
+    question.scales.type = "scales";
+    question.scales.cssClass = "scales-view";
+    question.scales.elements = [];
+
+    let scaleIndex = 0;
+    for ( let scale of scales ) {
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id, question ) );
+      scaleIndex++;
+    }
   }
 
   createMatrixQuestion( question, options, scales ){
@@ -308,6 +346,7 @@ export class SurveyHelper {
     let available = [
       {type:'closed', title:'Only one answer', view: './../questions/subView/closed-question.html'},
       {type:'matrix', title:'Matrix', view: './../questions/subView/matrix.html'},
+      {type:'test', title:'Test', view: './../questions/subView/test-question.html'},
     ];
 
     return available;

@@ -1,6 +1,7 @@
 <template>
   <require from="app/main/survey/questions/subView/closed-question.html"></require>
   <require from="app/main/survey/questions/subView/matrix.html"></require>
+  <require from="app/main/survey/questions/subView/test-question.html"></require>
   <require from="app/main/survey/common/editable-item"></require>
   <require from="resources/attributes/tooltip"></require>
 
@@ -11,7 +12,7 @@
            css="display: ${surveySettings.showQuestionNumber ? 'block' : 'none'}">
         ${question.index+1}
       </div>
-      <editable-item item.one-way="question"></editable-item>
+      <editable-item containerless item.one-way="question"></editable-item>
     </div>
     <div class="pt-2 pr-1 pl-1 bg-primary">
       <i click.delegate="showSettings()" tooltip='title:Settings; placement: top;' class="fas fa-cog"></i>
@@ -22,7 +23,8 @@
     </div>
   </div>
 
-  <compose view="${question.settings.view}" question.one-way="question"></compose>
+  <compose containerless view="${question.settings.view}" question.one-way="question"></compose>
+
   <div class="bottom">
 
   </div>

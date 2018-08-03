@@ -12,6 +12,7 @@ export class Settings {
     this.eventAggregator = eventAggregator;
     this.element = element;
     this.show = false;
+    this.width = 0;
   }
 
   attached() {
@@ -58,12 +59,12 @@ export class Settings {
 
   showView(){
     this.show = true;
-    this.element.style.width = '30%';
+    this.width = '30%';
   }
 
   hideView(){
     this.show = false;
-    this.element.style.width = '0';
+    this.width = '0';
   }
 
 
