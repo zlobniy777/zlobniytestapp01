@@ -224,9 +224,9 @@ export class SurveyHelper {
   createDefaultScales(){
 
     let scales = [];
-    scales.push( this.createDefaultScale( 'scale 1', 1, 10 ) );
-    scales.push( this.createDefaultScale( 'scale 2', 2, 20 ) );
-    scales.push( this.createDefaultScale( 'scale 3', 3, 30 ) );
+    scales.push( this.createDefaultScale( 'scale 1', 0, 10 ) );
+    scales.push( this.createDefaultScale( 'scale 2', 1, 20 ) );
+    scales.push( this.createDefaultScale( 'scale 3', 2, 30 ) );
 
     return scales;
   }
@@ -325,7 +325,7 @@ export class SurveyHelper {
     scale.options.elements = [];
     let stepIndex = 0;
     for ( let step of scaleSteps ) {
-      scale.options.elements.push( this.createOption( step.id, step.title, type, qId, stepIndex, false, undefined, question, scale.options.id, [] ) );
+      scale.options.elements.push( this.createOption( step.id, step.title, type, qId, stepIndex, false, 'justify-content-center', question, scale.options.id, [] ) );
       stepIndex++;
     }
 

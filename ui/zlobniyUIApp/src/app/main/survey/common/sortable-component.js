@@ -87,7 +87,12 @@ export class SortableComponent {
       // New index position of item
       let newIndex = evt.newIndex;
 
-      that.collectionUtil.updatePositions( newIndex, oldIndex, that.object );
+      that.collectionUtil.updatePositions( newIndex, oldIndex, that.object, true );
+
+      if( that.object.type === 'scales' ){
+        let data = {oldIndex:oldIndex, newIndex:newIndex};
+        this.eventAggregator.publish( that.object.id + '-swap-scales', data );
+      }
 
     } );
   }

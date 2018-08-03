@@ -95,7 +95,7 @@ export class Dragdrop {
       // New index position of item
       let newIndex = evt.newIndex;
 
-      that.collectionUtil.updatePositions( newIndex, oldIndex, that.surveyModel.questionnaire );
+      that.collectionUtil.updatePositions( newIndex, oldIndex, that.surveyModel.questionnaire, true );
     });
 
     this.removeQuestionSub = this.eventAggregator.subscribe( 'remove-question', index => {

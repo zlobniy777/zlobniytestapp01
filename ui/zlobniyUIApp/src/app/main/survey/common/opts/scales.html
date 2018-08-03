@@ -2,12 +2,17 @@
   <require from="app/main/survey/common/sortable-component"></require>
   <require from="resources/attributes/tooltip"></require>
 
-  <div class="d-flex">
-    <div style="width: 100%">
-      <sortable-component containerless object.one-way="question.scales" ></sortable-component>
+  <div class="d-flex w-100">
+    <!-- zero column group -->
+    <div style="width: 20%" class="column-group-0">
+      <div class="zero-group"></div>
     </div>
 
-    <div class="text-center d-flex align-items-center" style="width: 5%">
+    <!-- normal groups -->
+    <sortable-component containerless object.one-way="question.scales" ></sortable-component>
+
+    <!-- last column group -->
+    <div class="text-center align-items-center" style="width: 5%">
       <div show.bind="question.selected" if.one-way="canAdd" style="width: 100%">
         <i tooltip='title:Add new scale; placement: top;'
            click.delegate="addScale()" class="fas fa-braille fa-2x">

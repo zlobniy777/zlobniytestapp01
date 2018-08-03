@@ -8,7 +8,7 @@ export class CollectionUtil {
     this.surveyHelper = surveyHelper;
   }
 
-  updatePositions( newIndex, oldIndex, elementsHolder ){
+  updatePositions( newIndex, oldIndex, elementsHolder, withUpdate ){
     if (newIndex != oldIndex) {
       let elements = elementsHolder.elements;
 
@@ -22,7 +22,7 @@ export class CollectionUtil {
         for( var i = newIndex; i > oldIndex ; i-- ){
           elements[i].index = elements[i].index - 1;
         }
-        if( elements.length === 2 ){
+        if( elements.length === 2 && withUpdate ){
           elementsHolder.elements = this.updateArray( elementsHolder.type, elements );
         }
 
@@ -43,9 +43,21 @@ export class CollectionUtil {
         return that.updateScales( elements );
       case 'steps':
         return that.updateOptions( elements );
+      case 'scaleGroup':
+        return that.updateScaleGroup( elements );
       default:
         console.log( 'unsupported type ' + type );
     }
+  }
+
+  updateScaleGroup( elements ){
+    let that = this;
+    let copyElements = [];
+
+    let newElement = that.surveyHelper.createScaleGroup( elements, '' );
+    this.surveyHelper.insertElement( copyElements, newElement, element.index );
+
+    return copyElements;
   }
 
   updateScales( elements ){

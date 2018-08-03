@@ -3,7 +3,6 @@
   <require from="app/main/survey/common/editable-item"></require>
   <require from="app/main/survey/common/opts/options"></require>
 
-  <div class="scale">
     <div class="d-flex">
       <div class="p-2 flex-grow-1 text-center">
         <editable-item containerless item.one-way="item"></editable-item>
@@ -13,8 +12,7 @@
       </div>
     </div>
 
-    <options css="width: ${100 / item.options.elements.length}%" item.one-way="item"></options>
+    <options containerless item.one-way="item"></options>
 
-  </div>
 
 </template>

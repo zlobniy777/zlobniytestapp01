@@ -30,7 +30,7 @@ export class options {
         [],
       );
     } else {
-      let scaleGroup = this.surveyHelper.createScaleGroup( this.item.question.scales );
+      let scaleGroup = this.surveyHelper.createScaleGroup( this.item.scales.elements );
 
       option = this.surveyHelper.createOption(
         undefined,
@@ -111,11 +111,6 @@ export class options {
       that.changeMatrixOption( data );
     } );
 
-    this.changeScalesSub = this.eventAggregator.subscribe( this.item.id + '-change-scales', data => {
-
-
-
-    } );
   }
 
   detached() {
