@@ -53,6 +53,7 @@ export class Dragdrop {
     this.eventTargetAdd.dispose();
     this.eventTargetUpdate.dispose();
     this.removeQuestionSub.dispose();
+    this.selectQuestionSub.dispose();
   }
 
   /**
@@ -102,7 +103,7 @@ export class Dragdrop {
       that.removeQuestion( index );
     } );
 
-    this.removeQuestionSub = this.eventAggregator.subscribe( 'select-question', question => {
+    this.selectQuestionSub = this.eventAggregator.subscribe( 'select-question', question => {
       that.selectQuestion( question );
     } );
 

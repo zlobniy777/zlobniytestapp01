@@ -21,11 +21,6 @@ export class Option extends Ui {
     this.eventAggregator.publish( this.item.optionsId + '-change', data );
   }
 
-  changeMatrix( item, scale, scaleStep ){
-    let data = {option: item, scale: scale, scaleStep: scaleStep};
-    this.eventAggregator.publish( this.item.optionsId + '-change-matrix', data );
-  }
-
   removeOption( index ){
     this.eventAggregator.publish( this.item.optionsId + '-remove', index );
   }

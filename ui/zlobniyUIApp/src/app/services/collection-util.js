@@ -43,21 +43,10 @@ export class CollectionUtil {
         return that.updateScales( elements );
       case 'steps':
         return that.updateOptions( elements );
-      case 'scaleGroup':
-        return that.updateScaleGroup( elements );
       default:
         console.log( 'unsupported type ' + type );
+        return elements;
     }
-  }
-
-  updateScaleGroup( elements ){
-    let that = this;
-    let copyElements = [];
-
-    let newElement = that.surveyHelper.createScaleGroup( elements, '' );
-    this.surveyHelper.insertElement( copyElements, newElement, element.index );
-
-    return copyElements;
   }
 
   updateScales( elements ){

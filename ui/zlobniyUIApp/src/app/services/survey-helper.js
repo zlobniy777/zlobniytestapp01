@@ -346,7 +346,7 @@ export class SurveyHelper {
     let available = [
       {type:'closed', title:'Only one answer', view: './../questions/subView/closed-question.html'},
       {type:'matrix', title:'Matrix', view: './../questions/subView/matrix.html'},
-      {type:'test', title:'Test', view: './../questions/subView/test-question.html'},
+      // {type:'test', title:'Test', view: './../questions/subView/test-question.html'},
     ];
 
     return available;

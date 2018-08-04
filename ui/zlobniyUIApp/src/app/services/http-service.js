@@ -8,6 +8,10 @@ export class HttpService {
     console.log('attached http service: ');
   }
 
+  detached() {
+
+  }
+
   // url = 'api/login'
   post( url, data ){
     let promise = fetch( url, {

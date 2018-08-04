@@ -20,6 +20,10 @@ export class ClientService {
     console.log('attached client service: ');
   }
 
+  detached() {
+
+  }
+
   logOff(){
     let that = this;
     let clientData = this.clientInfo;

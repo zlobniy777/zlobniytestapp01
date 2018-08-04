@@ -14,17 +14,18 @@ export class options {
     this.surveyHelper = surveyHelper;
   }
 
-  addItem(  ){
+  addItem( event ){
+
     let option;
     if( this.item.type === 'scale' ){
       option = this.surveyHelper.createOption(
         undefined,
-        'new option',
+        '',
         'scale-option',
         this.item.id,
         this.item.options.elements.length,
         true,
-        undefined,
+        'justify-content-center',
         this.item.question,
         this.item.options.id,
         [],
@@ -34,7 +35,7 @@ export class options {
 
       option = this.surveyHelper.createOption(
         undefined,
-        'new option',
+        '',
         'closed-option',
         this.item.id,
         this.item.options.elements.length,
@@ -58,6 +59,10 @@ export class options {
         scaleGroup.options.push( {index:scaleGroup.options.length, selected:false} );
       } );
     }
+
+    event.stopImmediatePropagation();
+    //e.stopPropagation();
+
   }
 
   removeItem( index ){

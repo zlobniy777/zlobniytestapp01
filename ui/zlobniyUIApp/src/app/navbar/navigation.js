@@ -20,6 +20,8 @@ export class Navigation extends Ui{
     console.log('attached navigation ');
   }
 
+  detached() {
 
+  }
 
 }

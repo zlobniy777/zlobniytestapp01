@@ -16,15 +16,6 @@ export class Scale extends Ui {
     this.eventAggregator = eventAggregator;
   }
 
-  addItem(  ){
-    this.item.elements.push(
-      this.surveyHelper.createOption(
-        undefined, 'new step', 'scale-option',
-        this.item.id, this.item.elements.length,
-        true, undefined, this.item.question, this.item.id, [] )
-    );
-  }
-
   removeOption( index ){
     this.eventAggregator.publish( this.item.scaleId + '-remove', index );
 
@@ -43,7 +34,6 @@ export class Scale extends Ui {
 
   activate( item ){
     this.item = item;
-    //this.item.name = item.type+'_'+item.qId;
   }
 
 }

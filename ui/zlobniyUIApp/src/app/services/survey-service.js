@@ -82,7 +82,7 @@ export class SurveyService {
     surveyModel.questionnaire.type = 'questionnaire';
     surveyModel.questionnaire.elements = [];
     surveyModel.surveySettings = {};
-    surveyModel.surveySettings.showQuestionNumber = false;
+    surveyModel.surveySettings.showQuestionNumber = true;
 
     return surveyModel;
   }

@@ -29,4 +29,9 @@ export class LoginForm extends Ui {
   attached(){
     console.log('attached login form: ');
   }
+
+  detached() {
+
+  }
+
 }

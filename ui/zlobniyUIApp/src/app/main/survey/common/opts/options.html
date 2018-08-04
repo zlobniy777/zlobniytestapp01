@@ -6,7 +6,7 @@
 
   <div class="text-right d-flex align-items-center" css="margin-right: 5px; width:${item.options.type === 'options' ? '1' : '100'}%">
     <div style="width: 100%">
-      <i show.bind="item.question.selected || item.selected" click.delegate="addItem()" tooltip='title:Add option; placement: right;'
+      <i show.bind="item.question.selected || item.selected" click.delegate="addItem( $event )" tooltip='title:Add option; placement: right;'
          style="margin-right: 5px;" class="fa fa-plus-circle"></i>
     </div>
   </div>
