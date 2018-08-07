@@ -19,21 +19,11 @@ export class Scale extends Ui {
   removeOption( index ){
     this.eventAggregator.publish( this.item.scaleId + '-remove', index );
 
-    this.item.question.options.elements.forEach( function ( element ) {
-      element.scaleGroup.splice( index, 1 );
-
-      var i = 0;
-      element.scaleGroup.forEach(function( element ) {
-        element.index = i;
-        i++;
-      });
-
-    } );
-
   }
 
-  activate( item ){
-    this.item = item;
+  activate( model ){
+    this.item = model.item;
+    this.params = model.params;
   }
 
 }

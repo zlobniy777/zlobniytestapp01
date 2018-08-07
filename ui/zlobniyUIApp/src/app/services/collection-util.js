@@ -61,8 +61,8 @@ export class CollectionUtil {
         element.index,
         false,
         element.options.elements,
-        element.scaleId,
-        element.question );
+        element.scaleId
+      );
       this.surveyHelper.insertElement( copyElements, newElement, element.index );
     }
     return copyElements;
@@ -80,9 +80,9 @@ export class CollectionUtil {
         element.index,
         false,
         element.cssClass,
-        element.question,
         element.optionsId,
-        element.scaleGroup );
+        element.scaleGroup,
+        element.view );
       this.surveyHelper.insertElement( copyElements, newElement, element.index );
     }
     return copyElements;

@@ -1,7 +1,7 @@
 <template>
   <div id="sortable-list_${object.id}" class="${object.cssClass} sorted-element_${object.id}">
     <div class="sorted-element_${object.type}" repeat.for="element of object.elements">
-      <compose containerless view-model='${element.view}' model.one-way="element"></compose>
+      <compose containerless view-model='${element.view}' model.one-way="{item:element, params:params}"></compose>
     </div>
   </div>
 </template>

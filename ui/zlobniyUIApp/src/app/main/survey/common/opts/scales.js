@@ -9,6 +9,7 @@ import {CollectionUtil} from "../../../../services/collection-util";
 export class scales {
 
   @bindable question;
+  @bindable params; // question selected and we show controls (like add, remove buttons)
 
   constructor( eventAggregator, surveyHelper, collectionUtil ) {
     this.eventAggregator = eventAggregator;
@@ -31,7 +32,7 @@ export class scales {
   attached() {
     let that = this;
     this.removeScaleSub = this.eventAggregator.subscribe( that.question.scales.id + '-remove', index => {
-      that.surveyHelper.deleteItem( that.question.scales.elements, index );
+      that.removeScale( index );
     } );
 
     console.log( this.question.scales.id );
@@ -55,8 +56,8 @@ export class scales {
       this.question.scales.elements.length,
       false,
       this.surveyHelper.createDefaultScaleSteps(),
-      this.question.scales.id,
-      this.question);
+      this.question.scales.id
+    );
     let groupIndex = this.question.scales.elements.length;
 
     this.question.scales.elements.push( scale );
@@ -64,6 +65,22 @@ export class scales {
     this.question.options.elements.forEach( function ( element ) {
       let group = that.surveyHelper.createGroup( scale, groupIndex, scale.name, element.name );
       element.scaleGroup.push( group );
+    } );
+
+  }
+
+  removeScale( index ){
+    this.surveyHelper.deleteItem( this.question.scales.elements, index );
+
+    this.question.options.elements.forEach( function ( element ) {
+      element.scaleGroup.splice( index, 1 );
+
+      var i = 0;
+      element.scaleGroup.forEach(function( element ) {
+        element.index = i;
+        i++;
+      });
+
     } );
 
   }

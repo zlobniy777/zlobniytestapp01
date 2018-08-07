@@ -8,7 +8,6 @@ import {Ui} from "../../../../ui";
 export class Option extends Ui {
 
   item = {};
-  scales = [];
   selected;
 
   constructor( eventAggregator, ...rest ) {
@@ -25,15 +24,11 @@ export class Option extends Ui {
     this.eventAggregator.publish( this.item.optionsId + '-remove', index );
   }
 
-  activate( item ){
-    let that = this;
-    this.item = item;
+  activate( model ){
+    this.item = model.item;
+    this.params = model.params;
     if( this.item.selected ){
       this.selected = this.item;
-    }
-    // this.item.name = item.type+'_'+item.qId;
-    if( this.item.question.settings.questionType === 'matrix' && this.item.type === 'closed-option' ){
-      this.scales = this.item.question.scales.elements;
     }
 
   }

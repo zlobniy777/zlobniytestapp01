@@ -36,6 +36,11 @@ export class Question extends Ui {
     this.element.parentElement.removeEventListener( 'click', this.selectQuestionHandler );
   }
 
+  get params(){
+    let params = {isQuestionSelected: this.question.selected, questionType: this.question.settings.questionType};
+    return params;
+  }
+
   /**
    * Select question, this is strange behavior because of click.delegate or trigger problem on upper div block.
    * Other actions is not applied, like check radio button inside this div block.

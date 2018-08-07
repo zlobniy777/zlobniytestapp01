@@ -1,0 +1,12 @@
+<template>
+  <require from="resources/attributes/tooltip"></require>
+  <require from="app/main/survey/common/editable-item"></require>
+
+  <div class="${item.cssClass} options-scales-block" style="width:100%">
+    <editable-item containerless item.one-way="item"></editable-item>
+    <i show.bind="params.isQuestionSelected" click.delegate="removeOption($index)"
+       tooltip='title:Delete option; placement: top;' class="fa fa-times-circle">
+    </i>
+
+  </div>
+</template>

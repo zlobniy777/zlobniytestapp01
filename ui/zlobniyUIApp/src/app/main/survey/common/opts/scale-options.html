@@ -1,0 +1,14 @@
+<template>
+  <require from="app/main/survey/common/sortable-component"></require>
+  <require from="resources/attributes/tooltip"></require>
+
+  <sortable-component containerless params.one-way="params" object.one-way="item.options"></sortable-component>
+
+  <div class="text-right d-flex align-items-center" style="margin-right: 5px; width:100%">
+    <div style="width: 100%">
+      <i show.bind="params.isQuestionSelected" click.delegate="addItem( $event )" tooltip='title:Add option; placement: right;'
+         style="margin-right: 5px;" class="fa fa-plus-circle"></i>
+    </div>
+  </div>
+
+</template>

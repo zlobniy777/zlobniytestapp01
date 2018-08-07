@@ -7,87 +7,65 @@ import {SurveyHelper} from "../../../../services/survey-helper";
 @inject( EventAggregator, SurveyHelper )
 export class options {
 
-  @bindable item;
+  @bindable question;
+  @bindable params; // question selected and we show controls (like add, remove buttons)
 
   constructor( eventAggregator, surveyHelper ) {
     this.eventAggregator = eventAggregator;
     this.surveyHelper = surveyHelper;
   }
 
-  addItem( event ){
+  addItem( event ) {
+    let scaleGroup = this.surveyHelper.createScaleGroup( this.question.scales.elements );
 
-    let option;
-    if( this.item.type === 'scale' ){
-      option = this.surveyHelper.createOption(
-        undefined,
-        '',
-        'scale-option',
-        this.item.id,
-        this.item.options.elements.length,
-        true,
-        'justify-content-center',
-        this.item.question,
-        this.item.options.id,
-        [],
-      );
-    } else {
-      let scaleGroup = this.surveyHelper.createScaleGroup( this.item.scales.elements );
+    let option = this.surveyHelper.createOption(
+      undefined,
+      '',
+      'closed-option',
+      this.question.id,
+      this.question.options.elements.length,
+      true,
+      undefined,
+      this.question.options.id,
+      scaleGroup,
+      "./../common/opts/option"
+    );
 
-      option = this.surveyHelper.createOption(
-        undefined,
-        '',
-        'closed-option',
-        this.item.id,
-        this.item.options.elements.length,
-        true,
-        undefined,
-        this.item,
-        this.item.options.id,
-        scaleGroup,
-      );
-    }
-
-    this.item.options.elements.push( option );
-
-    if( this.item.type === 'scale' ){
-      // add new item in scale index = this.item.index
-      console.log('add item to scale ' + this.item.index );
-      let itemIndex = this.item.index;
-
-      this.item.question.options.elements.forEach( function ( element ) {
-        let scaleGroup = element.scaleGroup[itemIndex];
-        scaleGroup.options.push( {index:scaleGroup.options.length, selected:false} );
-      } );
-    }
+    this.question.options.elements.push( option );
 
     event.stopImmediatePropagation();
     //e.stopPropagation();
-
   }
 
   removeItem( index ){
-    this.surveyHelper.deleteItem( this.item.options.elements, index );
+    // delete item
+    this.surveyHelper.deleteItem( this.question.options.elements, index );
+  }
 
-    if( this.item.type === 'scale' ){
-      let itemIndex = this.item.index;
+  addScaleSubGroupItem( scaleStepIndex ){
+    // add new item in scale index = this.item.index
+    this.question.options.elements.forEach( function ( element ) {
+      let scaleGroup = element.scaleGroup[scaleStepIndex];
+      scaleGroup.options.push( {index:scaleGroup.options.length, selected:false} );
+    } );
+  }
 
-      this.item.question.options.elements.forEach( function ( element ) {
-        let scaleGroup = element.scaleGroup[itemIndex];
-        scaleGroup.options.splice( index, 1 );
+  removeScaleSubGroupItem( scaleIndex, scaleStepIndex ){
+    this.question.options.elements.forEach( function ( element ) {
+      let scaleGroup = element.scaleGroup[scaleIndex];
+      scaleGroup.options.splice( scaleStepIndex, 1 );
 
-        var i = 0;
-        scaleGroup.options.forEach(function( element ) {
-          element.index = i;
-          i++;
-        });
+      var i = 0;
+      scaleGroup.options.forEach(function( element ) {
+        element.index = i;
+        i++;
+      });
 
-      } );
-    }
-
+    } );
   }
 
   changeOption( data ){
-    for ( let element of this.item.options.elements ) {
+    for ( let element of this.question.options.elements ) {
       if( element.index === data.item.index ){
         if( data.checked ){
           element.selected = true;
@@ -101,19 +79,26 @@ export class options {
   }
 
   changeMatrixOption( data ){
-    this.item.options.selected = data;
+    this.question.options.selected = data;
   }
 
   attached() {
     let that = this;
-    this.removeOptionSub = this.eventAggregator.subscribe( this.item.options.id + '-remove', index => {
+
+    this.removeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-remove', index => {
       that.removeItem( index );
     } );
-    this.changeOptionSub = this.eventAggregator.subscribe( this.item.options.id + '-change', data => {
+    this.changeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-change', data => {
       that.changeOption( data );
     } );
-    this.changeOptionMatrixSub = this.eventAggregator.subscribe( this.item.options.id + '-change-matrix', data => {
+    this.changeOptionMatrixSub = this.eventAggregator.subscribe( this.question.options.id + '-change-matrix', data => {
       that.changeMatrixOption( data );
+    } );
+    this.removeFromScaleGroupEvent = this.eventAggregator.subscribe( this.question.options.id + '-remove-scale-sub-group', data => {
+      that.removeScaleSubGroupItem( data.scaleIndex, data.scaleStepIndex );
+    } );
+    this.addToScaleGroupEvent = this.eventAggregator.subscribe( this.question.options.id + '-add-scale-sub-group', index => {
+      that.addScaleSubGroupItem( index );
     } );
 
   }
@@ -122,6 +107,8 @@ export class options {
     this.removeOptionSub.dispose();
     this.changeOptionSub.dispose();
     this.changeOptionMatrixSub.dispose();
+    this.removeFromScaleGroupEvent.dispose();
+    this.addToScaleGroupEvent.dispose();
   }
 
 }

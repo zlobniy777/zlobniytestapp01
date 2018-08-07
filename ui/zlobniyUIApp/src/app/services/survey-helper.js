@@ -109,7 +109,10 @@ export class SurveyHelper {
     question.options.elements = [];
     let optionIndex = 0;
     for ( let option of options ) {
-      let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false, 'common-option', question, question.options.id, scales );
+
+      let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false,
+        'common-option', question.options.id, scales, "./../common/opts/option" );
+
       question.options.elements.push( newOption );
       optionIndex++;
     }
@@ -122,7 +125,7 @@ export class SurveyHelper {
 
     let scaleIndex = 0;
     for ( let scale of scales ) {
-      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id, question ) );
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id ) );
       scaleIndex++;
     }
   }
@@ -144,7 +147,10 @@ export class SurveyHelper {
     question.options.elements = [];
     let optionIndex = 0;
     for ( let option of options ) {
-      let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false, 'common-option', question, question.options.id, scales );
+
+      let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false,
+        'common-option', question.options.id, scales, "./../common/opts/option" );
+
       question.options.elements.push( newOption );
       optionIndex++;
     }
@@ -157,7 +163,7 @@ export class SurveyHelper {
 
     let scaleIndex = 0;
     for ( let scale of scales ) {
-      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id, question ) );
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id ) );
       scaleIndex++;
     }
   }
@@ -180,7 +186,10 @@ export class SurveyHelper {
     question.options.selected = -1;
     let optionIndex = 0;
     for ( let option of options ) {
-      question.options.elements.push( this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false,'common-option', question, question.options.id, scales ) );
+
+      question.options.elements.push( this.createOption( option.id, option.title, 'closed-option', question.id,
+        optionIndex, false,'common-option', question.options.id, scales, "./../common/opts/option" ) );
+
       optionIndex++;
     }
 
@@ -192,7 +201,7 @@ export class SurveyHelper {
 
     let scaleIndex = 0;
     for ( let scale of scales ) {
-      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id, question ) );
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id ) );
       scaleIndex++;
     }
 
@@ -280,7 +289,8 @@ export class SurveyHelper {
     return scaleGroup;
   }
 
-  createOption( id, title, type, qId, index, isNew, cssClass, question, optionsId, scaleGroups ){
+  // view = "./../common/opts/option"
+  createOption( id, title, type, qId, index, isNew, cssClass, optionsId, scaleGroups, view ){
 
     let optionName = "option_" + index;
 
@@ -288,14 +298,13 @@ export class SurveyHelper {
 
     let option = {
       id: id,
-      view: "./../common/opts/option",
+      view: view,
       title: title,
       type: type,
       qId: qId,
       index: index,
       isNew: isNew,
       cssClass: cssClass ? cssClass : 'common-option',
-      question: question,
       optionsId: optionsId,
       selected: false,
       name: optionName,
@@ -304,7 +313,7 @@ export class SurveyHelper {
     return option;
   }
 
-  createScale( id, title, type, qId, index, isNew, scaleSteps, scaleId, question ){
+  createScale( id, title, type, qId, index, isNew, scaleSteps, scaleId ){
     let scale = {
       id: id,
       view: "./../common/opts/scale",
@@ -314,7 +323,6 @@ export class SurveyHelper {
       index: index,
       isNew: isNew,
       scaleId: scaleId,
-      question: question,
       name: "scale_"+index,
     };
 
@@ -325,7 +333,9 @@ export class SurveyHelper {
     scale.options.elements = [];
     let stepIndex = 0;
     for ( let step of scaleSteps ) {
-      scale.options.elements.push( this.createOption( step.id, step.title, type, qId, stepIndex, false, 'justify-content-center', question, scale.options.id, [] ) );
+      scale.options.elements.push( this.createOption( step.id, step.title, type, qId, stepIndex, false,
+        'justify-content-center', scale.options.id, [], "./../common/opts/scale-option" ) );
+
       stepIndex++;
     }
 

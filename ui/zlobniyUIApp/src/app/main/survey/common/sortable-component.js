@@ -9,6 +9,7 @@ import sortable from 'sortablejs';
 export class SortableComponent {
 
   @bindable object;
+  @bindable params;
 
   nameOnUpdate = "";
   nameOnAdd = "";

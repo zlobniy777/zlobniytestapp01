@@ -22,7 +22,6 @@ export class SurveyModelTransformer {
         let options = [];
         for ( let option of question.options.elements ) {
           let opt = option;
-          delete opt.question;
           options.push( opt );
         }
         question.options = options;
@@ -34,11 +33,9 @@ export class SurveyModelTransformer {
         for ( let scale of question.scales.elements ) {
           let nScale = scale;
           let scaleSteps = [];
-          nScale.question = undefined;
           delete nScale.question;
           for ( let scaleStep of scale.options.elements ) {
             let nScaleStep = scaleStep;
-            delete nScaleStep.question;
             scaleSteps.push( nScaleStep );
           }
 

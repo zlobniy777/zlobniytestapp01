@@ -1,18 +1,17 @@
 <template>
   <require from="resources/attributes/tooltip"></require>
   <require from="app/main/survey/common/editable-item"></require>
-  <require from="app/main/survey/common/opts/options"></require>
+  <require from="app/main/survey/common/opts/scale-options"></require>
 
     <div class="d-flex">
       <div class="p-2 flex-grow-1 text-center">
         <editable-item containerless item.one-way="item"></editable-item>
       </div>
       <div class="p-2">
-        <i show.bind="item.question.selected" click.delegate="removeOption($index)" tooltip='title:Delete scale; placement: top;' class="fa fa-times-circle"></i>
+        <i show.bind="params.isQuestionSelected" click.delegate="removeOption($index)" tooltip='title:Delete scale; placement: top;' class="fa fa-times-circle"></i>
       </div>
     </div>
 
-    <options containerless item.one-way="item"></options>
-
+    <scale-options containerless params.one-way="params" item.one-way="item"></scale-options>
 
 </template>
