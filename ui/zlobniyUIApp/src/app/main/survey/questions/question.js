@@ -29,11 +29,11 @@ export class Question extends Ui {
   }
 
   attached(){
-    this.element.parentElement.addEventListener( 'click', this.selectQuestionHandler );
+    this.element.parentNode.addEventListener( 'click', this.selectQuestionHandler );
   }
 
   detached() {
-    this.element.parentElement.removeEventListener( 'click', this.selectQuestionHandler );
+    this.element.parentNode.removeEventListener( 'click', this.selectQuestionHandler );
   }
 
   get params(){

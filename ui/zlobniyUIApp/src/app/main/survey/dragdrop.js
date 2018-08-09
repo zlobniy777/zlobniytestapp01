@@ -122,7 +122,6 @@ export class Dragdrop {
     new sortable(el, {
       sort: sort,
       ghostClass: "ghost",
-      delay: 10,
       group: group,
       onStart: evt => {
         that.eventAggregator.publish('dragSource.onStart', evt);
