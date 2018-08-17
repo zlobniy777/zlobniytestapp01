@@ -29,6 +29,7 @@ export class CollectionUtil {
       }
 
       this.sort( elementsHolder.elements );
+      this.surveyHelper.updateIndex( elementsHolder.elements );
     }
   }
 

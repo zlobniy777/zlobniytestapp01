@@ -1,6 +1,6 @@
 import 'css/survey.css';
 
-import {bindable, inject} from 'aurelia-framework';
+import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {SurveyService} from "../../../services/survey-service";
 import {SurveyHelper} from "../../../services/survey-helper";
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -11,6 +11,7 @@ export class Question extends Ui {
 
   @bindable question;
   @bindable surveySettings;
+  @bindable editMode;
   isEdit = false;
 
   constructor( surveyService, surveyHelper, eventAggregator, ui, element, ...rest ) {
@@ -36,9 +37,27 @@ export class Question extends Ui {
     this.element.parentNode.removeEventListener( 'click', this.selectQuestionHandler );
   }
 
+  @computedFrom( 'question.isLast' )
+  get nextButtonTitle(){
+    if( this.question && this.question.isLast ){
+      return 'Finish';
+    }else{
+      return 'Next';
+    }
+  }
+
+  @computedFrom( 'question.selected' )
   get params(){
-    let params = {isQuestionSelected: this.question.selected, questionType: this.question.settings.questionType};
+    let params = {isQuestionSelected: this.question.selected, questionType: this.question.settings.questionType, editMode: this.editMode};
     return params;
+  }
+
+  buttonNext(){
+    this.eventAggregator.publish( 'next-question', this.question );
+  }
+
+  buttonBack(){
+    this.eventAggregator.publish( 'prev-question', this.question );
   }
 
   /**
@@ -69,6 +88,5 @@ export class Question extends Ui {
       this.isEdit = false;
     }
   }
-
 
 }

@@ -84,7 +84,7 @@ export class Survey extends Ui {
         } ).then( function ( surveyModel ) {
         console.log( 'parsed json', surveyModel );
         that.surveyModel = that.surveyModelTransformer.deSerialize( surveyModel );
-        that.navigationService.setTitle( that.surveyModel );
+        that.navigationService.setTitle( that.surveyModel, true );
       } ).catch( function ( ex ) {
         console.log( 'parsing failed', ex )
       } );
@@ -92,7 +92,7 @@ export class Survey extends Ui {
     }else{
       // init new survey model
       that.surveyModel = that.surveyService.initNewSurveyModel();
-      that.navigationService.setTitle( that.surveyModel );
+      that.navigationService.setTitle( that.surveyModel, true );
 
       // setTimeout( () => {
       //   that.surveyModel = that.surveyService.initNewSurveyModel();

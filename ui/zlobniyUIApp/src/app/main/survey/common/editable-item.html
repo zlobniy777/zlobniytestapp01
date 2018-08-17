@@ -1,4 +1,9 @@
 <template>
+  <div if.bind="editMode">
     <div if.bind="edit"><input data-type="editable" focus.one-time="true" type="text" value.bind="item.title"></div>
     <div data-type="editable" click.delegate="startEdit()" else>${item.title}</div>
+  </div>
+  <div else>
+    ${item.title}
+  </div>
 </template>

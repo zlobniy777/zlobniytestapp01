@@ -10,7 +10,7 @@
       <div class="mr-1" css="display: ${surveySettings.showQuestionNumber ? 'block' : 'none'}">
         ${question.index+1}
       </div>
-      <editable-item containerless item.one-way="question"></editable-item>
+      <editable-item containerless edit-mode.one-way="editMode" item.one-way="question"></editable-item>
     </div>
     <div if.bind="question.selected" class="pt-2 pr-1 pl-1 bg-primary">
       <i click.delegate="showSettings()" tooltip='title:Settings; placement: top;' class="fas fa-cog"></i>
@@ -24,7 +24,8 @@
   <compose containerless view="${question.settings.view}" question.one-way="question"></compose>
 
   <div class="bottom">
-
+    <input type="button" click.delegate="buttonBack()" value="back" >
+    <input type="button" click.delegate="buttonNext()" value="${nextButtonTitle}" >
   </div>
 
 </template>

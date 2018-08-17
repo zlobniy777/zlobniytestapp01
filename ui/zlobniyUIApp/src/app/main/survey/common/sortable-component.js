@@ -27,6 +27,7 @@ export class SortableComponent {
    *
    */
   attached() {
+    if( !this.params.editMode ) return;
 
     this.nameOnUpdate = 'sortedList_' + this.object.id + '.onUpdate';
     this.nameOnAdd = 'sortedList_' + this.object.id + '.onAdd';
@@ -124,6 +125,7 @@ export class SortableComponent {
   }
 
   detached() {
+    if( !this.params.editMode ) return;
     //clean up the subscription when app component is removed from the DOM
     this.onUpdateSubscribe.dispose();
     this.onAddSubscribe.dispose();

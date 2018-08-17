@@ -67,6 +67,7 @@ export class SurveyHelper {
     let questionNumber = parseInt( qIndex ) + 1;
     question.title = isNew ? this.createNewTitle( title, questionNumber ) : title;
     question.id =  id !== undefined ? id : questionNumber;
+    question.number = questionNumber;
     question.settings = this.createQuestionSettings( questionType );
     question.selected = isSelected;
 
@@ -214,8 +215,14 @@ export class SurveyHelper {
 
   updateIndex( elements ){
     var i = 0;
+    let lastIndex = elements.length - 1;
     elements.forEach(function( element ) {
       element.index = i;
+      if( element.index === lastIndex ){
+        element.isLast = true;
+      }else{
+        element.isLast = false;
+      }
       i++;
     });
 
@@ -361,7 +368,5 @@ export class SurveyHelper {
 
     return available;
   }
-
-
 
 }

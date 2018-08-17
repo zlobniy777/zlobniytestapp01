@@ -41,6 +41,18 @@ export class SurveyService {
     return this.http.get( 'api/survey/' + id );
   }
 
+  loadRespondentSurvey( id ){
+    return this.http.get( 'api/respondentSurvey/' + id );
+  }
+
+  loadAnswers( surveyId ){
+    return this.http.get( '/api/answers/' + surveyId );
+  }
+
+  saveAnswers( data ){
+    return this.http.post( 'api/saveAnswers', data );
+  }
+
   unSetSurveyModel(){
     this.surveyModel = {};
   }

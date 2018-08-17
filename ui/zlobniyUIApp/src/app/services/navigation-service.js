@@ -27,8 +27,9 @@ export class NavigationService {
     this.buttons = buttons;
   }
 
-  setTitle( title ){
+  setTitle( title, editMode ){
     this.objectTitle = title;
+    this.editMode = editMode;
   }
 
 }

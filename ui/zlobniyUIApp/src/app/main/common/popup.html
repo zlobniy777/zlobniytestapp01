@@ -1,0 +1,9 @@
+<template>
+  <require from="app/main/respondent/survey-viewer"></require>
+  <ux-dialog css="width:${width}">
+    <ux-dialog-header></ux-dialog-header>
+    <ux-dialog-body containerless>
+      <compose view-model="${view}" model.one-way="model"></compose>
+    </ux-dialog-body>
+  </ux-dialog>
+</template>

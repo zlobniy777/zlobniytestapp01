@@ -1,5 +1,6 @@
 <template>
   <require from="app/main/center/table-row"></require>
+  <require from="app/main/respondent/survey-viewer"></require>
 
   <div>${title}</div>
   <div class="text-white font-weight-bold overview-table overview-table-header">
@@ -10,7 +11,7 @@
 
   <table-row repeat.for="data of surveyInfoList"
              class="overview-table overview-table-body ${$even ? 'even-row' : ''}"
-             click.delegate="open(data.id)"
+             click.delegate="contextMenu(data.id, $event)"
              data.one-way="data">
   </table-row>
 

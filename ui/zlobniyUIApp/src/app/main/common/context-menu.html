@@ -1,0 +1,15 @@
+<template>
+  <ux-dialog>
+    <!--<ux-dialog-header containerless>-->
+      <!--header-->
+    <!--</ux-dialog-header>-->
+    <ux-dialog-body containerless>
+      <div style="" class="list-group" repeat.for="item of model.elements">
+        <a href="#" class="list-group-item list-group-item-action" id="${item.index}" click.delegate="open(item)">${item.title}</a>
+      </div>
+    </ux-dialog-body>
+    <!--<ux-dialog-footer>-->
+      <!--footer-->
+    <!--</ux-dialog-footer>-->
+  </ux-dialog>
+</template>

@@ -9,6 +9,7 @@ import {Ui} from "../../../ui";
 export class EditableItem extends Ui {
 
   @bindable item;
+  @bindable editMode;
   edit;
 
   constructor( surveyService, eventAggregator, ...rest ) {

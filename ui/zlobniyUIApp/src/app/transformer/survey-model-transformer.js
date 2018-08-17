@@ -63,18 +63,25 @@ export class SurveyModelTransformer {
       let scales;
       if( question.scales ){
         scales = [];
+        let index = 0;
         for ( let scale of question.scales ) {
           let nScale = Object.assign({}, scale);
+          nScale.id = scale.id;
+          nScale.title = scale.title;
+          nScale.name = "scale_" + index;
           nScale.options = {};
           nScale.options.elements = scale.options;
           scales.push( nScale );
+          index++;
         }
       }
 
-      let newQuestion = that.surveyHelper.createQuestion( question.id, question.type, question.title, qIndex, question.options, scales, false );
+      let newQuestion = that.surveyHelper.createQuestion( question.id, question.type, question.title, qIndex, question.options, scales, false, false );
       this.surveyHelper.insertElement( data.questionnaire.elements, newQuestion, qIndex );
       qIndex++;
     }
+
+    data.questionnaire.elements[data.questionnaire.elements.length-1].isLast = true;
 
     delete data.questionnaire.questions;
 
