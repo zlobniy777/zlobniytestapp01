@@ -1,10 +1,13 @@
 import 'css/survey.css';
 
-import {inject} from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject( EventAggregator, Element )
 export class Settings {
+
+  QUESTION_TYPE = 'questionType';
+  QUESTION_LAYOUT = 'questionLayout';
 
   settings;
 
@@ -33,8 +36,44 @@ export class Settings {
     } );
   }
 
-  DropdownChanged( type ){
-    let object = this.getAvailableType( type );
+  DropdownChanged( dropDawnType, objectType ){
+
+    switch ( dropDawnType ){
+      case this.QUESTION_TYPE:
+        this.changeQuestionType( objectType );
+        break;
+      case this.QUESTION_LAYOUT:
+        this.changeQuestionLayout( objectType );
+        break;
+      default:
+        console.log('Not supported object type');
+    }
+
+  }
+
+  changeQuestionLayout( objectType ){
+    let object = this.getAvailableType( this.settings.questionType );
+
+    let result = {};
+    object.availableLayout.forEach( value => {
+      if( value.type === objectType ){
+        result = value;
+      }
+    } );
+
+    this.settings.layout = result.type;
+  }
+
+  @computedFrom( 'settings.questionType' )
+  get availableLayouts(){
+    if( this.settings ){
+      let object = this.getAvailableType( this.settings.questionType );
+      return object.availableLayout;
+    }
+  }
+
+  changeQuestionType( objectType ){
+    let object = this.getAvailableType( objectType );
     this.settings.questionType = object.type;
     this.settings.view = object.view;
   }

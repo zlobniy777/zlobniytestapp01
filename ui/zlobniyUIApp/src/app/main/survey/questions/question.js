@@ -48,7 +48,7 @@ export class Question extends Ui {
 
   @computedFrom( 'question.selected' )
   get params(){
-    let params = {isQuestionSelected: this.question.selected, questionType: this.question.settings.questionType, editMode: this.editMode};
+    let params = {isQuestionSelected: this.question.selected, settings: this.question.settings, editMode: this.editMode};
     return params;
   }
 

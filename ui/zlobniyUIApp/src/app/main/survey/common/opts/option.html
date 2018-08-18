@@ -3,10 +3,10 @@
   <require from="app/main/survey/common/editable-item"></require>
   <require from="app/main/survey/common/opts/options-group"></require>
 <!-- change.delegate="change( $event.target.checked )" -->
-  <div class="${item.cssClass}" if.bind="params.questionType === 'closed'">
+  <div class="${item.cssClass}" if.bind="params.settings.questionType === 'closed'">
     <label for="${item.type}_${item.qId}_${item.index}">
       <div class="line">
-         <input type="radio" id="${item.type}_${item.qId}_${item.index}" value="1" name="${item.type}_${item.qId}"
+         <input type="${params.settings.layout}" id="${item.type}_${item.qId}_${item.index}" value="1" name="${item.type}_${item.qId}"
                 model.bind="item" checked.bind="selected" change.delegate="change( $event.target.checked )" >
         <editable-item containerless edit-mode.one-way="params.editMode" item.one-way="item"></editable-item>
         <!--<input type="radio" value="1" name="${item.name}">-->
@@ -16,7 +16,7 @@
     </label>
   </div>
 
-  <div class="${item.cssClass}" if.bind="params.questionType === 'matrix'">
+  <div class="${item.cssClass}" if.bind="params.settings.questionType === 'matrix'">
     <div class="${item.cssClass} options-scales-block" style="width:20%">
       <editable-item containerless edit-mode.one-way="params.editMode" item.one-way="item"></editable-item>
       <i show.bind="params.isQuestionSelected" click.delegate="removeOption($index)"

@@ -360,9 +360,20 @@ export class SurveyHelper {
 
   getAvailableQuestionTypes(){
 
+    let closedQuestionLayouts = [
+      {type:'radio', title:'Radio buttons'},
+      {type:'checkbox', title:'Checkboxes'},
+      {type:'list', title:'List'},
+    ];
+
+    let matrixQuestionLayouts = [
+      {type:'radio', title:'Radio buttons'},
+      {type:'checkbox', title:'Checkboxes'},
+    ];
+
     let available = [
-      {type:'closed', title:'Only one answer', view: './../questions/subView/closed-question.html'},
-      {type:'matrix', title:'Matrix', view: './../questions/subView/matrix.html'},
+      {type:'closed', title:'Only one answer', view: './../questions/subView/closed-question.html', availableLayout: closedQuestionLayouts},
+      {type:'matrix', title:'Matrix', view: './../questions/subView/matrix.html', availableLayout: matrixQuestionLayouts},
       // {type:'test', title:'Test', view: './../questions/subView/test-question.html'},
     ];
 

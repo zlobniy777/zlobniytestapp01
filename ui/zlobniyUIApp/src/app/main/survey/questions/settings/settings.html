@@ -12,14 +12,28 @@
         </div>
 
       </div>
-      <div class="container">
-        content
+      <div class="container mt-2">
+        <div>
+          Question type:
+        </div>
+        <div>
+          <select class="w-100" value.bind="settings.questionType" change.delegate="DropdownChanged( 'questionType', settings.questionType )">
+            <option repeat.for="available of settings.availableQuestionTypes" model.bind="available.type">
+              ${available.title}
+            </option>
+          </select>
+        </div>
 
-        <select value.bind="settings.questionType" change.delegate="DropdownChanged( settings.questionType )">
-          <option repeat.for="available of settings.availableQuestionTypes" model.bind="available.type">
-            ${available.title}
-          </option>
-        </select>
+        <div class="mt-2">
+          Question Layout:
+        </div>
+        <div>
+          <select class="w-100" value.bind="settings.layout" change.delegate="DropdownChanged( 'questionLayout', settings.layout )">
+            <option repeat.for="available of availableLayouts" model.bind="available.type">
+              ${available.title}
+            </option>
+          </select>
+        </div>
 
       </div>
     </div>
