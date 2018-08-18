@@ -99,7 +99,7 @@ export class CollectionUtil {
         question.title,
         question.index,
         question.options.elements,
-        question.scales.elements, question.selected, false );
+        question.scales.elements, question.selected, false, undefined );
       this.surveyHelper.insertElement( copyQuestions, newQuestion, question.index );
     }
     return copyQuestions;

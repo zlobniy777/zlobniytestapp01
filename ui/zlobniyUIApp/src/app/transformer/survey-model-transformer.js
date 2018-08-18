@@ -76,7 +76,7 @@ export class SurveyModelTransformer {
         }
       }
 
-      let newQuestion = that.surveyHelper.createQuestion( question.id, question.type, question.title, qIndex, question.options, scales, false, false );
+      let newQuestion = that.surveyHelper.createQuestion( question.id, question.type, question.title, qIndex, question.options, scales, false, false, question.settings );
       this.surveyHelper.insertElement( data.questionnaire.elements, newQuestion, qIndex );
       qIndex++;
     }

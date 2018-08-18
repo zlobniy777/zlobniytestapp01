@@ -9,6 +9,7 @@ export class optionsGroup {
 
   @bindable option;
   @bindable parent;
+  @bindable layout;
 
   constructor( eventAggregator, surveyHelper ) {
     this.eventAggregator = eventAggregator;

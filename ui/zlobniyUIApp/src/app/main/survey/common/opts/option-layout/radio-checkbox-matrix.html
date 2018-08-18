@@ -1,0 +1,24 @@
+<template>
+  <require from="app/main/survey/common/editable-item"></require>
+  <require from="app/main/survey/common/opts/options-group"></require>
+
+  <div class="${item.cssClass}">
+    <div class="${item.cssClass} options-scales-block" style="width:20%">
+      <editable-item containerless edit-mode.one-way="params.editMode" item.one-way="item"></editable-item>
+      <i show.bind="params.isQuestionSelected" click.delegate="removeOption($index)"
+         tooltip='title:Delete option; placement: top;' class="fa fa-times-circle"></i>
+    </div>
+
+    <div class="d-flex" style="width: 80%">
+      <div class="w-100" repeat.for="scale of item.scaleGroup">
+        <div class="d-flex">
+          <options-group containerless layout.one-way="params.settings.layout" parent.bind="scale" option.bind="option" class="scale-option"
+                         repeat.for="option of scale.options"></options-group>
+        </div>
+      </div>
+    </div>
+
+    <!-- last column group -->
+    <div style="width: 5%"></div>
+  </div>
+</template>

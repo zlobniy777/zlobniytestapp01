@@ -54,21 +54,21 @@ export class SurveyHelper {
   addQuestion( id, questionType, title, index, options, scales, surveyModel ){
     let questionNumber = surveyModel.questionnaire.elements.length;
 
-    let question = this.createQuestion( id, questionType, title, questionNumber, options, scales, false, true );
+    let question = this.createQuestion( id, questionType, title, questionNumber, options, scales, false, true, undefined );
     // select new question
     this.selectQuestion( question, surveyModel, true );
 
     this.insertElement( surveyModel.questionnaire.elements, question, index );
   }
 
-  createQuestion( id, questionType, title, qIndex, options, scales, isSelected, isNew ){
+  createQuestion( id, questionType, title, qIndex, options, scales, isSelected, isNew, settings ){
 
     let question = {};
     let questionNumber = parseInt( qIndex ) + 1;
     question.title = isNew ? this.createNewTitle( title, questionNumber ) : title;
     question.id =  id !== undefined ? id : questionNumber;
     question.number = questionNumber;
-    question.settings = this.createQuestionSettings( questionType );
+    question.settings = this.createQuestionSettings( questionType, settings );
     question.selected = isSelected;
 
     switch ( questionType ){
@@ -349,11 +349,15 @@ export class SurveyHelper {
     return scale;
   }
 
-  createQuestionSettings( type ){
-    let settings = {};
+  createQuestionSettings( type, settings ){
+
+    if( !settings ){
+      settings = {};
+      settings.layout = 'radio';
+    }
+
     settings.availableQuestionTypes = this.getAvailableQuestionTypes();
     settings.questionType = type;
-    settings.layout = 'radio';
 
     return settings;
   }

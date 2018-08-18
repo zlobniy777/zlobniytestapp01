@@ -1,0 +1,21 @@
+<template>
+  <require from="app/main/survey/common/editable-item"></require>
+
+  <div class="${item.cssClass}">
+    <label for="${item.type}_${item.qId}_${item.index}">
+      <div class="line">
+        <input if.bind="params.settings.layout == 'radio'" type="radio" id="${item.type}_${item.qId}_${item.index}" value="1"
+               name="${item.type}_${item.qId}"
+               model.bind="item" checked.bind="selected" change.delegate="change( $event.target.checked )">
+
+        <input if.bind="params.settings.layout == 'checkbox'" type="checkbox" id="${item.type}_${item.qId}_${item.index}" value="1"
+               name="${item.type}_${item.qId}" checked.bind="item.selected" >
+
+        <editable-item containerless edit-mode.one-way="params.editMode" item.one-way="item"></editable-item>
+        <!--<input type="radio" value="1" name="${item.name}">-->
+        <i show.bind="params.isQuestionSelected" click.delegate="removeOption($index)"
+           tooltip='title:Delete option; placement: right;' class="fa fa-times-circle"></i>
+      </div>
+    </label>
+  </div>
+</template>
