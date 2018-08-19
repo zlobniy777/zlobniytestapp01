@@ -7,6 +7,7 @@ public class OptionView {
     private Long id;
     private String name;
     private Boolean selected;
+    private String value;
     private Integer index;
     private List<ScaleView> scaleGroup;
 
@@ -46,7 +47,15 @@ public class OptionView {
         return scaleGroup;
     }
 
-    public void setScaleGroup( List<ScaleView> scaleGroup ){
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setScaleGroup(List<ScaleView> scaleGroup ){
         this.scaleGroup = scaleGroup;
     }
 }

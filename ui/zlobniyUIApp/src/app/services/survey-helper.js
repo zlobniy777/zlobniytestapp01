@@ -145,6 +145,7 @@ export class SurveyHelper {
     question.options = {};
     question.options.id = "options_"+question.id;
     question.options.type = "options";
+    question.options.freeTextOption = "";
     question.options.elements = [];
     let optionIndex = 0;
     for ( let option of options ) {
@@ -183,6 +184,7 @@ export class SurveyHelper {
     question.options = {};
     question.options.id = "options_"+question.id;
     question.options.type = "options";
+    question.options.freeTextOption = "";
     question.options.elements = [];
     question.options.selected = -1;
     let optionIndex = 0;
@@ -354,6 +356,11 @@ export class SurveyHelper {
     if( !settings ){
       settings = {};
       settings.layout = 'radio';
+      settings.freeTextOption = false;
+      settings.otherValue = 'Other';
+      settings.lengthValue = 4000;
+      settings.widthValue = '100%';
+      settings.rowsValue = 1;
     }
 
     settings.availableQuestionTypes = this.getAvailableQuestionTypes();

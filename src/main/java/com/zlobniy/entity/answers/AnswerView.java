@@ -11,6 +11,7 @@ public class AnswerView {
     private Integer questionNumber;
     private String questionType;
     private List<OptionView> options;
+    private OptionView freeTextOption;
 
     public Long getId(){
         return id;
@@ -66,6 +67,14 @@ public class AnswerView {
 
     public void setQuestionType( String questionType ){
         this.questionType = questionType;
+    }
+
+    public OptionView getFreeTextOption() {
+        return freeTextOption;
+    }
+
+    public void setFreeTextOption(OptionView freeTextOption) {
+        this.freeTextOption = freeTextOption;
     }
 
     public String toString(){

@@ -34,6 +34,48 @@
             </option>
           </select>
         </div>
+        <div class="mt-2">
+          <label>
+            <input type="checkbox" checked.bind="settings.freeTextOption">
+            add free text option
+          </label>
+          <div show.one-way="settings.freeTextOption">
+
+            <div>
+              Text
+            </div>
+            <div>
+              <label>
+                <input type="text" value.bind="settings.otherValue">
+              </label>
+            </div>
+            <div>
+              Maximum number of characters
+            </div>
+            <div>
+              <label>
+                <input type="text" value.bind="settings.lengthValue">
+              </label>
+            </div>
+            <div>
+              Width
+            </div>
+            <div>
+              <label>
+                <input type="text" value.bind="settings.widthValue">
+              </label>
+            </div>
+            <div>
+              Number of lines
+            </div>
+            <div>
+              <label>
+                <input type="text" value.bind="settings.rowsValue">
+              </label>
+            </div>
+
+          </div>
+        </div>
 
       </div>
     </div>

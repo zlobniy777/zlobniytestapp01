@@ -62,8 +62,9 @@ export class SurveyViewer {
     answerData.questionType = data.settings.questionType;
     answerData.options = [];
     for ( let element of data.options.elements ) {
-      answerData.options.push( {id: element.id, name: element.name, selected: element.selected, scaleGroup: element.scaleGroup} );
+      answerData.options.push( {id: element.id, name: element.name, selected: element.selected, value:'', scaleGroup: element.scaleGroup} );
     }
+    answerData.freeTextOption = {id: 0, name: 'freeTextOption', selected: false, value:data.options.freeTextOption, scaleGroup: null};
 
     this.surveyService.saveAnswers( answerData )
       .then( function ( response ) {
@@ -82,6 +83,9 @@ export class SurveyViewer {
 
       // mark answered options
       this.markAnsweredOptions( question, answerObject );
+
+      //fill free text option
+      question.options.freeTextOption = answerObject.freeTextOption.value;
     }
 
   }

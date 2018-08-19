@@ -4,10 +4,23 @@
 
   <sortable-component containerless params.one-way="params" object.one-way="question.options"></sortable-component>
 
+
   <div class="text-right d-flex align-items-center" css="margin-right: 5px; width:${question.options.type === 'options' ? '1' : '100'}%">
     <div style="width: 100%">
       <i show.bind="params.isQuestionSelected" click.delegate="addItem( $event )" tooltip='title:Add option; placement: right;'
          style="margin-right: 5px;" class="fa fa-plus-circle"></i>
+    </div>
+  </div>
+
+  <div if.one-way="params.settings.freeTextOption">
+    <div class="line w-100">
+      <div class="m-2">
+        ${params.settings.otherValue}
+      </div>
+      <textarea css="width:${params.settings.widthValue}"
+                rows="${params.settings.rowsValue}"
+                maxlength="${params.settings.lengthValue}"
+                value.bind="question.options.freeTextOption"></textarea>
     </div>
   </div>
 
