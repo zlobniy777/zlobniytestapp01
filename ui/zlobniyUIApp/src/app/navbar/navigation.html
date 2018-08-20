@@ -19,8 +19,10 @@
 
       <editable-item class="navbar-nav mr-auto" edit-mode.one-way="navigationService.editMode" item.one-way="navigationService.objectTitle" ></editable-item>
 
-      <compose if.bind="clientService.clientInfo.hasLogged" class="nav-item dropdown" view-model="./user-info" model.bind="clientService.clientInfo"></compose>
-      <compose else view-model="./login-form" model.bind="clientService.clientInfo"></compose>
+      <div if.bind="navigationService.showClientInfo">
+        <compose if.bind="clientService.clientInfo.hasLogged" class="nav-item dropdown" view-model="./user-info" model.bind="clientService.clientInfo"></compose>
+        <compose else view-model="./login-form" model.bind="clientService.clientInfo"></compose>
+      </div>
 
     </div>
   </nav>

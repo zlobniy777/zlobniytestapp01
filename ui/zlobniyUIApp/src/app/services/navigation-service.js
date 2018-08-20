@@ -15,6 +15,7 @@ export class NavigationService {
   constructor( router ) {
     this.router = router;
     this.objectTitle = {};
+    this.showClientInfo = true;
   }
 
   goTo( path ) {

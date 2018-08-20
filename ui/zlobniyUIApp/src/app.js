@@ -19,6 +19,7 @@ export class App {
       {route: '/dashboard', name: 'loginForm', moduleId: PLATFORM.moduleName( "./app/main/dashboard" ), nav: false, title: 'Dashboard'},
       {route: '/survey', name: 'survey', moduleId: PLATFORM.moduleName( "./app/main/survey/survey" ), nav: false, title: 'Survey'},
       {route: '/survey/:id', name: 'survey', moduleId: PLATFORM.moduleName( "./app/main/survey/survey" ), nav: false, title: 'Edit survey'},
+      {route: '/survey-viewer/:checksum', name: 'survey-viewer', moduleId: PLATFORM.moduleName( "./app/main/respondent/survey-viewer" ), nav: false, title: 'Open survey'},
     ] );
   }
 

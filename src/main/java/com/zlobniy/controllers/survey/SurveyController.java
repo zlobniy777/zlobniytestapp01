@@ -5,7 +5,9 @@ import com.zlobniy.entity.survey.SurveyInfo;
 import com.zlobniy.entity.survey.SurveyModel;
 import com.zlobniy.service.AnswersService;
 import com.zlobniy.service.SurveyService;
+import com.zlobniy.util.Checksum;
 import com.zlobniy.view.RespondentSurvey;
+import com.zlobniy.view.SurveyLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +40,38 @@ public class SurveyController {
         respondentSurvey.setAnswers( answersService.loadAnswers( id ) );
         respondentSurvey.setSurveyModel( surveyService.findById( id ) );
         return respondentSurvey;
+    }
+
+    /**
+     * Load survey with answers
+     * */
+    @RequestMapping( value = "/api/realRespondentSurvey/{checksum}", method = RequestMethod.GET )
+    public RespondentSurvey loadRealRespondentSurvey( @PathVariable("checksum") String checksum, HttpServletRequest request ) {
+
+        //get data from checksum
+        Checksum checksum1 = new Checksum( checksum );
+        Long surveyId = checksum1.getSurveyId();
+        String userId = checksum1.getUserId();
+
+        //validate data
+        System.out.println( surveyId );
+        System.out.println( userId );
+
+        // find survey and answers if exist and load
+        RespondentSurvey respondentSurvey = new RespondentSurvey();
+        respondentSurvey.setAnswers( answersService.loadAnswers( surveyId ) );
+        respondentSurvey.setSurveyModel( surveyService.findById( surveyId ) );
+        return respondentSurvey;
+    }
+
+    @RequestMapping( value = "/api/getSurveyLink/{id}", method = RequestMethod.GET )
+    public SurveyLink getSurveyLink( @PathVariable("id") Long id, HttpServletRequest request ) {
+
+        SurveyLink link = new SurveyLink();
+
+        link.setLink( "/survey-viewer/" + Checksum.generateChecksum( id, "Test" ) );
+
+        return link;
     }
 
     @RequestMapping( value = "/api/surveys", method = RequestMethod.GET )

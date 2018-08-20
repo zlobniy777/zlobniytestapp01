@@ -59,6 +59,31 @@ export class Overview extends Ui {
           lock: false
         })
           .whenClosed( resp => {}  );
+      } },
+      {index:2, title:'get link', action: function () {
+
+        that.surveyService.getSurveyLink( id )
+          .then( function ( response ) {
+            return response.json()
+          } ).then( function ( response ) {
+          let link = response.link;
+
+          let data = {};
+          data.message = link;
+
+          data.width = "70%";
+          data.view = "app/main/common/info-message";
+          that.dialogService.open({
+            viewModel: Popup,
+            model: data,
+            lock: false
+          })
+            .whenClosed( resp => {}  );
+
+        } ).catch( function ( ex ) {
+          console.log( 'parsing failed', ex )
+        } );
+
       } }
     ]};
 

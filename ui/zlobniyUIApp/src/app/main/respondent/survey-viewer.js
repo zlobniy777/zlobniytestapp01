@@ -3,17 +3,19 @@ import 'css/main.css';
 import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyService} from "../../services/survey-service";
+import {NavigationService} from "../../services/navigation-service";
 import {SurveyModelTransformer} from '../../transformer/survey-model-transformer';
 
-@inject( EventAggregator, SurveyService, SurveyModelTransformer )
+@inject( EventAggregator, SurveyService, NavigationService, SurveyModelTransformer )
 export class SurveyViewer {
 
   @bindable surveyModel;
   question;
 
-  constructor( eventAggregator, surveyService, surveyModelTransformer ) {
+  constructor( eventAggregator, surveyService, navigationService, surveyModelTransformer ) {
     this.eventAggregator = eventAggregator;
     this.surveyService = surveyService;
+    this.navigationService = navigationService;
     this.surveyModelTransformer = surveyModelTransformer;
   }
 
@@ -130,8 +132,41 @@ export class SurveyViewer {
   }
 
   activate( data ) {
+
+   if( data.checksum ){
+     this.openAsRespondent( data.checksum );
+   }else{
+     this.inPopup( data );
+   }
+
+  }
+
+  openAsRespondent( checksum ){
     let that = this;
 
+    console.log( 'openAsRespondent ' + checksum );
+    this.navigationService.showClientInfo = false;
+
+    this.surveyService.loadRealRespondentSurvey( checksum )
+      .then( function ( response ) {
+        return response.json()
+      } ).then( function ( data ) {
+      let answersData = data.answers;
+
+      that.surveyModel = that.surveyModelTransformer.deSerialize( data.surveyModel );
+      if( answersData.length > 0 ){
+        that.fillAnswers( answersData, that.surveyModel );
+      }
+
+      that.question = that.surveyModel.questionnaire.elements[0];
+    } ).catch( function ( ex ) {
+      console.log( 'parsing failed', ex )
+    } );
+
+  }
+
+  inPopup( data ){
+    let that = this;
     this.closeAction = data.closeAction;
 
     this.surveyService.loadRespondentSurvey( data.id )
@@ -149,7 +184,6 @@ export class SurveyViewer {
     } ).catch( function ( ex ) {
       console.log( 'parsing failed', ex )
     } );
-
   }
 
 }

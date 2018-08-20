@@ -6,10 +6,7 @@ import com.zlobniy.entity.Status;
 import com.zlobniy.entity.survey.SurveyInfo;
 import com.zlobniy.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +38,18 @@ public class SimpleController {
 
         try{
             response.sendRedirect( "/#dashboard" );
+        } catch( IOException e ){
+            e.printStackTrace();
+        }
+
+    }
+
+    @RequestMapping( value = "/survey-viewer/{checksum}", method = RequestMethod.GET )
+    public void surveyViewer( @PathVariable("checksum") String checksum, HttpServletRequest request, HttpServletResponse response ) {
+        System.out.println("survey-viewer");
+
+        try{
+            response.sendRedirect( "/#survey-viewer/" + checksum );
         } catch( IOException e ){
             e.printStackTrace();
         }

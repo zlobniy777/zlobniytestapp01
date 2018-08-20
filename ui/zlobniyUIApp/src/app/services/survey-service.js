@@ -45,6 +45,14 @@ export class SurveyService {
     return this.http.get( 'api/respondentSurvey/' + id );
   }
 
+  loadRealRespondentSurvey( checksum ){
+    return this.http.get( 'api/realRespondentSurvey/' + checksum );
+  }
+
+  getSurveyLink( id ){
+    return this.http.get( 'api/getSurveyLink/' + id );
+  }
+
   loadAnswers( surveyId ){
     return this.http.get( '/api/answers/' + surveyId );
   }

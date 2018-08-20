@@ -67,7 +67,10 @@ export class ClientService {
       that.hasLogged = json.hasLogged;
       if ( json.hasLogged ) {
         console.log( "login success" );
-        that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+        if( that.navigationService.router.currentInstruction.config.name === 'welcome' ){
+          that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+        }
+
       }
     }).catch(function(ex) {
       console.log('parsing failed', ex)
