@@ -5,8 +5,8 @@ import {Ui} from "../ui";
 @inject( ClientService, Ui )
 export class LoginForm extends Ui {
 
-  loginValue = "";
-  passwordValue = "";
+  username = "";
+  password = "";
   loginPlaceholder = "login";
   passwordPlaceholder = "password";
 
@@ -16,11 +16,11 @@ export class LoginForm extends Ui {
   }
 
   doLogin() {
-    console.log('Login action: ' + this.loginValue + " " + this.passwordValue);
+    console.log('Login action: ' + this.username + " " + this.password);
 
     let clientData = {
-      login: this.loginValue,
-      password: this.passwordValue
+      username: this.username,
+      password: this.password
     };
 
     this.clientService.loginAction( clientData );

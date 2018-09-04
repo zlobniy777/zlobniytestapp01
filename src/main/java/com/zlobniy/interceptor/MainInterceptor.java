@@ -1,6 +1,5 @@
 package com.zlobniy.interceptor;
 
-import com.zlobniy.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,9 @@ public class MainInterceptor extends HandlerInterceptorAdapter {
 
     private static Logger log = LoggerFactory.getLogger( MainInterceptor.class );
 
-    private ClientService clientService;
-
     @Autowired
-    public MainInterceptor( ClientService clientService ){
-        this.clientService = clientService;
+    public MainInterceptor(  ){
+
     }
 
     @Override

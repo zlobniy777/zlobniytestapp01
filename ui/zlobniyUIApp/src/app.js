@@ -1,12 +1,29 @@
 import 'css/main.css';
+import {inject} from 'aurelia-framework';
+import {HttpService} from "./app/services/http-service";
 
+@inject( HttpService )
 export class App {
 
   loginPlaceholder = 'Please enter valid login';
   test = 'Test from app.js';
 
-  constructor( http ) {
+  constructor( httpService ) {
+    this.httpService = httpService;
     this.message = 'Hello World 12!';
+    // this.configHttp();
+  }
+
+  configHttp(){
+
+    let http = fetch;
+    http.configure(config => {
+      config
+        .useStandardConfiguration()
+        .withBaseUrl('/')
+        .withInterceptor( this.httpService.tokenInterceptor );
+    });
+
   }
 
   configureRouter( config, router ) {

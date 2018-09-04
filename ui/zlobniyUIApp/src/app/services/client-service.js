@@ -28,15 +28,16 @@ export class ClientService {
     let that = this;
     let clientData = this.clientInfo;
 
-    let promis = this.http.post( 'api/logout', clientData );
+    let promis = this.http.post( 'logout', clientData );
     promis.then(function(response) {
-      console.log('response', response)
+      console.log('response', response);
       return response.json()
     }).then(function(json) {
-      console.log('parsed json', json)
-      if( json.status ){
+      console.log('parsed json', json);
+      if( json.message === 'logout' ){
         that.clientInfo = {};
-        that.hasLogged = false;
+        that.clientInfo.hasLogged = false;
+        window.localStorage.removeItem( 'token' );
         that.navigationService.setButtons( [] );
         that.navigationService.setTitle( {} );
         that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
@@ -57,30 +58,32 @@ export class ClientService {
     let that = this;
 
     console.log('Login action: ' + clientData );
-    let promise = this.http.post( 'api/login', clientData );
-    promise.then(function(response) {
-      console.log('response', response)
+    let promise = this.http.postLogin( clientData );
+    promise.then(function( response ) {
       return response.json()
-    }).then(function(json) {
-      console.log('parsed json', json)
-      that.clientInfo = json;
-      that.hasLogged = json.hasLogged;
-      if ( json.hasLogged ) {
-        console.log( "login success" );
+    }).then(function(json){
+      console.log('json', json);
+      if( json.token ){
+        that.clientInfo = json;
+        that.clientInfo.hasLogged = true;
+        that.hasLogged = true;
+        window.localStorage.setItem( 'token', json.token );
         if( that.navigationService.router.currentInstruction.config.name === 'welcome' ){
           that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
         }
-
       }
     }).catch(function(ex) {
-      console.log('parsing failed', ex)
+      that.navigationService.setButtons( [] );
+      that.navigationService.setTitle( {} );
+      that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
+      console.log('failed', ex)
     });
 
   }
 
   ifTest( clientData ){
     if( clientData.login === 'test' ){
-      this.clientInfo = { id:'0', login:'test', hasLogged: true, name: 'Test'};
+      this.clientInfo = { id:'0', username:'test', hasLogged: true, name: 'Test'};
       this.hasLogged = true;
       this.navigationService.goTo( this.navigationService.NAV_DASHBOARD );
       return true;
