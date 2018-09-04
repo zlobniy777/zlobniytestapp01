@@ -15,7 +15,7 @@
  */
 package com.zlobniy;
 
-//import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.RestAssured;
 import com.zlobniy.greetings.GreetingProperties;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class LocalTest extends AbstractBoosterApplicationTest {
 
     @Before
     public void beforeTest() {
-//        RestAssured.baseURI = String.format("http://localhost:%d/api/greeting", port);
+        RestAssured.baseURI = String.format("http://localhost:%d/api/greeting", port);
     }
 
     protected GreetingProperties getProperties() {
