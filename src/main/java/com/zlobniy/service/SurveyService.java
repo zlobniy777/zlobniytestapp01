@@ -1,8 +1,8 @@
 package com.zlobniy.service;
 
 import com.zlobniy.dao.SurveyDAO;
-import com.zlobniy.entity.survey.SurveyInfo;
-import com.zlobniy.entity.survey.SurveyModel;
+import com.zlobniy.view.survey.SurveyInfo;
+import com.zlobniy.view.survey.SurveyModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

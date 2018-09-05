@@ -1,7 +1,7 @@
 package com.zlobniy.service.client;
 
-import com.zlobniy.dao.UserCrudService;
-import com.zlobniy.entity.client.User;
+import com.zlobniy.dao.client.UserCrudService;
+import com.zlobniy.view.client.User;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;

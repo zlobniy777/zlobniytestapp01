@@ -1,6 +1,6 @@
 package com.zlobniy.service.client;
 
-import com.zlobniy.entity.client.User;
+import com.zlobniy.view.client.User;
 
 import java.util.Optional;
 

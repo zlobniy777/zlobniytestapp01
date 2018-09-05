@@ -1,7 +1,6 @@
 package com.zlobniy.dao.client;
 
-import com.zlobniy.dao.UserCrudService;
-import com.zlobniy.entity.client.User;
+import com.zlobniy.view.client.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

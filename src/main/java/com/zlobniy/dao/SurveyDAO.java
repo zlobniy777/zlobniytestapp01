@@ -1,9 +1,9 @@
 package com.zlobniy.dao;
 
-import com.zlobniy.entity.survey.SurveyInfo;
-import com.zlobniy.entity.survey.SurveyModel;
-import com.zlobniy.entity.survey.SurveySettings;
-import com.zlobniy.test.DummyQuestionnaire;
+import com.zlobniy.example.DummyQuestionnaire;
+import com.zlobniy.view.survey.SurveyInfo;
+import com.zlobniy.view.survey.SurveyModel;
+import com.zlobniy.view.survey.SurveySettings;
 
 import java.util.ArrayList;
 import java.util.Date;

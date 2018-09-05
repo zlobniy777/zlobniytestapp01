@@ -1,7 +1,7 @@
 package com.zlobniy.view;
 
-import com.zlobniy.entity.answers.AnswerView;
-import com.zlobniy.entity.survey.SurveyModel;
+import com.zlobniy.view.answer.AnswerView;
+import com.zlobniy.view.survey.SurveyModel;
 
 import java.util.List;
 
