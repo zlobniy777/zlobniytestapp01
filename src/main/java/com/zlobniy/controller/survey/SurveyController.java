@@ -1,13 +1,13 @@
 package com.zlobniy.controller.survey;
 
-import com.zlobniy.service.AnswerService;
-import com.zlobniy.service.SurveyService;
+import com.zlobniy.domain.answer.service.AnswerService;
+import com.zlobniy.domain.answer.view.AnswerView;
+import com.zlobniy.domain.survey.service.SurveyService;
+import com.zlobniy.domain.survey.view.RespondentSurvey;
+import com.zlobniy.domain.survey.view.SurveyInfo;
+import com.zlobniy.domain.survey.view.SurveyLink;
+import com.zlobniy.domain.survey.view.SurveyModel;
 import com.zlobniy.util.Checksum;
-import com.zlobniy.view.RespondentSurvey;
-import com.zlobniy.view.SurveyLink;
-import com.zlobniy.view.answer.AnswerView;
-import com.zlobniy.view.survey.SurveyInfo;
-import com.zlobniy.view.survey.SurveyModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

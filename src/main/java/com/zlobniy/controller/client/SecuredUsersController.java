@@ -1,8 +1,8 @@
 package com.zlobniy.controller.client;
 
-import com.zlobniy.service.client.UserAuthenticationService;
+import com.zlobniy.domain.client.service.ClientService;
+import com.zlobniy.domain.client.view.ClientView;
 import com.zlobniy.view.SimpleResponse;
-import com.zlobniy.view.client.User;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -16,19 +16,22 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @AllArgsConstructor(access = PACKAGE)
 final class SecuredUsersController {
+
     @NonNull
-    UserAuthenticationService authentication;
+    ClientService authentication;
 
     @GetMapping("/current")
-    User getCurrent( @RequestBody User user) {
-        return user;
+    ClientView getCurrent( @RequestBody ClientView clientView ) {
+        return clientView;
     }
 
     @RequestMapping( value = "/logout", method = RequestMethod.POST )
-    SimpleResponse logout( @RequestBody User user) {
-        authentication.logout(user);
+    SimpleResponse logout( @RequestBody ClientView clientView ) {
+
+        authentication.logout( clientView.getId() );
         SimpleResponse response = new SimpleResponse();
         response.setMessage( "logout" );
+
         return response;
     }
 

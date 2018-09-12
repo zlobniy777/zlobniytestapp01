@@ -1,6 +1,6 @@
 package com.zlobniy.example;
 
-import com.zlobniy.view.survey.questionnaire.*;
+import com.zlobniy.domain.survey.view.questionnaire.*;
 
 public class DummyQuestionnaire {
 

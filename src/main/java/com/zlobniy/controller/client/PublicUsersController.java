@@ -1,51 +1,47 @@
 package com.zlobniy.controller.client;
 
-import com.zlobniy.dao.client.UserCrudService;
-import com.zlobniy.service.client.UserAuthenticationService;
-import com.zlobniy.view.client.User;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import com.zlobniy.domain.client.entity.Client;
+import com.zlobniy.domain.client.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static lombok.AccessLevel.PACKAGE;
-import static lombok.AccessLevel.PRIVATE;
-
 @RestController
-//@RequestMapping("/public")
-@FieldDefaults(level = PRIVATE, makeFinal = true)
-@AllArgsConstructor(access = PACKAGE)
 final class PublicUsersController {
-    @NonNull
-    UserAuthenticationService authentication;
-    @NonNull
-    UserCrudService users;
+
+    private final ClientService clientService;
+
+    @Autowired
+    public PublicUsersController( ClientService clientService ){
+        this.clientService = clientService;
+    }
 
     @PostMapping("/register")
-    User register(
+    Client register(
             @RequestParam("username") final String username,
             @RequestParam("password") final String password) {
-        User user = new User( username, username, password );
-        users.save( user );
 
-        return login(username, password);
+        Client client = new Client();
+        client.setUsername( username );
+        client.setPassword( password );
+
+        clientService.createClient( "data" );
+
+        return client;
     }
 
     @PostMapping("/login")
-    User login(
+    Client login(
             @RequestParam("username") final String username,
             @RequestParam("password") final String password ) {
-        User user = authentication.login(username, password).orElseThrow(() -> new RuntimeException("invalid login and/or password"));
-        return user;
+        return clientService.login(username, password);
     }
 
     @PostMapping("/loginByToken")
-    User loginByToken(
+    Client loginByToken(
             @RequestParam("token") final String token ) {
-        User user = authentication.findByToken( token ).orElseThrow(() -> new RuntimeException("invalid token"));
-        return user;
+        return clientService.findByToken( token );
     }
 
 }
