@@ -1,21 +1,27 @@
 package com.zlobniy.example;
 
+import com.zlobniy.domain.survey.entity.Survey;
+import com.zlobniy.domain.survey.view.SurveySettingsView;
+import com.zlobniy.domain.survey.view.SurveyView;
 import com.zlobniy.domain.survey.view.questionnaire.*;
+
+import java.util.Date;
 
 public class DummyQuestionnaire {
 
-    public Questionnaire createDummyQuestionnaire(){
-        Questionnaire questionnaire = new Questionnaire();
-        questionnaire.getQuestions().add( createDummyClosedQuestion( 1L ) );
-        questionnaire.getQuestions().add( createDummyMatrixQuestion( 2L ) );
+    public QuestionnaireView createDummyQuestionnaire(){
+        QuestionnaireView questionnaireView = new QuestionnaireView();
+        questionnaireView.getQuestions().add( createDummyClosedQuestion( 1L ) );
+//        questionnaireView.getQuestions().add( createDummyClosedQuestion( 2L ) );
+        questionnaireView.getQuestions().add( createDummyMatrixQuestion( 2L ) );
 
-        return questionnaire;
+        return questionnaireView;
     }
 
 
-    public Question createDummyClosedQuestion( Long id ){
-        ClosedQuestion question = new ClosedQuestion();
-        question.setId( id );
+    public QuestionView createDummyClosedQuestion(Long id ){
+        ClosedQuestionView question = new ClosedQuestionView();
+//        question.setId( id );
         question.setSettings( createDummySettings() );
         question.setTitle( "dummy closed question " + id );
 
@@ -26,9 +32,9 @@ public class DummyQuestionnaire {
         return question;
     }
 
-    public Question createDummyMatrixQuestion( Long id ){
-        MatrixQuestion question = new MatrixQuestion();
-        question.setId( id );
+    public QuestionView createDummyMatrixQuestion(Long id ){
+        MatrixQuestionView question = new MatrixQuestionView();
+//        question.setId( id );
         question.setSettings( createDummySettings() );
         question.setTitle( "Dummy matrix question " + id );
 
@@ -41,40 +47,57 @@ public class DummyQuestionnaire {
         return question;
     }
 
-    public Option createDummyOption( Long id ){
-        Option option = new Option();
-        option.setId( id );
-        option.setTitle( "Dummy option " + id );
+    public OptionView createDummyOption(Long id ){
+        OptionView optionView = new OptionView();
+//        optionView.setId( id );
+        optionView.setTitle( "Dummy option " + id );
 
-        return option;
+        return optionView;
     }
 
-    public Scale createDummyScale( Long id ){
-        Scale scale = new Scale();
-        scale.setId( id );
-        scale.setTitle( "Dummy scale " + id );
+    public ScaleView createDummyScale(Long id ){
+        ScaleView scaleView = new ScaleView();
+//        scaleView.setId( id );
+        scaleView.setTitle( "Dummy scale " + id );
 
-        scale.getOptions().add( createDummyScaleStep( 1L ) );
-        scale.getOptions().add( createDummyScaleStep( 2L ) );
-        scale.getOptions().add( createDummyScaleStep( 3L ) );
+        scaleView.getOptions().add( createDummyScaleStep( 1L ) );
+        scaleView.getOptions().add( createDummyScaleStep( 2L ) );
+        scaleView.getOptions().add( createDummyScaleStep( 3L ) );
 
-        return scale;
+        return scaleView;
     }
 
-    public Option createDummyScaleStep( Long id ){
-        Option scaleStep = new Option();
-        scaleStep.setId( id );
+    public OptionView createDummyScaleStep(Long id ){
+        OptionView scaleStep = new OptionView();
+//        scaleStep.setId( id );
         scaleStep.setTitle( "Dummy scale step " + id );
 
         return scaleStep;
     }
 
-    public Settings createDummySettings(){
-        Settings settings = new Settings();
-        settings.setLayout( "radio" );
+    public QuestionSettingsView createDummySettings(){
+        QuestionSettingsView questionSettingsView = new QuestionSettingsView();
+        questionSettingsView.setLayout( "radio" );
 
 
-        return settings;
+        return questionSettingsView;
+    }
+
+    public static void main(String[] args) {
+
+        DummyQuestionnaire dummyQuestionnaire = new DummyQuestionnaire();
+
+        SurveyView surveyView = new SurveyView();
+        surveyView.setId( 1L );
+        surveyView.setCreationDate( new Date() );
+        surveyView.setQuestionnaire( dummyQuestionnaire.createDummyQuestionnaire() );
+        surveyView.setSurveySettings( new SurveySettingsView() );
+        surveyView.setTitle( "Test title" );
+
+        Survey survey = new Survey( surveyView );
+
+        System.out.println( survey );
+
     }
 
 }

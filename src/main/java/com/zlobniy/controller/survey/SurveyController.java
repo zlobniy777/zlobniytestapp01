@@ -3,15 +3,16 @@ package com.zlobniy.controller.survey;
 import com.zlobniy.domain.answer.service.AnswerService;
 import com.zlobniy.domain.answer.view.AnswerView;
 import com.zlobniy.domain.survey.service.SurveyService;
-import com.zlobniy.domain.survey.view.RespondentSurvey;
-import com.zlobniy.domain.survey.view.SurveyInfo;
-import com.zlobniy.domain.survey.view.SurveyLink;
-import com.zlobniy.domain.survey.view.SurveyModel;
+import com.zlobniy.domain.survey.view.RespondentSurveyView;
+import com.zlobniy.domain.survey.view.SurveyInfoView;
+import com.zlobniy.domain.survey.view.SurveyLinkView;
+import com.zlobniy.domain.survey.view.SurveyView;
 import com.zlobniy.util.Checksum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class SurveyController {
     }
 
     @RequestMapping( value = "/api/survey/{id}", method = RequestMethod.GET )
-    public SurveyModel loadSurvey( @PathVariable("id") Long id, HttpServletRequest request ) {
+    public SurveyView loadSurvey(@PathVariable("id") Long id, HttpServletRequest request ) {
         return surveyService.findById( id );
     }
 
@@ -35,18 +36,18 @@ public class SurveyController {
      * Load survey with answers
      * */
     @RequestMapping( value = "/api/respondentSurvey/{id}", method = RequestMethod.GET )
-    public RespondentSurvey loadRespondentSurvey( @PathVariable("id") Long id, HttpServletRequest request ) {
-        RespondentSurvey respondentSurvey = new RespondentSurvey();
-        respondentSurvey.setAnswers( answerService.loadAnswers( id ) );
-        respondentSurvey.setSurveyModel( surveyService.findById( id ) );
-        return respondentSurvey;
+    public RespondentSurveyView loadRespondentSurvey(@PathVariable("id") Long id, HttpServletRequest request ) {
+        RespondentSurveyView respondentSurveyView = new RespondentSurveyView();
+        respondentSurveyView.setAnswers( answerService.loadAnswers( id ) );
+        respondentSurveyView.setSurveyView( surveyService.findById( id ) );
+        return respondentSurveyView;
     }
 
     /**
      * Load survey with answers
      * */
     @RequestMapping( value = "/api/realRespondentSurvey/{checksum}", method = RequestMethod.GET )
-    public RespondentSurvey loadRealRespondentSurvey( @PathVariable("checksum") String checksum, HttpServletRequest request ) {
+    public RespondentSurveyView loadRealRespondentSurvey(@PathVariable("checksum") String checksum, HttpServletRequest request ) {
 
         //get data from checksum
         Checksum checksum1 = new Checksum( checksum );
@@ -58,16 +59,16 @@ public class SurveyController {
         System.out.println( userId );
 
         // find survey and answers if exist and load
-        RespondentSurvey respondentSurvey = new RespondentSurvey();
-        respondentSurvey.setAnswers( answerService.loadAnswers( surveyId ) );
-        respondentSurvey.setSurveyModel( surveyService.findById( surveyId ) );
-        return respondentSurvey;
+        RespondentSurveyView respondentSurveyView = new RespondentSurveyView();
+        respondentSurveyView.setAnswers( answerService.loadAnswers( surveyId ) );
+        respondentSurveyView.setSurveyView( surveyService.findById( surveyId ) );
+        return respondentSurveyView;
     }
 
     @RequestMapping( value = "/api/getSurveyLink/{id}", method = RequestMethod.GET )
-    public SurveyLink getSurveyLink( @PathVariable("id") Long id, HttpServletRequest request ) {
+    public SurveyLinkView getSurveyLink(@PathVariable("id") Long id, HttpServletRequest request ) {
 
-        SurveyLink link = new SurveyLink();
+        SurveyLinkView link = new SurveyLinkView();
 
         link.setLink( "/survey-viewer/" + Checksum.generateChecksum( id, "Test" ) );
 
@@ -75,13 +76,15 @@ public class SurveyController {
     }
 
     @RequestMapping( value = "/api/surveys", method = RequestMethod.GET )
-    public List<SurveyInfo> loadSurveys( HttpServletRequest request ) {
+    public List<SurveyInfoView> loadSurveys(HttpServletRequest request ) {
         return surveyService.getAllSurveys();
     }
 
     @RequestMapping( value = "/api/saveSurvey", method = RequestMethod.POST )
-    public String saveSurvey( @RequestBody SurveyModel surveyModel, HttpServletRequest request ) {
-        return Boolean.toString( surveyService.saveSurvey( surveyModel ) );
+    public String saveSurvey(@RequestBody SurveyView surveyView, HttpServletRequest request ) {
+        surveyView.setCreationDate( new Date(  ) );
+        SurveyView surveyView1 = surveyService.save(surveyView);
+        return Boolean.toString( true );
     }
 
     @RequestMapping( value = "/api/saveAnswers", method = RequestMethod.POST )

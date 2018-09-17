@@ -1,5 +1,8 @@
 package com.zlobniy.domain.client.entity;
 
+import com.zlobniy.domain.client.view.ClientView;
+import com.zlobniy.domain.client.view.RegistrationView;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +27,23 @@ public class Client {
     @Column
     private String email;
 
+    public Client(){
+
+    }
+
+    public Client( RegistrationView registrationView ){
+        setUsername( registrationView.getUsername() );
+        setPassword( registrationView.getPassword() );
+        setEmail( registrationView.getEmail() );
+    }
+
+    public Client( ClientView clientView ){
+        setUsername( clientView.getUsername() );
+        setPassword( clientView.getPassword() );
+        setEmail( clientView.getEmail() );
+        setId( clientView.getId() );
+        setToken( clientView.getToken() );
+    }
 
 
     public Long getId(){

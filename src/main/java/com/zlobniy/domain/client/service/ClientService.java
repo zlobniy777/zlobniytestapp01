@@ -2,6 +2,7 @@ package com.zlobniy.domain.client.service;
 
 import com.zlobniy.domain.client.dao.ClientDao;
 import com.zlobniy.domain.client.entity.Client;
+import com.zlobniy.domain.client.view.RegistrationView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,10 @@ public class ClientService {
         return null;
     }
 
-    public void createClient( String data ){
-        // create client here
-        // and save to db
+    public Client createClient( RegistrationView registrationView ){
+
+        Client client = clientDao.save( new Client( registrationView ) );
+        return client;
     }
 
     public void saveClient( Client client ){

@@ -82,7 +82,7 @@ export class ClientService {
   }
 
   ifTest( clientData ){
-    if( clientData.login === 'test' ){
+    if( clientData.username === 'test' ){
       this.clientInfo = { id:'0', username:'test', hasLogged: true, name: 'Test'};
       this.hasLogged = true;
       this.navigationService.goTo( this.navigationService.NAV_DASHBOARD );

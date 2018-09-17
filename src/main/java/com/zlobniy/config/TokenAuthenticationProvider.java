@@ -28,18 +28,6 @@ final class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticatio
     }
 
     @Override
-    protected void doAfterPropertiesSet(){
-        System.out.println( "doAfterPropertiesSet " );
-        Client client = new Client();
-
-        client.setUsername( "ans" );
-        client.setPassword( "123" );
-        client.setEmail( "email" );
-
-        clientService.saveClient( client );
-    }
-
-    @Override
     protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken authentication) {
         final Object token = authentication.getCredentials();
 

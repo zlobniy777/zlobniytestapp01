@@ -1,8 +1,10 @@
 package com.zlobniy.domain.survey.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.zlobniy.domain.survey.entity.questionnaire.Questionnaire;
+import com.zlobniy.domain.survey.view.SurveyView;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Survey {
@@ -10,5 +12,69 @@ public class Survey {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Column
+    private String title;
+
+    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    private Questionnaire questionnaire;
+
+    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    private SurveySettings surveySettings;
+
+    @Column
+    private Date creationDate;
+
+    public Survey() {
+
+    }
+
+    public Survey( SurveyView surveyView ) {
+        setId( surveyView.getId() );
+        setCreationDate( surveyView.getCreationDate() );
+        setTitle( surveyView.getTitle() );
+        setQuestionnaire( new Questionnaire( surveyView.getQuestionnaire() ) );
+        setSurveySettings( new SurveySettings( surveyView.getSurveySettings() ) );
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId( Long id ) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle( String title ) {
+        this.title = title;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire( Questionnaire questionnaire ) {
+        this.questionnaire = questionnaire;
+    }
+
+    public SurveySettings getSurveySettings() {
+        return surveySettings;
+    }
+
+    public void setSurveySettings( SurveySettings surveySettings ) {
+        this.surveySettings = surveySettings;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate( Date creationDate ) {
+        this.creationDate = creationDate;
+    }
 
 }

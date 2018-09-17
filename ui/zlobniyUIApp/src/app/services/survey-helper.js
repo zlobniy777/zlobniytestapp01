@@ -66,7 +66,7 @@ export class SurveyHelper {
     let question = {};
     let questionNumber = parseInt( qIndex ) + 1;
     question.title = isNew ? this.createNewTitle( title, questionNumber ) : title;
-    question.id =  id !== undefined ? id : questionNumber;
+    question.id = id;
     question.number = questionNumber;
     question.settings = this.createQuestionSettings( questionType, settings );
     question.selected = isSelected;
@@ -143,7 +143,7 @@ export class SurveyHelper {
     question.settings.view = './../questions/subView/matrix.html';
 
     question.options = {};
-    question.options.id = "options_"+question.id;
+    question.options.id = "options_"+question.number;
     question.options.type = "options";
     question.options.freeTextOption = "";
     question.options.elements = [];
@@ -158,7 +158,7 @@ export class SurveyHelper {
     }
 
     question.scales = {};
-    question.scales.id = "scales_"+question.id;
+    question.scales.id = "scales_"+question.number;
     question.scales.type = "scales";
     question.scales.cssClass = "scales-view";
     question.scales.elements = [];
@@ -182,7 +182,7 @@ export class SurveyHelper {
     question.settings.view = './../questions/subView/closed-question.html';
 
     question.options = {};
-    question.options.id = "options_"+question.id;
+    question.options.id = "options_"+question.number;
     question.options.type = "options";
     question.options.freeTextOption = "";
     question.options.elements = [];
@@ -232,9 +232,9 @@ export class SurveyHelper {
 
   createDefaultOptions(){
     let options = [
-      {title: 'Option 1', id:1},
-      {title: 'Option 2', id:2},
-      {title: 'Option 3', id:3}
+      {title: 'Option 1', index:1},
+      {title: 'Option 2', index:2},
+      {title: 'Option 3', index:3}
     ];
     return options;
   }
@@ -251,7 +251,7 @@ export class SurveyHelper {
 
   createDefaultScale( title, index, id ){
     let scale = {};
-    scale.id = id;
+    scale.index = index;
     scale.title = title;
     scale.name = "scale_" + index;
     scale.options = {};
@@ -261,9 +261,9 @@ export class SurveyHelper {
 
   createDefaultScaleSteps( scaleId ){
     let scaleSteps = [
-      {title: 'step 1', id: scaleId + 1},
-      {title: 'step 2', id: scaleId + 2},
-      {title: 'step 3', id: scaleId + 3}
+      {title: 'step 1', index: scaleId + 1},
+      {title: 'step 2', index: scaleId + 2},
+      {title: 'step 3', index: scaleId + 3}
     ];
     return scaleSteps;
   }

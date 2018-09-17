@@ -1,8 +1,8 @@
 package com.zlobniy.dao;
 
-import com.zlobniy.domain.survey.view.SurveyInfo;
-import com.zlobniy.domain.survey.view.SurveyModel;
-import com.zlobniy.domain.survey.view.SurveySettings;
+import com.zlobniy.domain.survey.view.SurveyInfoView;
+import com.zlobniy.domain.survey.view.SurveySettingsView;
+import com.zlobniy.domain.survey.view.SurveyView;
 import com.zlobniy.example.DummyQuestionnaire;
 
 import java.util.ArrayList;
@@ -12,7 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SurveyDAO {
 
-    private static final ConcurrentHashMap<Long, SurveyModel> surveys = new ConcurrentHashMap<>(  );
+
+
+    private static final ConcurrentHashMap<Long, SurveyView> surveys = new ConcurrentHashMap<>(  );
     static {
         initMap();
     }
@@ -21,35 +23,36 @@ public class SurveyDAO {
 
         DummyQuestionnaire dummyQuestionnaire = new DummyQuestionnaire();
 
-        SurveyModel surveyModel = new SurveyModel();
-        surveyModel.setId( 1L );
-        surveyModel.setTitle( "Dummy survey" );
-        surveyModel.setQuestionnaire( dummyQuestionnaire.createDummyQuestionnaire() );
-        surveyModel.setSurveySettings( new SurveySettings() );
-        surveyModel.setCreationDate( new Date(  ) );
+        SurveyView surveyView = new SurveyView();
+        surveyView.setId( 1L );
+        surveyView.setTitle( "Dummy survey" );
+        surveyView.setQuestionnaire( dummyQuestionnaire.createDummyQuestionnaire() );
+        surveyView.setSurveySettings( new SurveySettingsView() );
+        surveyView.setCreationDate( new Date(  ) );
 
-        surveys.put( 1L, surveyModel );
+
+        surveys.put( 1L, surveyView);
     }
 
-    public SurveyModel find( Long id ){
-        return surveys.getOrDefault( id, new SurveyModel() );
+    public SurveyView find(Long id ){
+        return surveys.getOrDefault( id, new SurveyView() );
     }
 
-    public boolean save( SurveyModel surveyModel ){
-        surveys.put( System.currentTimeMillis(), surveyModel );
+    public boolean save( SurveyView surveyView){
+        surveys.put( System.currentTimeMillis(), surveyView);
         return true;
     }
 
-    public List<SurveyInfo> getAllLightSurveys(){
-        final List<SurveyInfo> surveyInfoList = new ArrayList<>(  );
-        for( SurveyModel surveyModel : surveys.values() ){
-            SurveyInfo surveyInfo = new SurveyInfo();
-            surveyInfo.setId( surveyModel.getId() );
-            surveyInfo.setCreationDate( surveyModel.getCreationDate() );
-            surveyInfo.setTitle( surveyModel.getTitle() );
-            surveyInfoList.add( surveyInfo );
+    public List<SurveyInfoView> getAllLightSurveys(){
+        final List<SurveyInfoView> surveyInfoViewList = new ArrayList<>(  );
+        for( SurveyView surveyView : surveys.values() ){
+            SurveyInfoView surveyInfoView = new SurveyInfoView();
+            surveyInfoView.setId( surveyView.getId() );
+            surveyInfoView.setCreationDate( surveyView.getCreationDate() );
+            surveyInfoView.setTitle( surveyView.getTitle() );
+            surveyInfoViewList.add(surveyInfoView);
         }
-        return surveyInfoList;
+        return surveyInfoViewList;
     }
 
 }
