@@ -14,7 +14,6 @@ public class ClosedQuestion extends Question {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Option> options = new ArrayList<>();
 
-
     @Column
     private String layout;
 
@@ -34,13 +33,13 @@ public class ClosedQuestion extends Question {
     private Integer rowsValue;
 
 
-
     public ClosedQuestion(){
 
     }
 
     public ClosedQuestion( ClosedQuestionView closedQuestionView ){
-        setId( closedQuestionView.getId() );
+        super( closedQuestionView );
+
         setFreeTextOption( closedQuestionView.getSettings().isFreeTextOption() );
         setLayout( closedQuestionView.getSettings().getLayout() );
         setLengthValue( closedQuestionView.getSettings().getLengthValue() );
@@ -48,14 +47,12 @@ public class ClosedQuestion extends Question {
         setRowsValue( closedQuestionView.getSettings().getRowsValue() );
         setWidthValue( closedQuestionView.getSettings().getWidthValue() );
 
-        List<Option> options = new ArrayList<>();
+        final List<Option> options = new ArrayList<>();
         for (OptionView optionView : closedQuestionView.getOptions()) {
             options.add( new Option( optionView ) );
         }
 
         setOptions( options );
-
-//        setOptions( closedQuestionView.getOptions().stream().flatMap(  ) );
     }
 
     public List<Option> getOptions() {

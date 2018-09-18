@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ClosedQuestionView extends QuestionView {
 
-    private String type = "closed";
+    private static final String TYPE = "closed";
     private List<OptionView> options = new ArrayList<>(  );
 
     public ClosedQuestionView(){
@@ -16,10 +16,9 @@ public class ClosedQuestionView extends QuestionView {
     }
 
     public ClosedQuestionView(ClosedQuestion question){
-        setType("closed");
-        setId( question.getId() );
-        setTitle( question.getTitle() );
-        QuestionSettingsView questionSettings = new QuestionSettingsView();
+        super( question, TYPE );
+
+        final QuestionSettingsView questionSettings = new QuestionSettingsView();
         questionSettings.setLayout( question.getLayout() );
         questionSettings.setFreeTextOption( question.isFreeTextOption() );
         questionSettings.setLengthValue( question.getLengthValue() );
@@ -29,7 +28,7 @@ public class ClosedQuestionView extends QuestionView {
 
         setSettings( questionSettings );
 
-        List<OptionView> options = new ArrayList<>();
+        final List<OptionView> options = new ArrayList<>();
         for (Option option : question.getOptions()) {
             options.add( new OptionView( option ) );
         }
@@ -45,10 +44,7 @@ public class ClosedQuestionView extends QuestionView {
     }
 
     public String getType(){
-        return type;
+        return TYPE;
     }
 
-    public void setType( String type ){
-        this.type = type;
-    }
 }

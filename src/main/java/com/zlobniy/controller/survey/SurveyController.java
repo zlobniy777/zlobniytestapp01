@@ -83,7 +83,7 @@ public class SurveyController {
     @RequestMapping( value = "/api/saveSurvey", method = RequestMethod.POST )
     public String saveSurvey(@RequestBody SurveyView surveyView, HttpServletRequest request ) {
         surveyView.setCreationDate( new Date(  ) );
-        SurveyView surveyView1 = surveyService.save(surveyView);
+        SurveyView savedSurveyView = surveyService.save(surveyView);
         return Boolean.toString( true );
     }
 

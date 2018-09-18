@@ -175,7 +175,7 @@ export class SurveyViewer {
       } ).then( function ( data ) {
       let answersData = data.answers;
 
-      that.surveyModel = that.surveyModelTransformer.deSerialize( data.surveyModel );
+      that.surveyModel = that.surveyModelTransformer.deSerialize( data.surveyView );
       if( answersData.length > 0 ){
         that.fillAnswers( answersData, that.surveyModel );
       }

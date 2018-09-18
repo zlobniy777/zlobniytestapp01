@@ -21,6 +21,16 @@ public class QuestionView {
     private QuestionSettingsView settings;
     private String type;
 
+    public QuestionView(){
+
+    }
+
+    public QuestionView( Question question, String type ){
+        setId( question.getId() );
+        setTitle( question.getTitle() );
+        setType( type );
+    }
+
     public Long getId(){
         return id;
     }

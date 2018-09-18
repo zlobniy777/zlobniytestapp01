@@ -42,7 +42,8 @@ public class MatrixQuestion extends Question {
     }
 
     public MatrixQuestion( MatrixQuestionView matrixQuestionView ){
-        setId( matrixQuestionView.getId() );
+        super( matrixQuestionView );
+
         setFreeTextOption( matrixQuestionView.getSettings().isFreeTextOption() );
         setLayout( matrixQuestionView.getSettings().getLayout() );
         setLengthValue( matrixQuestionView.getSettings().getLengthValue() );

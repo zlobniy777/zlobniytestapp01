@@ -17,8 +17,17 @@ public class Question {
     @Column
     private String title;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Questionnaire questionnaire;
+
+    public Question(){
+
+    }
+
+    public Question( QuestionView questionView ){
+        setId( questionView.getId() );
+        setTitle( questionView.getTitle() );
+    }
 
     public Long getId() {
         return id;

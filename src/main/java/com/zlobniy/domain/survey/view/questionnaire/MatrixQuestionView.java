@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MatrixQuestionView extends QuestionView {
 
-    private String type = "matrix";
+    private static final String TYPE = "matrix";
     private List<OptionView> options = new ArrayList<>(  );
     private List<ScaleView> scales = new ArrayList<>(  );
 
@@ -18,10 +18,9 @@ public class MatrixQuestionView extends QuestionView {
     }
 
     public MatrixQuestionView(MatrixQuestion question){
-        setType("matrix");
-        setId( question.getId() );
-        setTitle( question.getTitle() );
-        QuestionSettingsView questionSettings = new QuestionSettingsView();
+        super( question, TYPE );
+
+        final QuestionSettingsView questionSettings = new QuestionSettingsView();
         questionSettings.setLayout( question.getLayout() );
         questionSettings.setFreeTextOption( question.isFreeTextOption() );
         questionSettings.setLengthValue( question.getLengthValue() );
@@ -31,13 +30,13 @@ public class MatrixQuestionView extends QuestionView {
 
         setSettings( questionSettings );
 
-        List<OptionView> options = new ArrayList<>();
+        final List<OptionView> options = new ArrayList<>();
         for (Option option : question.getOptions()) {
             options.add( new OptionView( option ) );
         }
         setOptions( options );
 
-        List<ScaleView> scales = new ArrayList<>();
+        final List<ScaleView> scales = new ArrayList<>();
         for (Scale scale : question.getScales()) {
             scales.add( new ScaleView( scale ) );
         }
@@ -61,11 +60,7 @@ public class MatrixQuestionView extends QuestionView {
     }
 
     public String getType(){
-        return type;
-    }
-
-    public void setType( String type ){
-        this.type = type;
+        return TYPE;
     }
 
 }
