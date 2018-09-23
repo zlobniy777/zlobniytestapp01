@@ -28,7 +28,7 @@ public class OptionView {
     }
 
     public Boolean getSelected(){
-        return selected;
+        return selected != null && selected;
     }
 
     public void setSelected( Boolean selected ){

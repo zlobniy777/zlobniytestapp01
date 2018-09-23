@@ -1,20 +1,56 @@
 package com.zlobniy.domain.answer.entity;
 
+import com.zlobniy.domain.answer.view.AnswerView;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+@Entity
 public class AnswerSession {
 
-    private Long id;
-    private Long surveyId;
-    private String userId;
-    private List<Answer> answers;
+    @Id
+    @GeneratedValue
+    private Long sessionId;
 
-    public Long getId(){
-        return id;
+    @Column
+    private Long surveyId;
+
+    @Column
+    private Long previousSession;
+
+    @Column
+    private String userId;
+
+    @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+    @JoinColumn( name = "sessionId")
+    private List<Answer> answers = new ArrayList<>(  );
+
+    @Column
+    private Date date;
+
+    public AnswerSession(){
+
     }
 
-    public void setId( Long id ){
-        this.id = id;
+    public AnswerSession( AnswerView answerView ){
+        setSurveyId( answerView.getSurveyId() );
+        setSessionId( answerView.getId() );
+        setUserId( answerView.getUserId() );
+        setDate( new Date(  ) );
+
+        Answer answer = new Answer( answerView );
+        answers.add( answer );
+
+    }
+
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId( Long sessionId ) {
+        this.sessionId = sessionId;
     }
 
     public Long getSurveyId(){
@@ -39,5 +75,21 @@ public class AnswerSession {
 
     public void setUserId( String userId ){
         this.userId = userId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate( Date date ) {
+        this.date = date;
+    }
+
+    public Long getPreviousSession() {
+        return previousSession;
+    }
+
+    public void setPreviousSession( Long previousSession ) {
+        this.previousSession = previousSession;
     }
 }

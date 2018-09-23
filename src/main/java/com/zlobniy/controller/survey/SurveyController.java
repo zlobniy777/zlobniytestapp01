@@ -1,5 +1,7 @@
 package com.zlobniy.controller.survey;
 
+import com.zlobniy.domain.answer.entity.Answer;
+import com.zlobniy.domain.answer.entity.AnswerSession;
 import com.zlobniy.domain.answer.service.AnswerService;
 import com.zlobniy.domain.answer.view.AnswerView;
 import com.zlobniy.domain.survey.service.SurveyService;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,32 +25,46 @@ public class SurveyController {
     private AnswerService answerService;
 
     @Autowired
-    public SurveyController( SurveyService surveyService, AnswerService answerService ){
+    public SurveyController( SurveyService surveyService, AnswerService answerService ) {
         this.surveyService = surveyService;
         this.answerService = answerService;
     }
 
     @RequestMapping( value = "/api/survey/{id}", method = RequestMethod.GET )
-    public SurveyView loadSurvey(@PathVariable("id") Long id, HttpServletRequest request ) {
+    public SurveyView loadSurvey( @PathVariable( "id" ) Long id, HttpServletRequest request ) {
         return surveyService.findById( id );
     }
 
     /**
      * Load survey with answers
-     * */
+     */
     @RequestMapping( value = "/api/respondentSurvey/{id}", method = RequestMethod.GET )
-    public RespondentSurveyView loadRespondentSurvey(@PathVariable("id") Long id, HttpServletRequest request ) {
+    public RespondentSurveyView loadRespondentSurvey( @PathVariable( "id" ) Long id, HttpServletRequest request ) {
+        Long surveyId = id;
+        String userId = "test";
+
+        AnswerSession session = answerService.answers( surveyId, userId );
+        SurveyView surveyView = surveyService.findById( surveyId );
+
+        List<AnswerView> answers = new ArrayList<>(  );
+        if ( session != null ) {
+            for ( Answer answer : session.getAnswers() ) {
+                answers.add( new AnswerView( session.getSurveyId(), session.getUserId(), answer ) );
+            }
+
+        }
+
         RespondentSurveyView respondentSurveyView = new RespondentSurveyView();
-        respondentSurveyView.setAnswers( answerService.loadAnswers( id ) );
-        respondentSurveyView.setSurveyView( surveyService.findById( id ) );
+        respondentSurveyView.setAnswers( answers );
+        respondentSurveyView.setSurveyView( surveyService.findById( surveyId ) );
         return respondentSurveyView;
     }
 
     /**
      * Load survey with answers
-     * */
+     */
     @RequestMapping( value = "/api/realRespondentSurvey/{checksum}", method = RequestMethod.GET )
-    public RespondentSurveyView loadRealRespondentSurvey(@PathVariable("checksum") String checksum, HttpServletRequest request ) {
+    public RespondentSurveyView loadRealRespondentSurvey( @PathVariable( "checksum" ) String checksum, HttpServletRequest request ) {
 
         //get data from checksum
         Checksum checksum1 = new Checksum( checksum );
@@ -66,7 +83,7 @@ public class SurveyController {
     }
 
     @RequestMapping( value = "/api/getSurveyLink/{id}", method = RequestMethod.GET )
-    public SurveyLinkView getSurveyLink(@PathVariable("id") Long id, HttpServletRequest request ) {
+    public SurveyLinkView getSurveyLink( @PathVariable( "id" ) Long id, HttpServletRequest request ) {
 
         SurveyLinkView link = new SurveyLinkView();
 
@@ -76,26 +93,30 @@ public class SurveyController {
     }
 
     @RequestMapping( value = "/api/surveys", method = RequestMethod.GET )
-    public List<SurveyInfoView> loadSurveys(HttpServletRequest request ) {
+    public List<SurveyInfoView> loadSurveys( HttpServletRequest request ) {
         return surveyService.getAllSurveys();
     }
 
     @RequestMapping( value = "/api/saveSurvey", method = RequestMethod.POST )
-    public String saveSurvey(@RequestBody SurveyView surveyView, HttpServletRequest request ) {
-        surveyView.setCreationDate( new Date(  ) );
-        SurveyView savedSurveyView = surveyService.save(surveyView);
+    public String saveSurvey( @RequestBody SurveyView surveyView, HttpServletRequest request ) {
+        surveyView.setCreationDate( new Date() );
+        SurveyView savedSurveyView = surveyService.save( surveyView );
         return Boolean.toString( true );
     }
 
     @RequestMapping( value = "/api/saveAnswers", method = RequestMethod.POST )
     public String saveAnswers( @RequestBody AnswerView answerView, HttpServletRequest request ) {
+        AnswerSession answerSession = new AnswerSession( answerView );
+
+        answerService.addAnswer( answerSession );
         answerService.saveAnswer( answerView );
+
         System.out.println( answerView );
         return answerView.toString();
     }
 
     @RequestMapping( value = "/api/answers/{surveyId}", method = RequestMethod.GET )
-    public List<AnswerView> loadAnswers( @PathVariable("id") Long surveyId, HttpServletRequest request ) {
+    public List<AnswerView> loadAnswers( @PathVariable( "id" ) Long surveyId, HttpServletRequest request ) {
         return answerService.loadAnswers( surveyId );
     }
 

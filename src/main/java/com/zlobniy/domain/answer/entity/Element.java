@@ -1,12 +1,36 @@
 package com.zlobniy.domain.answer.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Element {
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private String value;
+
+    @Column
     private Integer answerOrder;
+
+    @Column
     private Integer scaleOrder = -1;
+
+    @Column
     private Integer scaleGroupOrder = -1;
+
+    public Element(){
+
+    }
+
 
     public String getName(){
         return name;
@@ -46,5 +70,13 @@ public class Element {
 
     public void setScaleGroupOrder( Integer scaleGroupOrder ){
         this.scaleGroupOrder = scaleGroupOrder;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId( long id ) {
+        this.id = id;
     }
 }

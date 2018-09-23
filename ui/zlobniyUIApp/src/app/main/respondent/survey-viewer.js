@@ -56,7 +56,6 @@ export class SurveyViewer {
   saveAnswers( data ){
 
     let answerData = {};
-    answerData.id = 0;
     answerData.questionId = data.id;
     answerData.userId = 'test';
     answerData.surveyId = this.surveyModel.id;
@@ -64,9 +63,9 @@ export class SurveyViewer {
     answerData.questionType = data.settings.questionType;
     answerData.options = [];
     for ( let element of data.options.elements ) {
-      answerData.options.push( {id: element.id, name: element.name, selected: element.selected, value:'', scaleGroup: element.scaleGroup} );
+      answerData.options.push( {index: element.index, name: element.name, selected: element.selected, value:'', scaleGroup: element.scaleGroup} );
     }
-    answerData.freeTextOption = {id: 0, name: 'freeTextOption', selected: false, value:data.options.freeTextOption, scaleGroup: null};
+    answerData.freeTextOption = {name: 'freeTextOption', selected: false, value:data.options.freeTextOption, scaleGroup: null};
 
     this.surveyService.saveAnswers( answerData )
       .then( function ( response ) {
@@ -87,37 +86,76 @@ export class SurveyViewer {
       this.markAnsweredOptions( question, answerObject );
 
       //fill free text option
-      question.options.freeTextOption = answerObject.freeTextOption.value;
+      if( answerObject.freeTextOption ){
+        question.options.freeTextOption = answerObject.freeTextOption.value;
+      }
+
     }
 
   }
 
   markAnsweredOptions( question, answerObject ){
     for ( let option of question.options.elements ) {
-      let answeredOption = this.getAnsweredOptionById( answerObject, option.id );
-      option.selected = answeredOption.selected;
-      option.scaleGroup = answeredOption.scaleGroup;
-      this.markSelectedScaleGroup( option );
+      let answeredOption = this.getAnsweredOptionByIndex( answerObject, option.index );
+      if( answeredOption ){
+        option.selected = answeredOption.selected;
+
+
+      }
+      this.markSelectedScaleGroup( option, answeredOption );
     }
   }
 
-  markSelectedScaleGroup( option ){
+  markSelectedScaleGroup( option, answeredOption ){
+    let that = this;
     for ( let scaleGrp of option.scaleGroup ) {
-      scaleGrp.selected = this.getSelectedScaleGroupOption( scaleGrp.options );
+      let scaleGroupOptions = [];
+      if( answeredOption && answeredOption.scaleGroup ){
+        scaleGroupOptions = that.getAnsweredScaleOptions( scaleGrp, answeredOption.scaleGroup );
+        if( !scaleGroupOptions ){
+          scaleGroupOptions = [];
+        }
+      }
+      scaleGrp.selected = this.getSelectedScaleGroupOption( scaleGrp.options, scaleGroupOptions );
     }
   }
 
-  getSelectedScaleGroupOption( options ){
-    for ( let option of options ) {
-      if( option.selected ){
-        return option;
+  getAnsweredScaleOptions( scaleGroup, answeredScaleGroups ){
+    for ( let scaleGrp of answeredScaleGroups ) {
+      if( scaleGroup.index === scaleGrp.index ){
+        return scaleGrp.options;
       }
     }
   }
 
-  getAnsweredOptionById( answerObject, optionId ){
+  getSelectedScaleGroupOption( options, scaleGroup ){
+    let that = this;
+    let selectedOption;
+    for ( let option of options ) {
+      // mark all selected options is selected, for multiple questions
+      option.selected = that.isScaleOptionSelected( option, scaleGroup );
+      if( option.selected ){
+        selectedOption = option;
+      }
+    }
+    if( selectedOption ){
+      return selectedOption;
+    }
+  }
+  
+  isScaleOptionSelected( option, answeredOptions ){
+    for ( let scaleOption of answeredOptions ) {
+      let isSelected = (option.index === scaleOption.index);
+      if( isSelected ){
+        console.log( 'Option index: ' + option.index + ' answered index: ' + scaleOption.index + ' is true? ' + isSelected );
+        return isSelected;
+      }
+    }
+  }
+
+  getAnsweredOptionByIndex( answerObject, optionIndex ){
     for ( let option of answerObject.options ) {
-      if( option.id === optionId ){
+      if( option.index === optionIndex ){
         return option;
       }
     }
