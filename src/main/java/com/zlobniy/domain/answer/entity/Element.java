@@ -79,4 +79,15 @@ public class Element {
     public void setId( long id ) {
         this.id = id;
     }
+
+    public Element copy() {
+        final Element element = new Element();
+        element.setAnswerOrder( getAnswerOrder() );
+        element.setName( getName() );
+        element.setScaleGroupOrder( getScaleGroupOrder() );
+        element.setScaleOrder( getScaleOrder() );
+        element.setValue( getValue() );
+
+        return element;
+    }
 }

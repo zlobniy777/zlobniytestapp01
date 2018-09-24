@@ -43,7 +43,7 @@ public class SurveyController {
         Long surveyId = id;
         String userId = "test";
 
-        AnswerSession session = answerService.answers( surveyId, userId );
+        AnswerSession session = answerService.prepareSession( surveyId, userId );
         SurveyView surveyView = surveyService.findById( surveyId );
 
         List<AnswerView> answers = new ArrayList<>(  );

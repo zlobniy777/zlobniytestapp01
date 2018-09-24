@@ -7,6 +7,7 @@ import com.zlobniy.domain.answer.view.ScaleView;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Answer {
@@ -104,5 +105,29 @@ public class Answer {
 
     public void setQuestionNumber( Integer questionNumber ){
         this.questionNumber = questionNumber;
+    }
+
+    public Answer copy(){
+        final Answer answer = new Answer(  );
+        answer.setQuestionId( getQuestionId() );
+        answer.setQuestionNumber( getQuestionNumber() );
+        answer.setElements( getElements().stream().map( Element::copy ).collect( Collectors.toList() ) );
+
+        return answer;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass() != o.getClass() ) return false;
+
+        Answer answer = ( Answer ) o;
+
+        return questionNumber.equals( answer.questionNumber );
+    }
+
+    @Override
+    public int hashCode() {
+        return questionNumber.hashCode();
     }
 }

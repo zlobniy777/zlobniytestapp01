@@ -1,11 +1,13 @@
 package com.zlobniy.domain.answer.entity;
 
 import com.zlobniy.domain.answer.view.AnswerView;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class AnswerSession {
@@ -23,11 +25,15 @@ public class AnswerSession {
     @Column
     private String userId;
 
+    @Column
+    private Boolean deleted = Boolean.FALSE;
+
     @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     @JoinColumn( name = "sessionId")
     private List<Answer> answers = new ArrayList<>(  );
 
     @Column
+    @UpdateTimestamp
     private Date date;
 
     public AnswerSession(){
@@ -91,5 +97,23 @@ public class AnswerSession {
 
     public void setPreviousSession( Long previousSession ) {
         this.previousSession = previousSession;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted( Boolean deleted ) {
+        this.deleted = deleted;
+    }
+
+    public AnswerSession copy(){
+        final AnswerSession answerSession = new AnswerSession(  );
+        answerSession.setAnswers( getAnswers().stream().map( Answer::copy ).collect( Collectors.toList() ) );
+        answerSession.setPreviousSession( getSessionId() );
+        answerSession.setSurveyId( getSurveyId() );
+        answerSession.setUserId( getUserId() );
+
+        return answerSession;
     }
 }
