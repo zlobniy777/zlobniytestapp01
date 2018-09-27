@@ -7,12 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientDao extends JpaRepository<Client,Long> {
+public interface ClientDao extends JpaRepository<Client, Long> {
 
-    @Query("select c from Client c where c.username = :username and c.password = :password")
-    Client findByCredentials( @Param("username") String username, @Param("password") String password);
+    @Query( "select c from Client c where c.username = :username and c.password = :password" )
+    Client findByCredentials( @Param( "username" ) String username, @Param( "password" ) String password );
 
-    @Query("select c from Client c where c.token = :token")
+    @Query( "select c from Client c where c.token = :token" )
     Client findByToken( @Param( "token" ) String token );
+
+    @Query( "select c from Client c JOIN FETCH c.folders f where c.id = :id" )
+    Client findWithFolders( @Param( "id" ) Long id );
 
 }

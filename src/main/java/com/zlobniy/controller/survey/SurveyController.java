@@ -4,6 +4,12 @@ import com.zlobniy.domain.answer.entity.Answer;
 import com.zlobniy.domain.answer.entity.AnswerSession;
 import com.zlobniy.domain.answer.service.AnswerService;
 import com.zlobniy.domain.answer.view.AnswerView;
+import com.zlobniy.domain.client.entity.Client;
+import com.zlobniy.domain.client.service.ClientService;
+import com.zlobniy.domain.client.view.ClientView;
+import com.zlobniy.domain.folder.entity.Folder;
+import com.zlobniy.domain.folder.service.FolderService;
+import com.zlobniy.domain.survey.entity.Survey;
 import com.zlobniy.domain.survey.service.SurveyService;
 import com.zlobniy.domain.survey.view.RespondentSurveyView;
 import com.zlobniy.domain.survey.view.SurveyInfoView;
@@ -11,6 +17,7 @@ import com.zlobniy.domain.survey.view.SurveyLinkView;
 import com.zlobniy.domain.survey.view.SurveyView;
 import com.zlobniy.util.Checksum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +30,15 @@ public class SurveyController {
 
     private SurveyService surveyService;
     private AnswerService answerService;
+    private ClientService clientService;
+    private FolderService folderService;
 
     @Autowired
-    public SurveyController( SurveyService surveyService, AnswerService answerService ) {
+    public SurveyController( SurveyService surveyService, AnswerService answerService, ClientService clientService, FolderService folderService ) {
         this.surveyService = surveyService;
         this.answerService = answerService;
+        this.clientService = clientService;
+        this.folderService = folderService;
     }
 
     @RequestMapping( value = "/api/survey/{id}", method = RequestMethod.GET )
@@ -99,8 +110,19 @@ public class SurveyController {
 
     @RequestMapping( value = "/api/saveSurvey", method = RequestMethod.POST )
     public String saveSurvey( @RequestBody SurveyView surveyView, HttpServletRequest request ) {
+
+        ClientView clientView = (ClientView) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Client client = clientService.findWithFolders( clientView.getId() );
+        Folder folder = client.getFolders().get( 0 );
+
         surveyView.setCreationDate( new Date() );
-        SurveyView savedSurveyView = surveyService.save( surveyView );
+
+        Survey survey = new Survey( surveyView );
+        survey.setFolder( folder );
+
+        SurveyView savedSurveyView = new SurveyView( surveyService.save( survey ) );
+
         return Boolean.toString( true );
     }
 

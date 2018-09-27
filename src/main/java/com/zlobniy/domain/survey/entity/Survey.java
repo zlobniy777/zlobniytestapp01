@@ -1,5 +1,6 @@
 package com.zlobniy.domain.survey.entity;
 
+import com.zlobniy.domain.folder.entity.Folder;
 import com.zlobniy.domain.survey.entity.questionnaire.Questionnaire;
 import com.zlobniy.domain.survey.view.SurveyView;
 
@@ -21,6 +22,10 @@ public class Survey {
 
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     private SurveySettings surveySettings;
+
+    @ManyToOne( fetch = FetchType.LAZY, optional = false )
+    @JoinColumn( name = "folder_id" )
+    private Folder folder;
 
     @Column
     private Date creationDate;
@@ -77,4 +82,11 @@ public class Survey {
         this.creationDate = creationDate;
     }
 
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder( Folder folder ) {
+        this.folder = folder;
+    }
 }

@@ -37,6 +37,7 @@ public class ClientView implements UserDetails {
 
     public ClientView( final Client client ) {
         super();
+        this.setId( client.getId() );
         this.token = requireNonNull( client.getToken() );
         this.username = requireNonNull( client.getUsername() );
         this.password = requireNonNull( client.getPassword() );

@@ -28,17 +28,18 @@ final class PublicUsersController {
     }
 
     @PostMapping( "/login" )
-    Client login(
+    ClientView login(
             @RequestParam( "username" ) final String username,
             @RequestParam( "password" ) final String password ) {
-        return clientService.login( username, password );
+        ClientView clientView = new ClientView( clientService.login( username, password ) );
+        return clientView;
     }
 
     @PostMapping( "/loginByToken" )
-    Client loginByToken(
+    ClientView loginByToken(
             @RequestParam( "token" ) final String token ) {
-
-        return clientService.findByToken( token );
+        ClientView clientView = new ClientView( clientService.findByToken( token ) );
+        return clientView;
     }
 
 }

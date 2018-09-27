@@ -2,11 +2,11 @@ package com.zlobniy.domain.client.entity;
 
 import com.zlobniy.domain.client.view.ClientView;
 import com.zlobniy.domain.client.view.RegistrationView;
+import com.zlobniy.domain.folder.entity.Folder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Client {
@@ -27,17 +27,20 @@ public class Client {
     @Column
     private String email;
 
-    public Client(){
+    @OneToMany( mappedBy = "client", fetch = FetchType.LAZY )
+    private List<Folder> folders = new ArrayList<>(  );
+
+    public Client() {
 
     }
 
-    public Client( RegistrationView registrationView ){
+    public Client( RegistrationView registrationView ) {
         setUsername( registrationView.getUsername() );
         setPassword( registrationView.getPassword() );
         setEmail( registrationView.getEmail() );
     }
 
-    public Client( ClientView clientView ){
+    public Client( ClientView clientView ) {
         setUsername( clientView.getUsername() );
         setPassword( clientView.getPassword() );
         setEmail( clientView.getEmail() );
@@ -46,44 +49,51 @@ public class Client {
     }
 
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
-    public void setId( Long id ){
+    public void setId( Long id ) {
         this.id = id;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername( String username ){
+    public void setUsername( String username ) {
         this.username = username;
     }
 
-    public String getToken(){
+    public String getToken() {
         return token;
     }
 
-    public void setToken( String token ){
+    public void setToken( String token ) {
         this.token = token;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword( String password ){
+    public void setPassword( String password ) {
         this.password = password;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail( String email ){
+    public void setEmail( String email ) {
         this.email = email;
     }
 
+    public List<Folder> getFolders() {
+        return folders;
+    }
+
+    public void setFolders( List<Folder> folders ) {
+        this.folders = folders;
+    }
 }

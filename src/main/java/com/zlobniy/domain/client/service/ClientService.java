@@ -46,9 +46,17 @@ public class ClientService {
         return clientDao.findByToken( token );
     }
 
+    public Client findWithFolders( Long id ){
+        return clientDao.findWithFolders( id );
+    }
+
     public void logout( final Long clientId ) {
         Client client = clientDao.findOne( clientId );
         client.setToken( "" );
         clientDao.save( client );
+    }
+
+    public Client find( Long id ) {
+        return clientDao.findOne( id );
     }
 }
