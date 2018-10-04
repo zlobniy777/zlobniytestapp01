@@ -15,7 +15,7 @@ public class Client {
     @GeneratedValue
     private Long id;
 
-    @Column
+    @Column( unique = true )
     private String username;
 
     @Column
@@ -27,7 +27,7 @@ public class Client {
     @Column
     private String email;
 
-    @OneToMany( mappedBy = "client", fetch = FetchType.LAZY )
+    @OneToMany( mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private List<Folder> folders = new ArrayList<>(  );
 
     public Client() {

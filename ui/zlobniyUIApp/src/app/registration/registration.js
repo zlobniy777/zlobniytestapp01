@@ -1,7 +1,8 @@
 import {inject} from 'aurelia-framework';
+import {ClientService} from "../services/client-service";
 import {Ui} from "../ui";
 
-@inject( Ui )
+@inject( ClientService, Ui )
 export class Registration extends Ui{
   title = 'Registration form';
 
@@ -17,39 +18,23 @@ export class Registration extends Ui{
   passwordPlaceholder = "Password";
   emailPlaceholder = "e-mail@domain.com";
 
-  constructor( ...rest ) {
+  constructor( clientService, ...rest ) {
     super(...rest);
+    this.clientService = clientService;
   }
 
   registration() {
     console.log( 'registration action: ' + this.loginValue );
-    this.test('registration');
 
     let clientData = {
-      login: this.loginValue,
+      username: this.loginValue,
       password: this.passwordValue,
       name: this.nameValue,
       surname: this.surnameValue,
       email: this.emailValue,
     };
 
-    // this.http.fetch('api/login', {
-    //   method: 'post',
-    //   body: JSON.stringify(clientData),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     this.apiKey = response.APIKey;
-    //     console.log(response);
-    //     if (response.hasLogged) {
-    //       console.log("success");
-    //       this.router.navigate("/dashboard");
-    //     }
-    //   });
+    this.clientService.registrationAction( clientData );
 
   }
 }

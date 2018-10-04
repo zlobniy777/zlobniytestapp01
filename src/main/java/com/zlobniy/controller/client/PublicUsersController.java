@@ -4,6 +4,8 @@ import com.zlobniy.domain.client.entity.Client;
 import com.zlobniy.domain.client.service.ClientService;
 import com.zlobniy.domain.client.view.ClientView;
 import com.zlobniy.domain.client.view.RegistrationView;
+import com.zlobniy.domain.folder.entity.Folder;
+import com.zlobniy.domain.folder.service.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,17 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 final class PublicUsersController {
 
     private final ClientService clientService;
+    private final FolderService folderService;
 
     @Autowired
-    public PublicUsersController( ClientService clientService ) {
+    public PublicUsersController( ClientService clientService, FolderService folderService ) {
         this.clientService = clientService;
+        this.folderService = folderService;
     }
 
     @PostMapping( "/register" )
     ClientView register( @RequestBody RegistrationView registrationView ) {
         Client client = clientService.createClient( registrationView );
 
-        return new ClientView( client );
+        if( client != null ){
+            final Folder homeFolder = new Folder();
+            homeFolder.setClient( client );
+            homeFolder.setTitle( "ClientHomeFolder" );
+
+            folderService.saveFolder( homeFolder );
+
+            return new ClientView( client );
+        }
+
+        return null;
     }
 
     @PostMapping( "/login" )

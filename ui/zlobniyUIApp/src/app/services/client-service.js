@@ -81,6 +81,30 @@ export class ClientService {
 
   }
 
+  registrationAction( data ){
+    let that = this;
+    let promise = this.http.registrationPost( data );
+    promise.then(function( response ) {
+      return response.json()
+    }).then(function(json){
+      console.log('json', json);
+      if( json.token ){
+        that.clientInfo = json;
+        that.clientInfo.hasLogged = true;
+        that.hasLogged = true;
+        window.localStorage.setItem( 'token', json.token );
+        if( that.navigationService.router.currentInstruction.config.name === 'regForm' ){
+          that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+        }
+      }
+    }).catch(function(ex) {
+      that.navigationService.setButtons( [] );
+      that.navigationService.setTitle( {} );
+      that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
+      console.log('failed', ex)
+    });
+  }
+
   ifTest( clientData ){
     if( clientData.username === 'test' ){
       this.clientInfo = { id:'0', username:'test', hasLogged: true, name: 'Test'};

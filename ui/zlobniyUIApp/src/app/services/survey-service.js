@@ -66,18 +66,7 @@ export class SurveyService {
   }
 
   saveSurvey( surveyModel ){
-    let that = this;
-
-    let promis = this.http.post( 'api/saveSurvey', that.surveyTransformer.serialize( surveyModel ) );
-    promis.then(function(response) {
-      console.log('response', response)
-      return response.json()
-    }).then(function(json) {
-      console.log('parsed json', json)
-    }).catch(function(ex) {
-      console.log('parsing failed', ex)
-    });
-
+    return this.http.post( 'api/saveSurvey', this.surveyTransformer.serialize( surveyModel ) );
   }
 
   loadSurveys( surveyInfoList ){

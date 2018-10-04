@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class SurveyController {
@@ -57,7 +58,7 @@ public class SurveyController {
         AnswerSession session = answerService.prepareSession( surveyId, userId );
         SurveyView surveyView = surveyService.findById( surveyId );
 
-        List<AnswerView> answers = new ArrayList<>(  );
+        List<AnswerView> answers = new ArrayList<>();
         if ( session != null ) {
             for ( Answer answer : session.getAnswers() ) {
                 answers.add( new AnswerView( session.getSurveyId(), session.getUserId(), answer ) );
@@ -105,16 +106,17 @@ public class SurveyController {
 
     @RequestMapping( value = "/api/surveys", method = RequestMethod.GET )
     public List<SurveyInfoView> loadSurveys( HttpServletRequest request ) {
-        return surveyService.getAllSurveys();
+
+        Folder folder = getFolder();
+        List<SurveyInfoView> surveys = folder.getSurveys().stream().map( SurveyInfoView::new ).collect( Collectors.toList() );
+
+        return surveys;
     }
 
     @RequestMapping( value = "/api/saveSurvey", method = RequestMethod.POST )
-    public String saveSurvey( @RequestBody SurveyView surveyView, HttpServletRequest request ) {
+    public SurveyView saveSurvey( @RequestBody SurveyView surveyView, HttpServletRequest request ) {
 
-        ClientView clientView = (ClientView) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        Client client = clientService.findWithFolders( clientView.getId() );
-        Folder folder = client.getFolders().get( 0 );
+        Folder folder = getFolder();
 
         surveyView.setCreationDate( new Date() );
 
@@ -123,7 +125,7 @@ public class SurveyController {
 
         SurveyView savedSurveyView = new SurveyView( surveyService.save( survey ) );
 
-        return Boolean.toString( true );
+        return savedSurveyView;
     }
 
     @RequestMapping( value = "/api/saveAnswers", method = RequestMethod.POST )
@@ -140,6 +142,15 @@ public class SurveyController {
     @RequestMapping( value = "/api/answers/{surveyId}", method = RequestMethod.GET )
     public List<AnswerView> loadAnswers( @PathVariable( "id" ) Long surveyId, HttpServletRequest request ) {
         return answerService.loadAnswers( surveyId );
+    }
+
+    private Folder getFolder() {
+        ClientView clientView = (ClientView) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Client client = clientService.findWithFolders( clientView.getId() );
+        Folder folder = client.getFolders().get( 0 );
+
+        return folder;
     }
 
 }

@@ -1,11 +1,12 @@
 package com.zlobniy.domain.client.service;
 
-import com.zlobniy.domain.client.dao.ClientDao;
+import com.zlobniy.domain.client.ClientDao;
 import com.zlobniy.domain.client.entity.Client;
 import com.zlobniy.domain.client.view.RegistrationView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -13,11 +14,12 @@ public class ClientService {
 
     private final ClientDao clientDao;
 
-
     @Autowired
     public ClientService( ClientDao clientDao ){
         this.clientDao = clientDao;
     }
+
+
 
     public Client login( final String username, final String password ) {
         final String uuid = UUID.randomUUID().toString();
@@ -32,14 +34,23 @@ public class ClientService {
         return null;
     }
 
-    public Client createClient( RegistrationView registrationView ){
+    public Client createClient( RegistrationView registrationView ) {
+        Client clientForm = new Client( registrationView );
+        final String uuid = UUID.randomUUID().toString();
+        clientForm.setToken( uuid );
 
-        Client client = clientDao.save( new Client( registrationView ) );
-        return client;
+        Client client = null;
+        try {
+            client = clientDao.save( clientForm );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+
+       return client;
     }
 
-    public void saveClient( Client client ){
-        clientDao.save( client );
+    public Client saveClient( Client client ){
+        return clientDao.save( client );
     }
 
     public Client findByToken(final String token) {
@@ -52,11 +63,15 @@ public class ClientService {
 
     public void logout( final Long clientId ) {
         Client client = clientDao.findOne( clientId );
-        client.setToken( "" );
+        client.setToken( null );
         clientDao.save( client );
     }
 
     public Client find( Long id ) {
         return clientDao.findOne( id );
+    }
+
+    public List<Client> findAll(){
+        return clientDao.findAll();
     }
 }

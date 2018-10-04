@@ -69,7 +69,19 @@ export class Survey extends Ui {
       },
       {
         title: 'Save', action: function () {
-        that.surveyService.saveSurvey( that.surveyModel );
+        //that.surveyService.saveSurvey( that.surveyModel );
+          console.log( 'save survey button pressed' );
+          that.surveyService.saveSurvey( that.surveyModel )
+            .then( function ( response ) {
+              return response.json()
+            } ).then( function ( surveyModel ) {
+            console.log( 'parsed json', surveyModel );
+            that.surveyModel = that.surveyModelTransformer.deSerialize( surveyModel );
+            that.navigationService.setTitle( that.surveyModel, true );
+          } ).catch( function ( ex ) {
+            console.log( 'parsing failed', ex )
+          } );
+
       }, css: 'fas fa-save'
       }
     ];

@@ -58,6 +58,19 @@ export class HttpService {
 
   }
 
+  registrationPost( data ){
+
+      return fetch( 'register', {
+        method: 'POST',
+        body: JSON.stringify( data ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      });
+
+  }
+
   get( url ){
     let token = window.localStorage.getItem( 'token' );
     let promise = fetch( url, {
