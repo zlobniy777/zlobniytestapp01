@@ -57,6 +57,7 @@ export class ClientService {
 
     let that = this;
 
+
     console.log('Login action: ' + clientData );
     let promise = this.http.postLogin( clientData );
     promise.then(function( response ) {
@@ -75,7 +76,11 @@ export class ClientService {
     }).catch(function(ex) {
       that.navigationService.setButtons( [] );
       that.navigationService.setTitle( {} );
-      that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
+      if( that.navigationService.router.currentInstruction.config.name === 'survey-viewer' ){
+        that.navigationService.goTo( that.navigationService.NAV_SURVEY_VIEWER );
+      }else{
+        that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
+      }
       console.log('failed', ex)
     });
 

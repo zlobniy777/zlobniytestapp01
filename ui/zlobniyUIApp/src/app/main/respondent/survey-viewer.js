@@ -41,7 +41,11 @@ export class SurveyViewer {
       this.question = this.surveyModel.questionnaire.elements[index];
     }else if( index === this.surveyModel.questionnaire.elements.length ){
       this.saveAnswers( data );
-      this.closeAction.call();
+      if( this.closeAction ){
+        this.closeAction.call();
+      }else{
+        console.log( 'redirect to end of answering survey' );
+      }
     }
   }
 
@@ -191,7 +195,7 @@ export class SurveyViewer {
       } ).then( function ( data ) {
       let answersData = data.answers;
 
-      that.surveyModel = that.surveyModelTransformer.deSerialize( data.surveyModel );
+      that.surveyModel = that.surveyModelTransformer.deSerialize( data.surveyView );
       if( answersData.length > 0 ){
         that.fillAnswers( answersData, that.surveyModel );
       }

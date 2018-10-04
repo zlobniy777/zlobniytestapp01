@@ -75,7 +75,7 @@ public class SurveyController {
     /**
      * Load survey with answers
      */
-    @RequestMapping( value = "/api/realRespondentSurvey/{checksum}", method = RequestMethod.GET )
+    @RequestMapping( value = "/realRespondentSurvey/{checksum}", method = RequestMethod.GET )
     public RespondentSurveyView loadRealRespondentSurvey( @PathVariable( "checksum" ) String checksum, HttpServletRequest request ) {
 
         //get data from checksum
@@ -87,10 +87,21 @@ public class SurveyController {
         System.out.println( surveyId );
         System.out.println( userId );
 
+        AnswerSession session = answerService.prepareSession( surveyId, userId );
+        SurveyView surveyView = surveyService.findById( surveyId );
+
+        List<AnswerView> answers = new ArrayList<>();
+        if ( session != null ) {
+            for ( Answer answer : session.getAnswers() ) {
+                answers.add( new AnswerView( session.getSurveyId(), session.getUserId(), answer ) );
+            }
+
+        }
+
         // find survey and answers if exist and load
         RespondentSurveyView respondentSurveyView = new RespondentSurveyView();
-        respondentSurveyView.setAnswers( answerService.loadAnswers( surveyId ) );
-        respondentSurveyView.setSurveyView( surveyService.findById( surveyId ) );
+        respondentSurveyView.setAnswers( answers );
+        respondentSurveyView.setSurveyView( surveyView );
         return respondentSurveyView;
     }
 
@@ -99,7 +110,7 @@ public class SurveyController {
 
         SurveyLinkView link = new SurveyLinkView();
 
-        link.setLink( "/survey-viewer/" + Checksum.generateChecksum( id, "Test" ) );
+        link.setLink( "/survey-viewer/" + Checksum.generateChecksum( id, "test" ) );
 
         return link;
     }
@@ -128,7 +139,7 @@ public class SurveyController {
         return savedSurveyView;
     }
 
-    @RequestMapping( value = "/api/saveAnswers", method = RequestMethod.POST )
+    @RequestMapping( value = "/saveAnswers", method = RequestMethod.POST )
     public String saveAnswers( @RequestBody AnswerView answerView, HttpServletRequest request ) {
         AnswerSession answerSession = new AnswerSession( answerView );
 

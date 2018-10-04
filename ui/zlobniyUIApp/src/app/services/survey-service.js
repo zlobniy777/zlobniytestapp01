@@ -46,7 +46,7 @@ export class SurveyService {
   }
 
   loadRealRespondentSurvey( checksum ){
-    return this.http.get( 'api/realRespondentSurvey/' + checksum );
+    return this.http.get( 'realRespondentSurvey/' + checksum );
   }
 
   getSurveyLink( id ){
@@ -58,7 +58,7 @@ export class SurveyService {
   }
 
   saveAnswers( data ){
-    return this.http.post( 'api/saveAnswers', data );
+    return this.http.post( 'saveAnswers', data );
   }
 
   unSetSurveyModel(){
