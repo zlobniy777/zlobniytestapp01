@@ -116,12 +116,13 @@ public class SurveyController {
         System.out.println( "Generate url7: "+ request.getServerName() );
         System.out.println( "Generate url8: "+ request.getLocalName() );
         System.out.println( "Generate url9: "+ request.getLocalAddr() );
+        System.out.println( "Port: "+ request.getLocalPort() );
 
         SurveyLinkView link = new SurveyLinkView();
 
         Integer port = request.getLocalPort();
 
-        String url = "http://" + request.getLocalName() + ( port != -1 ? ":" + port : "" ) + "/survey-viewer/" + Checksum.generateChecksum( id, "test" );
+        String url = "http://" + request.getServerName() + ( port != null ? ":" + port : "" ) + "/survey-viewer/" + Checksum.generateChecksum( id, "test" );
         link.setLink( url );
 
         return link;
