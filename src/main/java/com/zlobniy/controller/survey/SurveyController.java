@@ -107,13 +107,21 @@ public class SurveyController {
 
     @RequestMapping( value = "/api/getSurveyLink/{id}", method = RequestMethod.GET )
     public SurveyLinkView getSurveyLink( @PathVariable( "id" ) Long id, HttpServletRequest request ) {
+        System.out.println( "Generate url: "+ request.getRequestURL() );
+        System.out.println( "Generate url2: "+ request.getContextPath() );
+        System.out.println( "Generate url3: "+ request.getPathInfo() );
+        System.out.println( "Generate url4: "+ request.getServletPath() );
+        System.out.println( "Generate url5: "+ request.getRemoteHost() );
+        System.out.println( "Generate url6: "+ request.getScheme() );
+        System.out.println( "Generate url7: "+ request.getServerName() );
+        System.out.println( "Generate url8: "+ request.getLocalName() );
+        System.out.println( "Generate url9: "+ request.getLocalAddr() );
 
         SurveyLinkView link = new SurveyLinkView();
 
         Integer port = request.getLocalPort();
 
         String url = "http://" + request.getLocalName() + ( port != -1 ? ":" + port : "" ) + "/survey-viewer/" + Checksum.generateChecksum( id, "test" );
-        System.out.println( "Generate url: "+ request.getRequestURL() );
         link.setLink( url );
 
         return link;
