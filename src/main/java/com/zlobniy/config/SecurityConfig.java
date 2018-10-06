@@ -49,7 +49,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) {
-        web.ignoring().antMatchers("/", "/*", "/login", "/register", "/*survey-viewer/*", "/#survey-viewer/*", "/*.bundle.*", "/index.html" );
+        web.ignoring().antMatchers("/", "/*", "/register", "/*survey-viewer/*", "/#survey-viewer/*", "/*.bundle.*", "/index.html" );
 //        web.ignoring().requestMatchers(PUBLIC_URLS);
     }
 

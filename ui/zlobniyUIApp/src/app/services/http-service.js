@@ -35,7 +35,7 @@ export class HttpService {
 
     if( credentials.username ){
 
-      return fetch( 'login', {
+      return fetch( 'loggedIn', {
         method: 'POST',
         body: 'username='+username+'&password='+password+'&submit=Login',
         headers: {
@@ -46,13 +46,15 @@ export class HttpService {
     }else{
 
       let token = window.localStorage.getItem( 'token' );
-      return fetch( 'loginByToken', {
-        method: 'POST',
-        body: 'token='+token,
-        headers: {
-          'content-type' : 'application/x-www-form-urlencoded'
-        }
-      });
+      if( token ){
+        return fetch( 'loginByToken', {
+          method: 'POST',
+          body: 'token='+token,
+          headers: {
+            'content-type' : 'application/x-www-form-urlencoded'
+          }
+        });
+      }
 
     }
 

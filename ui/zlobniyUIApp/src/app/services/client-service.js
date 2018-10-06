@@ -60,29 +60,31 @@ export class ClientService {
 
     console.log('Login action: ' + clientData );
     let promise = this.http.postLogin( clientData );
-    promise.then(function( response ) {
-      return response.json()
-    }).then(function(json){
-      console.log('json', json);
-      if( json.token ){
-        that.clientInfo = json;
-        that.clientInfo.hasLogged = true;
-        that.hasLogged = true;
-        window.localStorage.setItem( 'token', json.token );
-        if( that.navigationService.router.currentInstruction.config.name === 'welcome' ){
-          that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+    if( promise ){
+      promise.then(function( response ) {
+        return response.json()
+      }).then(function(json){
+        console.log('json', json);
+        if( json.token ){
+          that.clientInfo = json;
+          that.clientInfo.hasLogged = true;
+          that.hasLogged = true;
+          window.localStorage.setItem( 'token', json.token );
+          if( that.navigationService.router.currentInstruction.config.name === 'welcome' ){
+            that.navigationService.goTo( that.navigationService.NAV_DASHBOARD );
+          }
         }
-      }
-    }).catch(function(ex) {
-      that.navigationService.setButtons( [] );
-      that.navigationService.setTitle( {} );
-      if( that.navigationService.router.currentInstruction.config.name === 'survey-viewer' ){
-        that.navigationService.goTo( that.navigationService.NAV_SURVEY_VIEWER );
-      }else{
-        that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
-      }
-      console.log('failed', ex)
-    });
+      }).catch(function(ex) {
+        that.navigationService.setButtons( [] );
+        that.navigationService.setTitle( {} );
+        if( that.navigationService.router.currentInstruction.config.name === 'survey-viewer' ){
+          that.navigationService.goTo( that.navigationService.NAV_SURVEY_VIEWER );
+        }else{
+          that.navigationService.goTo( that.navigationService.NAV_START_PAGE );
+        }
+        console.log('failed', ex)
+      });
+    }
 
   }
 

@@ -41,8 +41,8 @@ final class PublicUsersController {
         return null;
     }
 
-    @PostMapping( "/login" )
-    ClientView login(
+    @PostMapping( "/loggedIn" )
+    ClientView loggedIn(
             @RequestParam( "username" ) final String username,
             @RequestParam( "password" ) final String password ) {
         ClientView clientView = new ClientView( clientService.login( username, password ) );
