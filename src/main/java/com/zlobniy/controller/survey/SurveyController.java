@@ -110,7 +110,11 @@ public class SurveyController {
 
         SurveyLinkView link = new SurveyLinkView();
 
-        link.setLink( "/survey-viewer/" + Checksum.generateChecksum( id, "test" ) );
+        Integer port = request.getLocalPort();
+
+        String url = "http://" + request.getLocalName() + ( port != -1 ? ":" + port : "" ) + "/survey-viewer/" + Checksum.generateChecksum( id, "test" );
+        System.out.println( "Generate url: "+ request.getRequestURL() );
+        link.setLink( url );
 
         return link;
     }
