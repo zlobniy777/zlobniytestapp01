@@ -8,16 +8,15 @@ export class InfoMessage {
   }
 
   attached() {
-    console.log( 'attached survey ' );
+
   }
 
   detached() {
-    console.log( 'detached survey ' );
+
   }
 
   activate( data ) {
-    console.log( 'activate ' + data );
-    this.message = data.message;
+    this.links = data.links;
   }
 
 }

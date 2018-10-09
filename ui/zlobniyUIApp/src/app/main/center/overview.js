@@ -39,55 +39,71 @@ export class Overview extends Ui {
   }
 
   getContextMenu( id, event ){
-    let that = this;
 
     // get mouse position
     let position = {x:(event.clientX-30)+"px", y:(event.clientY-30)+"px"};
 
+    let edit = this.editItem( id );
+    let open = this.openItem( id );
+    let showLinks = this.showLinksItem( id );
+
     let contextMenu = {id:'contextMenu', position: position, elements:[
-      {index:0, title:'edit', action: function () {
-        that.navigationService.goTo( that.navigationService.NAV_SURVEY + "/" + id )
-      } },
-      {index:1, title:'open', action: function () {
+      edit, open, showLinks,
+    ]};
+
+    return contextMenu;
+  }
+
+  editItem( id ){
+    let that = this;
+    return {index:0, title:'edit', action: function () {
+      that.navigationService.goTo( that.navigationService.NAV_SURVEY + "/" + id )
+    } };
+  }
+
+  openItem( id ){
+    let that = this;
+    return {index:1, title:'open', action: function () {
+      let data = {};
+      data.id = id;
+      data.width = "70%";
+      data.view = "app/main/respondent/survey-viewer";
+      that.dialogService.open({
+        viewModel: Popup,
+        model: data,
+        lock: false
+      })
+        .whenClosed( resp => {}  );
+    } };
+  }
+
+  showLinksItem( id ){
+    let that = this;
+    return {index:2, title:'Get link', action: function () {
+
+      that.surveyService.getSurveyLink( id )
+        .then( function ( response ) {
+          return response.json()
+        } ).then( function ( response ) {
+        let links = response.links;
+
         let data = {};
-        data.id = id;
+        data.links = links;
+
         data.width = "70%";
-        data.view = "app/main/respondent/survey-viewer";
+        data.view = "app/main/common/info-message";
         that.dialogService.open({
           viewModel: Popup,
           model: data,
           lock: false
         })
           .whenClosed( resp => {}  );
-      } },
-      {index:2, title:'get link', action: function () {
 
-        that.surveyService.getSurveyLink( id )
-          .then( function ( response ) {
-            return response.json()
-          } ).then( function ( response ) {
-          let link = response.link;
+      } ).catch( function ( ex ) {
+        console.log( 'parsing failed', ex )
+      } );
 
-          let data = {};
-          data.message = link;
-
-          data.width = "70%";
-          data.view = "app/main/common/info-message";
-          that.dialogService.open({
-            viewModel: Popup,
-            model: data,
-            lock: false
-          })
-            .whenClosed( resp => {}  );
-
-        } ).catch( function ( ex ) {
-          console.log( 'parsing failed', ex )
-        } );
-
-      } }
-    ]};
-
-    return contextMenu;
+    } };
   }
 
 }

@@ -100,6 +100,7 @@ public class SurveyController {
 
         // find survey and answers if exist and load
         RespondentSurveyView respondentSurveyView = new RespondentSurveyView();
+        respondentSurveyView.setUserId( userId );
         respondentSurveyView.setAnswers( answers );
         respondentSurveyView.setSurveyView( surveyView );
         return respondentSurveyView;
@@ -112,8 +113,14 @@ public class SurveyController {
         String serverName = request.getServerName();
         String port = !serverName.contains( "openshiftapps" ) ? ":" + request.getLocalPort() : "";
 
-        String url = "http://" + serverName + port + "/survey-viewer/" + Checksum.generateChecksum( id, "test" );
-        link.setLink( url );
+        String url1 = "http://" + serverName + port + "/survey-viewer/" + Checksum.generateChecksum( id, "1" );
+        String url2 = "http://" + serverName + port + "/survey-viewer/" + Checksum.generateChecksum( id, "2" );
+        String url3 = "http://" + serverName + port + "/survey-viewer/" + Checksum.generateChecksum( id, "3" );
+        String url4 = "http://" + serverName + port + "/survey-viewer/" + Checksum.generateChecksum( id, "4" );
+        link.addLink( url1 );
+        link.addLink( url2 );
+        link.addLink( url3 );
+        link.addLink( url4 );
 
         return link;
     }

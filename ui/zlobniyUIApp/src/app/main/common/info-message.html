@@ -1,3 +1,6 @@
 <template>
-  <div>${message}</div>
+  <div repeat.for="link of links">
+    <a href="${link}" target="_blank">${link}</a>
+  </div>
+
 </template>

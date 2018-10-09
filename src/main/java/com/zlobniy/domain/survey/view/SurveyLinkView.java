@@ -1,14 +1,22 @@
 package com.zlobniy.domain.survey.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SurveyLinkView {
 
-    private String link;
+    private List<String> links = new ArrayList<>(  );
 
-    public String getLink(){
-        return link;
+    public List<String> getLinks(){
+        return links;
     }
 
-    public void setLink( String link ){
-        this.link = link;
+    public void setLinks( List<String> links ){
+        this.links = links;
     }
+
+    public void addLink( String link ){
+        this.links.add( link );
+    }
+
 }

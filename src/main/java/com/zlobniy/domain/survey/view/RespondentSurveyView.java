@@ -6,8 +6,17 @@ import java.util.List;
 
 public class RespondentSurveyView {
 
+    private String userId;
     private SurveyView surveyView;
     private List<AnswerView> answers;
+
+    public String getUserId(){
+        return userId;
+    }
+
+    public void setUserId( String userId ){
+        this.userId = userId;
+    }
 
     public SurveyView getSurveyView(){
         return surveyView;

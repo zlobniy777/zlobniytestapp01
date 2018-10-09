@@ -11,6 +11,7 @@ export class SurveyViewer {
 
   @bindable surveyModel;
   question;
+  userId;
 
   constructor( eventAggregator, surveyService, navigationService, surveyModelTransformer ) {
     this.eventAggregator = eventAggregator;
@@ -61,7 +62,7 @@ export class SurveyViewer {
 
     let answerData = {};
     answerData.questionId = data.id;
-    answerData.userId = 'test';
+    answerData.userId = this.userId ? this.userId : 'test';
     answerData.surveyId = this.surveyModel.id;
     answerData.questionNumber = data.number;
     answerData.questionType = data.settings.questionType;
@@ -194,6 +195,7 @@ export class SurveyViewer {
         return response.json()
       } ).then( function ( data ) {
       let answersData = data.answers;
+      that.userId = data.userId;
 
       that.surveyModel = that.surveyModelTransformer.deSerialize( data.surveyView );
       if( answersData.length > 0 ){
