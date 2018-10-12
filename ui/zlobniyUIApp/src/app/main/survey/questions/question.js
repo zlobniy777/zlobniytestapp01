@@ -5,8 +5,9 @@ import {SurveyService} from "../../../services/survey-service";
 import {SurveyHelper} from "../../../services/survey-helper";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Ui} from "../../../ui";
+import {CssAnimator} from 'aurelia-animator-css';
 
-@inject( SurveyService, SurveyHelper, EventAggregator, Ui, Element )
+@inject( SurveyService, SurveyHelper, EventAggregator, Ui, CssAnimator, Element )
 export class Question extends Ui {
 
   @bindable question;
@@ -14,11 +15,12 @@ export class Question extends Ui {
   @bindable editMode;
   isEdit = false;
 
-  constructor( surveyService, surveyHelper, eventAggregator, ui, element, ...rest ) {
+  constructor( surveyService, surveyHelper, eventAggregator, ui, animator, element, ...rest ) {
     super(...rest);
     this.surveyService = surveyService;
     this.surveyHelper = surveyHelper;
     this.eventAggregator = eventAggregator;
+    this.animator = animator;
     this.element = element;
 
     this.selectQuestionHandler = e => {

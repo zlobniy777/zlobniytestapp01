@@ -1,3 +1,38 @@
+.target-items>div.au-enter {
+  opacity: 0!important;
+}
+
+.target-items>div.au-enter-active {
+  -webkit-animation: fadeIn 1.1s;
+  animation: fadeIn 1.1s;
+}
+
+.target-items>div.au-leave-active {
+  -webkit-animation: fadeOut 0.5s;
+  animation: fadeOut 0.5s;
+}
+
+/* CSS3-Animations */
+@-webkit-keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fadeOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 input{
   margin-right: 10px;
 }

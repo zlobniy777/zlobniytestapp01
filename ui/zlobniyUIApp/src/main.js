@@ -12,7 +12,8 @@ export function configure(aurelia) {
     .standardConfiguration()
     .developmentLogging()
     .feature(PLATFORM.moduleName('resources/index'))
-    .plugin(PLATFORM.moduleName('aurelia-dialog'));
+    .plugin(PLATFORM.moduleName('aurelia-dialog'))
+    .plugin(PLATFORM.moduleName('aurelia-animator-css'));
 
   configureContainer(aurelia.container);
 

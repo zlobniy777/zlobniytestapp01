@@ -19,7 +19,7 @@
     <div class="d-flex">
 
       <div id="drag-target" class="target-items">
-        <div class="dragged-element question m-3 ${question.selected ? 'selected-question' : ''}"
+        <div class="au-animate dragged-element question m-3 ${question.selected ? 'selected-question' : ''}"
              repeat.for="question of surveyModel.questionnaire.elements">
           <question containerless question.one-way="question"
                     survey-settings.one-way="surveyModel.surveySettings"
