@@ -37,6 +37,10 @@ input{
   margin-right: 10px;
 }
 
+i{
+  cursor: pointer;
+}
+
 .question{
   display: block;
   border: solid 1px black;
@@ -59,6 +63,19 @@ input{
   background-color: dodgerblue;
   margin: 15px;
   padding: 5px;
+}
+
+.grab{
+  cursor: url(images/grab.cur), auto;
+  cursor: -webkit-grab;
+  cursor:    -moz-grab;
+  cursor:         grab;
+}
+.grab:active{
+  cursor: url(images/grabbing.cur), auto;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
 }
 
 .source-items{

@@ -22,6 +22,7 @@ public class Questionnaire {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn( name = "questionnaire_id")
+    @OrderBy(value = "number ASC")
     private List<Question> questions = new ArrayList<>();
 
     public Questionnaire(){

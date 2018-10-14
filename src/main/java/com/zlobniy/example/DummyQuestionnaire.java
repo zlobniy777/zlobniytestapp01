@@ -19,11 +19,11 @@ public class DummyQuestionnaire {
     }
 
 
-    public QuestionView createDummyClosedQuestion(Long id ){
+    public QuestionView createDummyClosedQuestion( Long id ){
         ClosedQuestionView question = new ClosedQuestionView();
-//        question.setId( id );
         question.setSettings( createDummySettings() );
         question.setTitle( "dummy closed question " + id );
+        question.setIndex( 0 );
 
         question.getOptions().add( createDummyOption( 1L ) );
         question.getOptions().add( createDummyOption( 2L ) );
@@ -32,11 +32,11 @@ public class DummyQuestionnaire {
         return question;
     }
 
-    public QuestionView createDummyMatrixQuestion(Long id ){
+    public QuestionView createDummyMatrixQuestion( Long id ){
         MatrixQuestionView question = new MatrixQuestionView();
-//        question.setId( id );
         question.setSettings( createDummySettings() );
         question.setTitle( "Dummy matrix question " + id );
+        question.setIndex( 1 );
 
         question.getOptions().add( createDummyOption( 1L ) );
         question.getOptions().add( createDummyOption( 2L ) );
@@ -47,17 +47,15 @@ public class DummyQuestionnaire {
         return question;
     }
 
-    public OptionView createDummyOption(Long id ){
+    public OptionView createDummyOption( Long id ){
         OptionView optionView = new OptionView();
-//        optionView.setId( id );
         optionView.setTitle( "Dummy option " + id );
 
         return optionView;
     }
 
-    public ScaleView createDummyScale(Long id ){
+    public ScaleView createDummyScale( Long id ){
         ScaleView scaleView = new ScaleView();
-//        scaleView.setId( id );
         scaleView.setTitle( "Dummy scale " + id );
 
         scaleView.getOptions().add( createDummyScaleStep( 1L ) );
@@ -67,9 +65,8 @@ public class DummyQuestionnaire {
         return scaleView;
     }
 
-    public OptionView createDummyScaleStep(Long id ){
+    public OptionView createDummyScaleStep( Long id ){
         OptionView scaleStep = new OptionView();
-//        scaleStep.setId( id );
         scaleStep.setTitle( "Dummy scale step " + id );
 
         return scaleStep;
@@ -83,7 +80,7 @@ public class DummyQuestionnaire {
         return questionSettingsView;
     }
 
-    public static void main(String[] args) {
+    public static void main( String[] args ){
 
         DummyQuestionnaire dummyQuestionnaire = new DummyQuestionnaire();
 

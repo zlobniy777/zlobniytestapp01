@@ -18,6 +18,7 @@ public class QuestionView {
 
     private Long id;
     private String title;
+    private Integer index;
     private QuestionSettingsView settings;
     private String type;
 
@@ -28,6 +29,7 @@ public class QuestionView {
     public QuestionView( Question question, String type ){
         setId( question.getId() );
         setTitle( question.getTitle() );
+        setIndex( question.getNumber() );
         setType( type );
     }
 
@@ -45,6 +47,14 @@ public class QuestionView {
 
     public void setTitle( String title ){
         this.title = title;
+    }
+
+    public Integer getIndex(){
+        return index;
+    }
+
+    public void setIndex( Integer index ){
+        this.index = index;
     }
 
     public QuestionSettingsView getSettings(){

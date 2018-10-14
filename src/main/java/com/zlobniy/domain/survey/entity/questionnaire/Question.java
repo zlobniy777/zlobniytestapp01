@@ -7,7 +7,7 @@ import com.zlobniy.domain.survey.view.questionnaire.QuestionView;
 import javax.persistence.*;
 
 @Entity
-@Inheritance( strategy = InheritanceType.JOINED )
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Question {
 
     @Id
@@ -16,6 +16,9 @@ public class Question {
 
     @Column
     private String title;
+
+    @Column
+    private Integer number;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Questionnaire questionnaire;
@@ -27,35 +30,44 @@ public class Question {
     public Question( QuestionView questionView ){
         setId( questionView.getId() );
         setTitle( questionView.getTitle() );
+        setNumber( questionView.getIndex() );
     }
 
-    public Long getId() {
+    public Long getId(){
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId( Long id ){
         this.id = id;
     }
 
-    public Questionnaire getQuestionnaire() {
+    public Questionnaire getQuestionnaire(){
         return questionnaire;
     }
 
-    public void setQuestionnaire(Questionnaire questionnaire) {
+    public void setQuestionnaire( Questionnaire questionnaire ){
         this.questionnaire = questionnaire;
     }
 
-    public String getTitle() {
+    public String getTitle(){
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle( String title ){
         this.title = title;
     }
 
-    public static Question mapQuestion(QuestionView questionView ) {
+    public Integer getNumber(){
+        return number;
+    }
 
-        switch (questionView.getType()) {
+    public void setNumber( Integer number ){
+        this.number = number;
+    }
+
+    public static Question mapQuestion( QuestionView questionView ){
+
+        switch( questionView.getType() ){
             case "closed":
                 return new ClosedQuestion( (ClosedQuestionView) questionView );
             case "matrix":

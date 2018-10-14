@@ -21,7 +21,7 @@ public class SurveyService {
     }
 
     public SurveyView findById( Long id ) {
-        Survey survey = surveyDao.findByIdEager( id );
+       final Survey survey = surveyDao.findByIdEager( id );
 
         return new SurveyView( survey );
     }
