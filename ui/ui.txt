@@ -11,6 +11,7 @@ npm install aurelia-router --save
 npm install whatwg-fetch --save
 npm install aurelia-dialog --save
 npm install aurelia-animator-css --save
+npm install aurelia-validation --save
 
 sortable draggable dependency
 npm install sortablejs --save

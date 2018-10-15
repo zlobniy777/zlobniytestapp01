@@ -1,16 +1,18 @@
-import {inject} from 'aurelia-framework';
+import {inject, NewInstance} from 'aurelia-framework';
 import {ClientService} from "../services/client-service";
+import {BootstrapFormRenderer} from '../renderers/bootstrap-form-renderer';
+import {ValidationController, ValidationRules} from 'aurelia-validation';
 import {Ui} from "../ui";
 
-@inject( ClientService, Ui )
+@inject( ClientService, NewInstance.of(ValidationController), Ui )
 export class Registration extends Ui{
   title = 'Registration form';
 
   nameValue;
   surnameValue;
-  loginValue;
-  passwordValue;
-  emailValue;
+  login;
+  password;
+  email;
 
   namePlaceholder = "Name";
   surnamePlaceholder = "Surname";
@@ -18,23 +20,38 @@ export class Registration extends Ui{
   passwordPlaceholder = "Password";
   emailPlaceholder = "e-mail@domain.com";
 
-  constructor( clientService, ...rest ) {
+  constructor( clientService, validation, ...rest ) {
     super(...rest);
     this.clientService = clientService;
+    this.validation = validation ;
+    this.validation.addRenderer(new BootstrapFormRenderer());
   }
 
   registration() {
-    console.log( 'registration action: ' + this.loginValue );
+    console.log( 'registration action: ' + this.login );
 
-    let clientData = {
-      username: this.loginValue,
-      password: this.passwordValue,
-      name: this.nameValue,
-      surname: this.surnameValue,
-      email: this.emailValue,
-    };
+    this.validation.validate()
+      .then( result => {
+        if ( result.valid ) {
 
-    this.clientService.registrationAction( clientData );
+          let clientData = {
+            username: this.login,
+            password: this.password,
+            name: this.nameValue,
+            surname: this.surnameValue,
+            email: this.email,
+          };
+
+          this.clientService.registrationAction( clientData );
+        }
+      } );
 
   }
 }
+
+
+ValidationRules
+  .ensure( a => a.login ).required()
+  .ensure( a => a.password ).required()
+  .ensure( a => a.email ).required()
+  .on( Registration );

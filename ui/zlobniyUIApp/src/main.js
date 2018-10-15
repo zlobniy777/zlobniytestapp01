@@ -13,6 +13,7 @@ export function configure(aurelia) {
     .developmentLogging()
     .feature(PLATFORM.moduleName('resources/index'))
     .plugin(PLATFORM.moduleName('aurelia-dialog'))
+    .plugin(PLATFORM.moduleName('aurelia-validation'))
     .plugin(PLATFORM.moduleName('aurelia-animator-css'));
 
   configureContainer(aurelia.container);

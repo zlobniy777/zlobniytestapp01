@@ -1,37 +1,55 @@
-import {inject} from 'aurelia-framework';
+import {inject, NewInstance} from 'aurelia-framework';
 import {ClientService} from "../services/client-service";
+import {BootstrapFormRenderer} from '../renderers/bootstrap-form-renderer';
+import {ValidationController, ValidationRules} from 'aurelia-validation';
 import {Ui} from "../ui";
 
-@inject( ClientService, Ui )
+@inject( ClientService, NewInstance.of(ValidationController), Ui )
 export class LoginForm extends Ui {
 
-  username = "";
+  login = "";
   password = "";
   loginPlaceholder = "login";
   passwordPlaceholder = "password";
 
-  constructor( clientService, ...rest) {
+  constructor( clientService, validation, ...rest) {
     super(...rest);
     this.clientService = clientService;
+
+    this.validation = validation ;
+    this.validation.addRenderer(new BootstrapFormRenderer());
   }
 
   doLogin() {
     console.log('Login action: ' + this.username + " " + this.password);
 
-    let clientData = {
-      username: this.username,
-      password: this.password
-    };
+    this.validation.validate()
+      .then( result => {
+        if ( result.valid ) {
 
-    this.clientService.loginAction( clientData );
-  }
+          let clientData = {
+            username: this.login,
+            password: this.password
+          };
 
-  attached(){
-    console.log('attached login form: ');
-  }
-
-  detached() {
+          this.clientService.loginAction( clientData );
+        }
+      } );
 
   }
 
 }
+
+// simple example
+ValidationRules.customRule(
+  'moreThenOne',
+  (value, obj) => value === null || value === undefined
+    || value.length >= 2,
+  `length should be more`
+);
+
+ValidationRules
+  .ensure( a => a.login ).required()
+  .satisfiesRule('moreThenOne')
+  .ensure( a => a.password ).required()
+  .on( LoginForm );

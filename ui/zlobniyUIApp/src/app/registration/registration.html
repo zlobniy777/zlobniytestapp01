@@ -3,23 +3,23 @@
     <div class="table-title">
       ${title}
     </div>
-    <div >
-      <div class="table-row">
-        <input type="text" id="name" value.bind="nameValue" placeholder="${namePlaceholder}" />
+    <div>
+      <div style="text-align: center" class="form-group table-row">
+        <input class="form-control" style="display: inline; width: 10%;" type="text" id="name" value.bind="nameValue" placeholder="${namePlaceholder}" />
       </div>
-      <div class="table-row">
-        <input type="text" id="surname" value.bind="surnameValue" placeholder="${surnamePlaceholder}" />
+      <div style="text-align: center" class="form-group table-row">
+        <input class="form-control" style="display: inline; width: 10%;" type="text" id="surname" value.bind="surnameValue" placeholder="${surnamePlaceholder}" />
       </div>
-      <div class="table-row">
-        <input type="text" id="login" value.bind="loginValue" placeholder="${loginPlaceholder}" />
+      <div style="text-align: center" class="form-group table-row">
+        <input class="form-control" style="display: inline; width: 10%;" type="text" id="login" value.bind="login & validate" placeholder="${loginPlaceholder}" />
       </div>
-      <div class="table-row">
-        <input type="password" id="password" value.bind="passwordValue" placeholder="${passwordPlaceholder}">
+      <div style="text-align: center" class="form-group table-row">
+        <input class="form-control" style="display: inline; width: 10%;" type="password" id="password" value.bind="password & validate" placeholder="${passwordPlaceholder}">
       </div>
-      <div class="table-row">
-        <input type="text" id="email" value.bind="emailValue" placeholder="${emailPlaceholder}" />
+      <div style="text-align: center" class="form-group table-row">
+        <input class="form-control" style="display: inline; width: 10%;" type="text" id="email" value.bind="email & validate" placeholder="${emailPlaceholder}" />
       </div>
-      <div class="table-row" css="text-align: center">
+      <div class="form-group table-row" css="text-align: center">
         <button type="button" id="submit" click.trigger="registration()">Registration</button>
       </div>
     </div>

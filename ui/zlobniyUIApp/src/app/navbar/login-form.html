@@ -1,14 +1,23 @@
 <template>
-  <form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="text" value.bind="username" placeholder="${loginPlaceholder}" aria-label="Search">
-    <input class="form-control mr-sm-2" type="password" value.bind="password"  placeholder="${passwordPlaceholder}" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" click.delegate="doLogin()" >
-      <i class="fas fa-sign-in-alt"></i>
-      Login
-    </button>
-    <a class="ml-sm-2" href="/registration">
-      <i class="fas fa-user-plus"></i>
-      Registration
-    </a>
+  <form style="height: 50px;" class="form-inline my-2 my-lg-0">
+    <div style="display: block; height: 50px;" class="form-group">
+      <input class="form-control mr-sm-2" type="text" value.bind="login & validate" placeholder="${loginPlaceholder}" aria-label="Search">
+    </div>
+
+    <div style="display: block; height: 50px;" class="form-group">
+      <input class="form-control mr-sm-2" type="password" value.bind="password & validate"  placeholder="${passwordPlaceholder}" aria-label="Search">
+    </div>
+
+    <div style="height: 50px;">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" click.delegate="doLogin()" >
+        <i class="fas fa-sign-in-alt"></i>
+        Login
+      </button>
+      <a class="ml-sm-2" href="/registration">
+        <i class="fas fa-user-plus"></i>
+        Registration
+      </a>
+    </div>
+
   </form>
 </template>
