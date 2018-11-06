@@ -88,6 +88,9 @@ public class UIController {
 //            }
 //        }
 //
+
+        String longStrTest = "1231231231231231231231231231231231231312312312 3123123123123123123";
+
         try{
             response.sendRedirect( "/#dashboard" );
         } catch( IOException e ){
