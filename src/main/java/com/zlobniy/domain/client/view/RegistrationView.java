@@ -1,9 +1,19 @@
 package com.zlobniy.domain.client.view;
 
+import com.zlobniy.validators.CustomValidator;
+import org.hibernate.validator.constraints.Email;
+
+import javax.validation.constraints.Size;
+
 public class RegistrationView {
 
+    @Size( min = 3, max = 20 )
     private String username;
+
+    @CustomValidator
     private String password;
+
+    @Email
     private String email;
 
     public String getUsername() {
