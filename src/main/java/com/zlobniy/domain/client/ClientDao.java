@@ -12,6 +12,9 @@ public interface ClientDao extends JpaRepository<Client, Long> {
     @Query( "select c from Client c where c.username = :username and c.password = :password" )
     Client findByCredentials( @Param( "username" ) String username, @Param( "password" ) String password );
 
+    @Query( "select c from Client c where c.username = :username" )
+    Client findByLogin( @Param( "username" ) String username );
+
     @Query( "select c from Client c where c.token = :token" )
     Client findByToken( @Param( "token" ) String token );
 

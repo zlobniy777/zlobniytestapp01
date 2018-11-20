@@ -41,7 +41,11 @@ public class ClientService extends Client {
 
         Client client = null;
         try {
-            client = clientDao.save( clientForm );
+            // change in save behaviour, in sprig boot save not working if column is unique and value already exist.
+            // in spring boot v.2 that rule not working or not as before.
+            if( clientDao.findByLogin( clientForm.getUsername() ) == null ){
+                client = clientDao.save( clientForm );
+            }
         } catch ( Exception e ) {
             e.printStackTrace();
         }
