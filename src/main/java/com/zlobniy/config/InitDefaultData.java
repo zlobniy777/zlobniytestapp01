@@ -48,17 +48,7 @@ public class InitDefaultData {
 
         folderService.saveFolder( homeFolder );
 
-        final DummyQuestionnaire dummyQuestionnaire = new DummyQuestionnaire();
-
-        final SurveyView surveyView = new SurveyView();
-        surveyView.setTitle( "Dummy survey" );
-        surveyView.setQuestionnaire( dummyQuestionnaire.createDummyQuestionnaire() );
-        surveyView.setSurveySettings( new SurveySettingsView() );
-        surveyView.setCreationDate( new Date() );
-
-        final Survey survey = new Survey( surveyView );
-        survey.setFolder( homeFolder );
-        surveyService.save( survey );
+        generate1000Surveys( homeFolder );
 
         List<Survey> storedSurveys = surveyService.findAll();
         List<Folder> folders = folderService.findAll();
@@ -70,6 +60,23 @@ public class InitDefaultData {
         Folder folderWithSurveys = folderService.findWithSurveys( homeFolder.getId() );
 
         System.out.println( storedSurveys );
+
+    }
+
+    private void generate1000Surveys( Folder homeFolder ){
+
+        for( int i = 0; i < 100 ; i++ ){
+            final DummyQuestionnaire dummyQuestionnaire = new DummyQuestionnaire();
+            final SurveyView surveyView = new SurveyView();
+            surveyView.setTitle( "Dummy survey " + i );
+            surveyView.setQuestionnaire( dummyQuestionnaire.createDummyQuestionnaire( 50 ) );
+            surveyView.setSurveySettings( new SurveySettingsView() );
+            surveyView.setCreationDate( new Date() );
+
+            final Survey survey = new Survey( surveyView );
+            survey.setFolder( homeFolder );
+            surveyService.save( survey );
+        }
 
     }
 

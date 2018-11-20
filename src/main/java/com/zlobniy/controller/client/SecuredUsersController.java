@@ -20,7 +20,7 @@ final class SecuredUsersController {
     @NonNull
     ClientService authentication;
 
-    @GetMapping("/current")
+    @GetMapping( value = "/current")
     ClientView getCurrent( @RequestBody ClientView clientView ) {
         return clientView;
     }

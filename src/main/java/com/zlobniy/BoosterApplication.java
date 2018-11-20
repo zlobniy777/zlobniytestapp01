@@ -15,12 +15,14 @@
  */
 package com.zlobniy;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class BoosterApplication {
 
     public static void main(String[] args) {

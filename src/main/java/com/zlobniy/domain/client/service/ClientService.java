@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ClientService {
+public class ClientService extends Client {
 
     private final ClientDao clientDao;
 
@@ -62,13 +62,13 @@ public class ClientService {
     }
 
     public void logout( final Long clientId ) {
-        Client client = clientDao.findOne( clientId );
+        Client client = clientDao.findById( clientId ).get();
         client.setToken( null );
         clientDao.save( client );
     }
 
     public Client find( Long id ) {
-        return clientDao.findOne( id );
+        return clientDao.findById( id ).get();
     }
 
     public List<Client> findAll(){

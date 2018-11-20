@@ -12,8 +12,18 @@ public class DummyQuestionnaire {
     public QuestionnaireView createDummyQuestionnaire(){
         QuestionnaireView questionnaireView = new QuestionnaireView();
         questionnaireView.getQuestions().add( createDummyClosedQuestion( 1L ) );
-//        questionnaireView.getQuestions().add( createDummyClosedQuestion( 2L ) );
         questionnaireView.getQuestions().add( createDummyMatrixQuestion( 2L ) );
+
+        return questionnaireView;
+    }
+
+    public QuestionnaireView createDummyQuestionnaire( int amountOfQuestions ){
+        QuestionnaireView questionnaireView = new QuestionnaireView();
+
+        for( long i = 0; i < amountOfQuestions; i++ ){
+            questionnaireView.getQuestions().add( createDummyClosedQuestion( i ) );
+            questionnaireView.getQuestions().add( createDummyMatrixQuestion( i ) );
+        }
 
         return questionnaireView;
     }
