@@ -25,7 +25,7 @@ final class PublicUsersController {
     }
 
     @PostMapping( value = "/register" )
-    ClientView register( @RequestBody RegistrationView registrationView ) {
+    public ClientView register( @RequestBody RegistrationView registrationView ) {
         Client client = clientService.createClient( registrationView );
 
         if( client != null ){
@@ -42,7 +42,7 @@ final class PublicUsersController {
     }
 
     @PostMapping( value = "/loggedIn" )
-    ClientView loggedIn(
+    public ClientView loggedIn(
             @RequestParam( "username" ) final String username,
             @RequestParam( "password" ) final String password ) {
         ClientView clientView = new ClientView( clientService.login( username, password ) );
@@ -50,7 +50,7 @@ final class PublicUsersController {
     }
 
     @PostMapping( value = "/loginByToken" )
-    ClientView loginByToken(
+    public ClientView loginByToken(
             @RequestParam( "token" ) final String token ) {
         ClientView clientView = new ClientView( clientService.findByToken( token ) );
         return clientView;
