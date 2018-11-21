@@ -4,6 +4,6 @@
   <require from="app/main/survey/common/opts/options"></require>
 
   <p></p>
-  <options containerless params.one-way="params" question.one-way="question"></options>
+  <compose containerless  view-model='app/main/survey/common/opts/options' model.one-way="{params:params, question:question}" ></compose>
 
 </template>

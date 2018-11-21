@@ -82,7 +82,11 @@ export class options {
     this.question.options.selected = data;
   }
 
-  attached() {
+  activate( model ) {
+
+    this.params = model.params;
+    this.question = model.question;
+
     let that = this;
 
     this.removeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-remove', index => {
