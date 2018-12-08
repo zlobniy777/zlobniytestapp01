@@ -1,6 +1,6 @@
 <template>
   <div if.bind="editMode">
-    <div if.bind="edit"><input data-type="editable" focus.one-time="true" type="text" value.bind="item.title"></div>
+    <div if.bind="edit"><input data-type="editable" change.delegate="changeText( $event )" focus.one-time="true" type="text" value.one-way="item.title"></div>
     <div data-type="editable" click.delegate="startEdit()" else>${item.title}</div>
   </div>
   <div else>

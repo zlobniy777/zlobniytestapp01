@@ -87,6 +87,7 @@ export class SurveyService {
   initNewSurveyModel(){
     let surveyModel = {};
     surveyModel.title = "New survey";
+    surveyModel.type = "SurveyModel";
     surveyModel.questionnaire = {};
     surveyModel.questionnaire.type = 'questionnaire';
     surveyModel.questionnaire.elements = [];

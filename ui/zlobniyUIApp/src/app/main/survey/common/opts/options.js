@@ -3,66 +3,58 @@ import 'css/survey.css';
 import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyHelper} from "../../../../services/survey-helper";
+import {EventSources} from "../../../../services/event-sources";
 
-@inject( EventAggregator, SurveyHelper )
+@inject( EventAggregator, SurveyHelper, EventSources )
 export class options {
 
   @bindable question;
   @bindable params; // question selected and we show controls (like add, remove buttons)
 
-  constructor( eventAggregator, surveyHelper ) {
+  constructor( eventAggregator, surveyHelper, eventSources ) {
     this.eventAggregator = eventAggregator;
     this.surveyHelper = surveyHelper;
+    this.eventSources = eventSources;
   }
 
   addItem( event ) {
-    let scaleGroup = this.surveyHelper.createScaleGroup( this.question.scales.elements );
 
-    let option = this.surveyHelper.createOption(
-      undefined,
-      '',
-      'closed-option',
-      this.question.id,
-      this.question.options.elements.length,
-      true,
-      undefined,
-      this.question.options.id,
-      scaleGroup,
-      "./../common/opts/option"
-    );
+    let data = {
+      questionNumber: this.question.number,
+    };
 
-    this.question.options.elements.push( option );
+    this.eventSources.addEvent( 'option.add', data );
 
     event.stopImmediatePropagation();
     //e.stopPropagation();
   }
 
-  removeItem( index ){
+  // removeItem( index ){
     // delete item
-    this.surveyHelper.deleteItem( this.question.options.elements, index );
-  }
+    //this.surveyHelper.deleteItem( this.question.options.elements, index );
+  // }
 
-  addScaleSubGroupItem( scaleStepIndex ){
-    // add new item in scale index = this.item.index
-    this.question.options.elements.forEach( function ( element ) {
-      let scaleGroup = element.scaleGroup[scaleStepIndex];
-      scaleGroup.options.push( {index:scaleGroup.options.length, selected:false} );
-    } );
-  }
+  // addScaleSubGroupItem( scaleStepIndex ){
+  //   // add new item in scale index = this.item.index
+  //   this.question.options.elements.forEach( function ( element ) {
+  //     let scaleGroup = element.scaleGroup[scaleStepIndex];
+  //     scaleGroup.options.push( {index:scaleGroup.options.length, selected:false} );
+  //   } );
+  // }
 
-  removeScaleSubGroupItem( scaleIndex, scaleStepIndex ){
-    this.question.options.elements.forEach( function ( element ) {
-      let scaleGroup = element.scaleGroup[scaleIndex];
-      scaleGroup.options.splice( scaleStepIndex, 1 );
-
-      var i = 0;
-      scaleGroup.options.forEach(function( element ) {
-        element.index = i;
-        i++;
-      });
-
-    } );
-  }
+  // removeScaleSubGroupItem( scaleIndex, scaleStepIndex ){
+  //   this.question.options.elements.forEach( function ( element ) {
+  //     let scaleGroup = element.scaleGroup[scaleIndex];
+  //     scaleGroup.options.splice( scaleStepIndex, 1 );
+  //
+  //     var i = 0;
+  //     scaleGroup.options.forEach(function( element ) {
+  //       element.index = i;
+  //       i++;
+  //     });
+  //
+  //   } );
+  // }
 
   changeOption( data ){
     for ( let element of this.question.options.elements ) {
@@ -89,30 +81,35 @@ export class options {
 
     let that = this;
 
-    this.removeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-remove', index => {
-      that.removeItem( index );
-    } );
+    // this.removeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-remove', index => {
+    //   that.removeItem( index );
+    // } );
+
+
     this.changeOptionSub = this.eventAggregator.subscribe( this.question.options.id + '-change', data => {
       that.changeOption( data );
     } );
     this.changeOptionMatrixSub = this.eventAggregator.subscribe( this.question.options.id + '-change-matrix', data => {
       that.changeMatrixOption( data );
     } );
-    this.removeFromScaleGroupEvent = this.eventAggregator.subscribe( this.question.options.id + '-remove-scale-sub-group', data => {
-      that.removeScaleSubGroupItem( data.scaleIndex, data.scaleStepIndex );
-    } );
-    this.addToScaleGroupEvent = this.eventAggregator.subscribe( this.question.options.id + '-add-scale-sub-group', index => {
-      that.addScaleSubGroupItem( index );
-    } );
+
+    // this.removeFromScaleGroupEvent = this.eventAggregator.subscribe( this.question.options.id + '-remove-scale-sub-group', data => {
+    //   that.removeScaleSubGroupItem( data.scaleIndex, data.scaleStepIndex );
+    // } );
+
+    // this.addToScaleGroupEvent = this.eventAggregator.subscribe( this.question.options.id + '-add-scale-sub-group', index => {
+    //   that.addScaleSubGroupItem( index );
+    // } );
 
   }
 
   detached() {
-    this.removeOptionSub.dispose();
+    //this.removeOptionSub.dispose();
     this.changeOptionSub.dispose();
     this.changeOptionMatrixSub.dispose();
-    this.removeFromScaleGroupEvent.dispose();
-    this.addToScaleGroupEvent.dispose();
+
+    // this.removeFromScaleGroupEvent.dispose();
+    //this.addToScaleGroupEvent.dispose();
   }
 
 }

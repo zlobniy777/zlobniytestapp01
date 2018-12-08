@@ -1,9 +1,10 @@
 import 'css/survey.css';
 
-import {inject, computedFrom} from 'aurelia-framework';
+import {computedFrom, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {EventSources} from "../../../../services/event-sources";
 
-@inject( EventAggregator, Element )
+@inject( EventAggregator, EventSources, Element )
 export class Settings {
 
   QUESTION_TYPE = 'questionType';
@@ -11,8 +12,9 @@ export class Settings {
 
   settings;
 
-  constructor( eventAggregator, element ) {
+  constructor( eventAggregator, eventSource, element ) {
     this.eventAggregator = eventAggregator;
+    this.eventSource = eventSource;
     this.element = element;
     this.show = false;
     this.width = 0;
@@ -30,20 +32,56 @@ export class Settings {
           that.toggleView();
         }
         that.settings = data.settings;
+        that.qNumber = data.qNumber;
       }else{
         that.hideView();
       }
     } );
   }
 
-  DropdownChanged( dropDawnType, objectType ){
 
-    switch ( dropDawnType ){
+  DropdownChanged( dropDownType, objectType ){
+
+    let object, params, data;
+
+    switch ( dropDownType ){
       case this.QUESTION_TYPE:
-        this.changeQuestionType( objectType );
+
+        object = this.getAvailableType( objectType );
+
+        params = [
+          {key: 'questionType', value: object.type},
+          {key: 'view', value: object.viewPath},
+        ];
+
+        data = {
+          questionNumber: this.qNumber,
+          parameters: params,
+        };
+
+        this.eventSource.addEvent( 'update.question', data );
         break;
       case this.QUESTION_LAYOUT:
-        this.changeQuestionLayout( objectType );
+
+        object = this.getAvailableType( this.settings.questionType );
+
+        let result = {};
+        object.availableLayout.forEach( value => {
+          if( value.type === objectType ){
+            result = value;
+          }
+        } );
+
+        params = [
+          {key: 'layout', value: result.type},
+        ];
+
+        data = {
+          questionNumber: this.qNumber,
+          parameters: params,
+        };
+
+        this.eventSource.addEvent( 'update.question', data );
         break;
       default:
         console.log('Not supported object type');
@@ -51,17 +89,75 @@ export class Settings {
 
   }
 
-  changeQuestionLayout( objectType ){
-    let object = this.getAvailableType( this.settings.questionType );
+  showTextOption( event ){
 
-    let result = {};
-    object.availableLayout.forEach( value => {
-      if( value.type === objectType ){
-        result = value;
-      }
-    } );
+    let params = [
+      {key: 'freeTextOption', value: event.target.checked},
+    ];
 
-    this.settings.layout = result.type;
+    let data = {
+      questionNumber: this.qNumber,
+      parameters: params,
+    };
+
+    this.eventSource.addEvent( 'update.question', data );
+  }
+
+  changeOtherText( event ){
+
+
+    let params = [
+      {key: 'otherValue', value: event.target.value},
+    ];
+
+    let data = {
+      questionNumber: this.qNumber,
+      parameters: params,
+    };
+
+    this.eventSource.addEvent( 'update.question', data );
+  }
+
+  changeLength( event ){
+
+    let params = [
+      {key: 'lengthValue', value: event.target.value},
+    ];
+
+    let data = {
+      questionNumber: this.qNumber,
+      parameters: params,
+    };
+
+    this.eventSource.addEvent( 'update.question', data );
+  }
+
+  changeWidth( event ){
+
+    let params = [
+      {key: 'widthValue', value: event.target.value},
+    ];
+
+    let data = {
+      questionNumber: this.qNumber,
+      parameters: params,
+    };
+
+    this.eventSource.addEvent( 'update.question', data );
+  }
+
+  changeLines( event ){
+
+    let params = [
+      {key: 'rowsValue', value: event.target.value},
+    ];
+
+    let data = {
+      questionNumber: this.qNumber,
+      parameters: params,
+    };
+
+    this.eventSource.addEvent( 'update.question', data );
   }
 
   @computedFrom( 'settings.questionType' )
@@ -70,12 +166,6 @@ export class Settings {
       let object = this.getAvailableType( this.settings.questionType );
       return object.availableLayout;
     }
-  }
-
-  changeQuestionType( objectType ){
-    let object = this.getAvailableType( objectType );
-    this.settings.questionType = object.type;
-    this.settings.view = object.view;
   }
 
   getAvailableType( type ){

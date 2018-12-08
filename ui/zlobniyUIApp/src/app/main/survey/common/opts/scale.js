@@ -3,22 +3,28 @@ import 'css/survey.css';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyHelper} from "../../../../services/survey-helper";
+import {EventSources} from "../../../../services/event-sources";
 import {Ui} from "../../../../ui";
 
-@inject( SurveyHelper, EventAggregator, Ui )
+@inject( SurveyHelper, EventAggregator, EventSources, Ui )
 export class Scale extends Ui {
 
   item = {};
 
-  constructor( surveyHelper, eventAggregator, ...rest ) {
+  constructor( surveyHelper, eventAggregator, eventSources, ...rest ) {
     super(...rest);
     this.surveyHelper = surveyHelper;
     this.eventAggregator = eventAggregator;
+    this.eventSources = eventSources;
   }
 
   removeOption( index ){
-    this.eventAggregator.publish( this.item.scaleId + '-remove', index );
+    let data = {
+      questionNumber: this.item.qNumber,
+      index: index,
+    };
 
+    this.eventSources.addEvent( 'scales.remove', data );
   }
 
   activate( model ){

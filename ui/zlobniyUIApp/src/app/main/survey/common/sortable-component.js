@@ -2,10 +2,11 @@ import {bindable, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyService} from "../../../services/survey-service";
 import {CollectionUtil} from "../../../services/collection-util";
+import {EventSources} from "../../../services/event-sources";
 
 import sortable from 'sortablejs';
 
-@inject( EventAggregator, SurveyService, CollectionUtil )
+@inject( EventAggregator, SurveyService, CollectionUtil, EventSources )
 export class SortableComponent {
 
   @bindable object;
@@ -14,10 +15,11 @@ export class SortableComponent {
   nameOnUpdate = "";
   nameOnAdd = "";
 
-  constructor( eventAggregator, surveyService, collectionUtil ) {
+  constructor( eventAggregator, surveyService, collectionUtil, eventSources ) {
     this.eventAggregator = eventAggregator;
     this.surveyService = surveyService;
     this.collectionUtil = collectionUtil;
+    this.eventSources = eventSources;
     this.test = "test";
   }
 
@@ -77,26 +79,26 @@ export class SortableComponent {
     } );
 
 
-    // Events for when sorting takes place, we need to update the array to let
-    // Aurelia know that changes have taken place and our repeater is up-to-date
-    this.onUpdateSubscribe = this.eventAggregator.subscribe( that.nameOnUpdate, evt => {
-      // The item being dragged
-      let el = evt.item;
-
-      // Old index position of item
-      let oldIndex = evt.oldIndex;
-
-      // New index position of item
-      let newIndex = evt.newIndex;
-
-      that.collectionUtil.updatePositions( newIndex, oldIndex, that.object, true );
-
-      if( that.object.type === 'scales' ){
-        let data = {oldIndex:oldIndex, newIndex:newIndex};
-        this.eventAggregator.publish( that.object.id + '-swap-scales', data );
-      }
-
-    } );
+    // // Events for when sorting takes place, we need to update the array to let
+    // // Aurelia know that changes have taken place and our repeater is up-to-date
+    // this.onUpdateSubscribe = this.eventAggregator.subscribe( that.nameOnUpdate, evt => {
+    //   // The item being dragged
+    //   let el = evt.item;
+    //
+    //   // Old index position of item
+    //   let oldIndex = evt.oldIndex;
+    //
+    //   // New index position of item
+    //   let newIndex = evt.newIndex;
+    //
+    //   that.collectionUtil.updatePositions( newIndex, oldIndex, that.object, true );
+    //
+    //   if( that.object.type === 'scales' ){
+    //     let data = {oldIndex:oldIndex, newIndex:newIndex};
+    //     this.eventAggregator.publish( that.object.id + '-swap-scales', data );
+    //   }
+    //
+    // } );
   }
 
   /**
@@ -119,7 +121,25 @@ export class SortableComponent {
         that.eventAggregator.publish( that.nameOnAdd, evt );
       },
       onUpdate: evt => {
-        that.eventAggregator.publish( that.nameOnUpdate, evt );
+
+        let oldIndex = evt.oldIndex;
+        let newIndex = evt.newIndex;
+        let scaleIndex;
+
+        if( that.object.type === 'steps' ){
+          scaleIndex = that.object.elements[0].scaleIndex;
+        }
+
+        let data = {
+          oldIndex: oldIndex,
+          newIndex: newIndex,
+          qNumber: that.object.elements[0].qNumber,
+          type: that.object.type, //sortable list identificator
+          scaleIndex: scaleIndex,
+        };
+
+        that.eventSources.addEvent( 'sortable.update', data );
+        // that.eventAggregator.publish( that.nameOnUpdate, evt );
       }
     } );
   }
@@ -127,7 +147,7 @@ export class SortableComponent {
   detached() {
     if( !this.params.editMode ) return;
     //clean up the subscription when app component is removed from the DOM
-    this.onUpdateSubscribe.dispose();
+    // this.onUpdateSubscribe.dispose();
     this.onAddSubscribe.dispose();
 
   }

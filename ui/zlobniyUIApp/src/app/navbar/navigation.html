@@ -9,7 +9,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav w-25">
         <action-button containerless action.one-way="button.action"
                        title.bind="button.title"
                        css.bind="button.css"
@@ -17,7 +17,7 @@
         </action-button>
       </ul>
 
-      <editable-item class="navbar-nav mr-auto" edit-mode.one-way="navigationService.editMode" item.one-way="navigationService.objectTitle" ></editable-item>
+      <editable-item class="navbar-nav mr-auto text-center" style="max-width: 40%" edit-mode.one-way="navigationService.editMode" item.one-way="navigationService.objectTitle" ></editable-item>
 
       <div if.bind="navigationService.showClientInfo">
         <compose if.bind="clientService.clientInfo.hasLogged" class="nav-item dropdown" view-model="./user-info" model.bind="clientService.clientInfo"></compose>

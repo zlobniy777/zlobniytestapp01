@@ -39,6 +39,39 @@ export class SurveyHelper {
     }
   }
 
+  findQuestionByNumber( surveyModel, number ){
+    for (const question of surveyModel.questionnaire.elements) {
+      if( question.number === number ) return question;
+    }
+  }
+
+  findScaleByIndex( question, index ){
+    for (const scale of question.scales.elements) {
+      if( scale.index === index ) return scale;
+    }
+  }
+
+  findOptionByIndex( question, index ){
+    for (const option of question.options.elements) {
+      if( option.index === index ) return option;
+    }
+  }
+
+  findScaleOptionByIndex( question, scaleIndex, index ){
+    let that = this;
+    for (const scale of question.scales.elements) {
+      if( scale.index === scaleIndex ){
+        return that.findOptionInScale( scale, index );
+      }
+    }
+  }
+
+  findOptionInScale( scale, index ){
+    for (const scaleOption of scale.options.elements) {
+      if( scaleOption.index === index ) return scaleOption;
+    }
+  }
+
   doSelect( question, surveyModel ){
     // deselect all question
     for ( let quest of surveyModel.questionnaire.elements ) {
@@ -48,7 +81,7 @@ export class SurveyHelper {
     question.selected = true;
     // update settings, set question settings from selected question, isToggle false = not hide settings
     // window if it has opened, and open if closed.
-    this.eventAggregator.publish( 'show-settings', {settings: question.settings, isToggle: false} );
+    this.eventAggregator.publish( 'show-settings', {settings: question.settings, qNumber:question.number, isToggle: false} );
   }
 
   addQuestion( id, questionType, title, index, options, scales, surveyModel ){
@@ -112,7 +145,7 @@ export class SurveyHelper {
     for ( let option of options ) {
 
       let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false,
-        'common-option', question.options.id, scales, "./../common/opts/option" );
+        'common-option', question.options.id, scales, "./../common/opts/option", question.number );
 
       question.options.elements.push( newOption );
       optionIndex++;
@@ -126,7 +159,8 @@ export class SurveyHelper {
 
     let scaleIndex = 0;
     for ( let scale of scales ) {
-      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id ) );
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex,
+        false, scale.options.elements, question.scales.id, question.number ) );
       scaleIndex++;
     }
   }
@@ -151,7 +185,7 @@ export class SurveyHelper {
     for ( let option of options ) {
 
       let newOption = this.createOption( option.id, option.title, 'closed-option', question.id, optionIndex, false,
-        'common-option', question.options.id, scales, "./../common/opts/option" );
+        'common-option', question.options.id, scales, "./../common/opts/option", question.number );
 
       question.options.elements.push( newOption );
       optionIndex++;
@@ -165,7 +199,8 @@ export class SurveyHelper {
 
     let scaleIndex = 0;
     for ( let scale of scales ) {
-      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id ) );
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex,
+        false, scale.options.elements, question.scales.id, question.number ) );
       scaleIndex++;
     }
   }
@@ -191,7 +226,7 @@ export class SurveyHelper {
     for ( let option of options ) {
 
       question.options.elements.push( this.createOption( option.id, option.title, 'closed-option', question.id,
-        optionIndex, false,'common-option', question.options.id, scales, "./../common/opts/option" ) );
+        optionIndex, false,'common-option', question.options.id, scales, "./../common/opts/option", question.number ) );
 
       optionIndex++;
     }
@@ -204,7 +239,8 @@ export class SurveyHelper {
 
     let scaleIndex = 0;
     for ( let scale of scales ) {
-      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex, false, scale.options.elements, question.scales.id ) );
+      question.scales.elements.push( this.createScale( scale.id, scale.title, 'scale-option', question.id, scaleIndex,
+        false, scale.options.elements, question.scales.id, question.number ) );
       scaleIndex++;
     }
 
@@ -299,7 +335,7 @@ export class SurveyHelper {
   }
 
   // view = "./../common/opts/option"
-  createOption( id, title, type, qId, index, isNew, cssClass, optionsId, scaleGroups, view ){
+  createOption( id, title, type, qId, index, isNew, cssClass, optionsId, scaleGroups, view, qNumber, scaleIndex ){
 
     let optionName = "option_" + index;
 
@@ -310,7 +346,8 @@ export class SurveyHelper {
       view: view,
       title: title,
       type: type,
-      qId: qId,
+      qId: qId, // probably deprecated
+      qNumber: qNumber,
       index: index,
       isNew: isNew,
       cssClass: cssClass ? cssClass : 'common-option',
@@ -318,11 +355,12 @@ export class SurveyHelper {
       selected: false,
       name: optionName,
       scaleGroup: scaleGroup,
+      scaleIndex: scaleIndex,
     };
     return option;
   }
 
-  createScale( id, title, type, qId, index, isNew, scaleSteps, scaleId ){
+  createScale( id, title, type, qId, index, isNew, scaleSteps, scaleId, qNumber ){
     let scale = {
       id: id,
       view: "./../common/opts/scale",
@@ -333,6 +371,7 @@ export class SurveyHelper {
       isNew: isNew,
       scaleId: scaleId,
       name: "scale_"+index,
+      qNumber: qNumber,
     };
 
     scale.options = [];
@@ -343,7 +382,7 @@ export class SurveyHelper {
     let stepIndex = 0;
     for ( let step of scaleSteps ) {
       scale.options.elements.push( this.createOption( step.id, step.title, type, qId, stepIndex, false,
-        'justify-content-center', scale.options.id, [], "./../common/opts/scale-option" ) );
+        'justify-content-center', scale.options.id, [], "./../common/opts/scale-option", qNumber, index ) );
 
       stepIndex++;
     }
@@ -383,9 +422,9 @@ export class SurveyHelper {
     ];
 
     let available = [
-      {type:'closed', title:'Only one answer', view: './../questions/subView/closed-question.html', availableLayout: closedQuestionLayouts},
-      {type:'matrix', title:'Matrix', view: './../questions/subView/matrix.html', availableLayout: matrixQuestionLayouts},
-      // {type:'test', title:'Test', view: './../questions/subView/test-question.html'},
+      {type:'closed', title:'Only one answer', viewPath: './../questions/subView/closed-question.html', availableLayout: closedQuestionLayouts},
+      {type:'matrix', title:'Matrix', viewPath: './../questions/subView/matrix.html', availableLayout: matrixQuestionLayouts},
+      // {type:'test', title:'Test', viewPath: './../questions/subView/test-question.html'},
     ];
 
     return available;

@@ -3,16 +3,18 @@ import 'css/survey.css';
 import {computedFrom, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Ui} from "../../../../ui";
+import {EventSources} from "../../../../services/event-sources";
 
-@inject( EventAggregator, Ui )
+@inject( EventAggregator, EventSources, Ui)
 export class Option extends Ui {
 
   item = {};
   selected;
 
-  constructor( eventAggregator, ...rest ) {
+  constructor( eventAggregator, eventSources, ...rest ) {
     super(...rest);
     this.eventAggregator = eventAggregator;
+    this.eventSources = eventSources;
   }
 
   change( isChecked ){
@@ -21,7 +23,14 @@ export class Option extends Ui {
   }
 
   removeOption( index ){
-    this.eventAggregator.publish( this.item.optionsId + '-remove', index );
+
+    let data = {
+      questionNumber: this.item.qNumber,
+      index: index,
+    };
+
+    this.eventSources.addEvent( 'option.remove', data );
+    //this.eventAggregator.publish( this.item.optionsId + '-remove', index );
   }
 
   @computedFrom( 'params.settings.questionType', 'params.settings.layout' )

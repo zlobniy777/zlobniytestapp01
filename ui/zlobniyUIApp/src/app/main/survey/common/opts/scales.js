@@ -4,17 +4,19 @@ import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SurveyHelper} from "../../../../services/survey-helper";
 import {CollectionUtil} from "../../../../services/collection-util";
+import {EventSources} from "../../../../services/event-sources";
 
-@inject( EventAggregator, SurveyHelper, CollectionUtil )
+@inject( EventAggregator, SurveyHelper, CollectionUtil, EventSources )
 export class scales {
 
   @bindable question;
   @bindable params; // question selected and we show controls (like add, remove buttons)
 
-  constructor( eventAggregator, surveyHelper, collectionUtil ) {
+  constructor( eventAggregator, surveyHelper, collectionUtil, eventSources ) {
     this.eventAggregator = eventAggregator;
     this.surveyHelper = surveyHelper;
     this.collectionUtil = collectionUtil;
+    this.eventSources = eventSources;
   }
 
   // change scales in option for matrix.
@@ -31,9 +33,9 @@ export class scales {
 
   attached() {
     let that = this;
-    this.removeScaleSub = this.eventAggregator.subscribe( that.question.scales.id + '-remove', index => {
-      that.removeScale( index );
-    } );
+    // this.removeScaleSub = this.eventAggregator.subscribe( that.question.scales.id + '-remove', index => {
+    //   that.removeScale( index );
+    // } );
 
     console.log( this.question.scales.id );
     this.changeScalesSub = this.eventAggregator.subscribe( this.question.scales.id + '-swap-scales', data => {
@@ -47,46 +49,16 @@ export class scales {
   }
 
   addScale(){
-    let that = this;
-    let scale = this.surveyHelper.createScale(
-      undefined,
-      'new scale',
-      this.question.settings.questionType,
-      this.question.id,
-      this.question.scales.elements.length,
-      false,
-      this.surveyHelper.createDefaultScaleSteps(),
-      this.question.scales.id
-    );
-    let groupIndex = this.question.scales.elements.length;
 
-    this.question.scales.elements.push( scale );
+    let data = {
+      questionNumber: this.question.number,
+    };
 
-    this.question.options.elements.forEach( function ( element ) {
-      let group = that.surveyHelper.createGroup( scale, groupIndex, scale.name, element.name );
-      element.scaleGroup.push( group );
-    } );
-
+    this.eventSources.addEvent( 'scales.add', data );
   }
 
-  removeScale( index ){
-    this.surveyHelper.deleteItem( this.question.scales.elements, index );
-
-    this.question.options.elements.forEach( function ( element ) {
-      element.scaleGroup.splice( index, 1 );
-
-      var i = 0;
-      element.scaleGroup.forEach(function( element ) {
-        element.index = i;
-        i++;
-      });
-
-    } );
-
-  }
 
   detached() {
-    this.removeScaleSub.dispose();
     this.changeScalesSub.dispose();
   }
 

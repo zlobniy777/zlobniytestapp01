@@ -82,6 +82,7 @@ export class SurveyModelTransformer {
     }
 
     data.questionnaire.elements[data.questionnaire.elements.length-1].isLast = true;
+    data.type = "SurveyModel";
 
     delete data.questionnaire.questions;
 
