@@ -20,10 +20,39 @@ export class Dragdrop {
     this.availableItems = this.surveyHelper.getAvailableQuestionTypes();
   }
 
-  addByDoubleClick( event ){
-    //this.eventSources.addEvent( 'dragTarget.onAdd', event );
-    //this.addQuestion( item );
+  addByDoubleClick( item ){
+
+    let data = {
+      index: this.surveyModel.questionnaire.elements.length,
+      questionType: item.type,
+      sourceTitle: item.title,
+      item: undefined,
+    };
+
+    let position = document.querySelector(".target-items").scrollHeight - 300;
+
+    this.eventSources.addEvent( 'dragTarget.onAdd', data );
+
+    this.scrollTo( position, document.querySelector(".target-items").scrollHeight, 1000 );
   }
+
+  scrollTo( from, distance, duration ){
+    let initialY = from;
+    let y = initialY + distance;
+    let baseY = (initialY + y) * 0.5;
+    let difference = initialY - baseY;
+    let startTime = performance.now();
+
+    function step() {
+      let normalizedTime = (performance.now() - startTime) / duration;
+      if (normalizedTime > 1) normalizedTime = 1;
+
+      document.querySelector(".target-items").scrollTo( from, baseY + difference * Math.cos(normalizedTime * Math.PI) );
+      if (normalizedTime < 1) window.requestAnimationFrame(step);
+    }
+    window.requestAnimationFrame(step);
+  }
+
 
   // add new question by double click on availableItems.item
   addQuestion( item ){
@@ -401,23 +430,18 @@ export class Dragdrop {
     let that = this;
 
     // Event triggered when item is added
-    this.eventTargetAdd = this.eventAggregator.subscribe('dragTarget.onAdd', evt => {
-      let src = evt.from;
-      let dest = evt.to;
-      let item = evt.item;
+    this.eventTargetAdd = this.eventAggregator.subscribe('dragTarget.onAdd', data => {
 
       // When actual dragged item is dropped, we remove it and handle
       // updating the array for our repeater ourselves
-      if( evt.item.parentElement ){
-        evt.item.parentElement.removeChild(evt.item);
+      if( data.item && data.item.parentElement ){
+        data.item.parentElement.removeChild(data.item);
       }
 
       // Dragging widget into new page
-      if (item.dataset.type) {
-        let questionType = item.dataset.type;
-        let sourceTitle = item.dataset.value;
+      if ( data.questionType && data.sourceTitle ) {
 
-        that.surveyHelper.addQuestion( undefined, questionType, sourceTitle, evt.newIndex, undefined, undefined, that.surveyModel );
+        that.surveyHelper.addQuestion( undefined, data.questionType, data.sourceTitle, data.index, undefined, undefined, that.surveyModel );
       }
     });
 
@@ -491,7 +515,17 @@ export class Dragdrop {
       scrollSensitivity: 100,
       scrollSpeed: 30,
       onAdd: evt => {
-        that.eventSources.addEvent( 'dragTarget.onAdd', evt );
+
+        let item = evt.item;
+
+        let data = {
+          index: evt.newIndex,
+          questionType: item.dataset.type,
+          sourceTitle: item.dataset.value,
+          item: item,
+        };
+
+        that.eventSources.addEvent( 'dragTarget.onAdd', data );
       },
       onStart: evt => {
         // that.eventAggregator.publish('dragTarget.onStart', evt);

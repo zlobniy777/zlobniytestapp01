@@ -8,7 +8,7 @@
     <div id="drag-source" class="source-items">
       <div class="available-items grab" data-type="${item.type}" data-value="${item.title}" data-html="${item.path}"
            repeat.for="item of availableItems">
-        <div dblclick.delegate="addByDoubleClick( $event )" class="item">
+        <div dblclick.delegate="addByDoubleClick( item )" class="item">
           ${item.title}
         </div>
       </div>
