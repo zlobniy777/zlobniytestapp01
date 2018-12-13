@@ -22,6 +22,7 @@ then download manually font-awesome from site and replace all data in node_modul
 npm install bootstrap --save
 npm install jquery --save
 remove bootstrap.js and rename bootstrap.bundle.js to bootstrap.js
+npm install jquery.fancytree --save
 
 then update:
 npm install gulp --save

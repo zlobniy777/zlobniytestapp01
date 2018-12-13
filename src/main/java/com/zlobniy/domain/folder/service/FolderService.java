@@ -34,4 +34,8 @@ public class FolderService  {
         return folderDao.findWithSurveys( id );
     }
 
+    public List<Folder> findByClientId( Long id ){
+        return folderDao.findByClientId( id );
+    }
+
 }

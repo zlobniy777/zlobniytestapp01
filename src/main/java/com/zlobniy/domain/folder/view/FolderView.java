@@ -1,7 +1,65 @@
 package com.zlobniy.domain.folder.view;
 
+import com.zlobniy.domain.folder.entity.Folder;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class FolderView {
 
     private Long id;
+    private String title;
+    private boolean expanded;
+    private boolean folder;
+    private List<FolderView> children = new ArrayList<>(  );
 
+    public FolderView( Folder folder ){
+        this.id = folder.getId();
+        this.title = folder.getTitle();
+        this.folder = true;
+    }
+
+    public FolderView(){
+
+    }
+
+    public Long getId(){
+        return id;
+    }
+
+    public void setId( Long id ){
+        this.id = id;
+    }
+
+    public String getTitle(){
+        return title;
+    }
+
+    public void setTitle( String title ){
+        this.title = title;
+    }
+
+    public boolean isExpanded(){
+        return expanded;
+    }
+
+    public void setExpanded( boolean expanded ){
+        this.expanded = expanded;
+    }
+
+    public boolean isFolder(){
+        return folder;
+    }
+
+    public void setFolder( boolean folder ){
+        this.folder = folder;
+    }
+
+    public List<FolderView> getChildren(){
+        return children;
+    }
+
+    public void setChildren( List<FolderView> children ){
+        this.children = children;
+    }
 }
