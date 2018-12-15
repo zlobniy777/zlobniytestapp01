@@ -31,7 +31,7 @@ final class PublicUsersController {
         if( client != null ){
             final Folder homeFolder = new Folder();
             homeFolder.setClient( client );
-            homeFolder.setTitle( "ClientHomeFolder" );
+            homeFolder.setTitle( client.getUsername() );
 
             folderService.saveFolder( homeFolder );
 

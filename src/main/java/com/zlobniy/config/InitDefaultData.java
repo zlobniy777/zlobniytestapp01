@@ -44,9 +44,16 @@ public class InitDefaultData {
 
         final Folder homeFolder = new Folder();
         homeFolder.setClient( client );
-        homeFolder.setTitle( "Test client home folder" );
+        homeFolder.setTitle( client.getUsername() );
 
         folderService.saveFolder( homeFolder );
+
+        final Folder subFolder = new Folder();
+        subFolder.setParent( homeFolder );
+        subFolder.setClient( client );
+        subFolder.setTitle( "folder" );
+
+        folderService.saveFolder( subFolder );
 
         generate1000Surveys( homeFolder );
 

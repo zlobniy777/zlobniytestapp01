@@ -17,7 +17,7 @@ public interface FolderDao extends JpaRepository<Folder, Long> {
     @Query( "select f from Folder f JOIN FETCH f.surveys s where f.id = :id" )
     Folder findWithSurveys( @Param( "id" ) Long id );
 
-    @Query( "select f from Folder f JOIN FETCH f.client c where c.id = :id" )
-    List<Folder> findByClientId( @Param( "id" ) Long id );
+    @Query( "select f from Folder f JOIN FETCH f.client c where c.id = :id and f.parent is null" )
+    List<Folder> findRootByClientId( @Param( "id" ) Long id );
 
 }

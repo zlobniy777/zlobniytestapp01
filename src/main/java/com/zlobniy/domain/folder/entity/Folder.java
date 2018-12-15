@@ -20,6 +20,9 @@ public class Folder {
     @ManyToOne( fetch = FetchType.LAZY )
     private Folder parent;
 
+    @OneToMany( mappedBy = "parent" ,fetch = FetchType.LAZY )
+    private List<Folder> children;
+
     @ManyToOne( fetch = FetchType.LAZY, optional = false )
     @JoinColumn( name = "client_id" )
     private Client client;
@@ -71,4 +74,11 @@ public class Folder {
         this.client = client;
     }
 
+    public List<Folder> getChildren() {
+        return children;
+    }
+
+    public void setChildren( List<Folder> children ) {
+        this.children = children;
+    }
 }

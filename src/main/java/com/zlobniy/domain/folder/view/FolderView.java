@@ -4,6 +4,7 @@ import com.zlobniy.domain.folder.entity.Folder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FolderView {
 
@@ -17,6 +18,7 @@ public class FolderView {
         this.id = folder.getId();
         this.title = folder.getTitle();
         this.folder = true;
+        this.children = folder.getChildren().stream().map( FolderView::new ).collect(Collectors.toList());
     }
 
     public FolderView(){

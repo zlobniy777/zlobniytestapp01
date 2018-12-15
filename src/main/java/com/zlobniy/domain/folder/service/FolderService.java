@@ -35,7 +35,7 @@ public class FolderService  {
     }
 
     public List<Folder> findByClientId( Long id ){
-        return folderDao.findByClientId( id );
+        return folderDao.findRootByClientId( id );
     }
 
 }
