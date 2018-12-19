@@ -27,6 +27,9 @@ public class Folder {
     @JoinColumn( name = "client_id" )
     private Client client;
 
+    @Column
+    private boolean isRoot;
+
     /**
      * for each object we have a list of elements contains in current folder
      * */
@@ -80,5 +83,13 @@ public class Folder {
 
     public void setChildren( List<Folder> children ) {
         this.children = children;
+    }
+
+    public boolean getRoot() {
+        return isRoot;
+    }
+
+    public void setRoot( boolean root ) {
+        isRoot = root;
     }
 }

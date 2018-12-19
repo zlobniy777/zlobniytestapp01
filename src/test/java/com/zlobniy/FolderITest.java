@@ -3,6 +3,7 @@ package com.zlobniy;
 import com.zlobniy.domain.folder.entity.Folder;
 import com.zlobniy.domain.folder.service.FolderService;
 import com.zlobniy.domain.folder.view.FolderView;
+import com.zlobniy.domain.survey.view.SurveyView;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,19 @@ public class FolderITest {
 
         List<Folder> folders = service.findByClientId( 1L );
         Assert.assertTrue( "load folders for default user", folders.size() == 1 );
+
+    }
+
+    @Test
+    public void loadSurveysFromFolder() {
+
+        List<Folder> folders = service.findByClientId( 1L );
+        Assert.assertTrue( "load folders for default user", folders.size() == 1 );
+
+        Folder folder = folders.get( 0 );
+        List<SurveyView> surveys = folder.getSurveys().stream().map( SurveyView::new ).collect(Collectors.toList());
+
+        System.out.println( surveys.size() > 0 );
 
     }
 

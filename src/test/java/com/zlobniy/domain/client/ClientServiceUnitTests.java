@@ -20,14 +20,16 @@ public class ClientServiceUnitTests {
      * */
     @Test
     public void clientViewAndEntityNumberOfField(){
-        int expectedFieldClientView = 6;
+        int expectedFieldClientView = 7;
         int expectedFieldClient = 6;
 
         int declaredFieldsClientView = ClientView.class.getDeclaredFields().length;
         int declaredFieldsClient = Client.class.getDeclaredFields().length;
 
-        Assert.assertEquals( "Amount of fields in clientView was changed", expectedFieldClientView, declaredFieldsClientView );
-        Assert.assertEquals( "Amount of fields in client was changed", expectedFieldClient, declaredFieldsClient );
+        Assert.assertEquals( "Amount of fields in clientView was changed",
+                expectedFieldClientView, declaredFieldsClientView );
+        Assert.assertEquals( "Amount of fields in client was changed",
+                expectedFieldClient, declaredFieldsClient );
     }
 
     @Test
@@ -36,7 +38,8 @@ public class ClientServiceUnitTests {
 
         int declaredFieldsRegistrationView = RegistrationView.class.getDeclaredFields().length;
 
-        Assert.assertEquals( "Amount of fields in registration view was changed", expectedFieldRegistratioView, declaredFieldsRegistrationView );
+        Assert.assertEquals( "Amount of fields in registration view was changed",
+                expectedFieldRegistratioView, declaredFieldsRegistrationView );
     }
 
 

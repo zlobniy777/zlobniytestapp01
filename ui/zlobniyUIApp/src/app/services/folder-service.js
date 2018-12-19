@@ -13,6 +13,8 @@ export class FolderService {
 
   loadData( data, rootNode ){
 
+    //rootNode.addChildren( {title:'test folder', id: 123} );
+
     // let prepared =
     //   {"title": "/", "expanded": true, "folder": true, "children": [
     //     {"title": "dev", "folder": true},

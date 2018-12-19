@@ -8,18 +8,18 @@ import {NavigationService} from "../../services/navigation-service";
 import {EventSources} from "../../services/event-sources";
 import {SurveyModelTransformer} from '../../transformer/survey-model-transformer';
 import {Ui} from "../../ui";
-import {Router} from 'aurelia-router';
+import {ClientService} from "../../services/client-service";
 import $ from 'jquery';
 
-@inject( SurveyService, Router, NavigationService, EventAggregator, SurveyModelTransformer, EventSources, SurveyHelper, Ui )
+@inject( SurveyService, ClientService, NavigationService, EventAggregator, SurveyModelTransformer, EventSources, SurveyHelper, Ui )
 export class Survey extends Ui {
 
   surveyModel = {};
 
-  constructor( surveyService, router, navigationService, eventAggregator, surveyModelTransformer, eventSource, surveyHelper, ...rest ) {
+  constructor( surveyService, clientService, navigationService, eventAggregator, surveyModelTransformer, eventSource, surveyHelper, ...rest ) {
     super( ...rest );
     this.surveyService = surveyService;
-    this.router = router;
+    this.clientService = clientService;
     this.navigationService = navigationService;
     this.eventAggregator = eventAggregator;
     this.surveyModelTransformer = surveyModelTransformer;
@@ -77,7 +77,8 @@ export class Survey extends Ui {
         title: 'Save', action: function () {
         //that.surveyService.saveSurvey( that.surveyModel );
           console.log( 'save survey button pressed' );
-          that.surveyService.saveSurvey( that.surveyModel )
+          // save survey, send survey data and folder id.
+          that.surveyService.saveSurvey( that.surveyModel, that.clientService.getCurrentFolder() )
             .then( function ( response ) {
               return response.json()
             } ).then( function ( surveyModel ) {

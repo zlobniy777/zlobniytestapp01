@@ -7,17 +7,19 @@ export class ClientService {
 
   test = false;
   clientInfo = {};
+  currentFolder;
   hasLogged;
 
   constructor(  navigationService, httpService ) {
     console.log('constructor client service: ');
     this.navigationService = navigationService;
     this.http = httpService;
+    this.currentFolder = 0;
     this.loginAction();
   }
 
   attached(){
-    console.log('attached client service: ');
+
   }
 
   detached() {
@@ -68,6 +70,7 @@ export class ClientService {
         if( json.token ){
           that.clientInfo = json;
           that.clientInfo.hasLogged = true;
+          that.currentFolder = json.rootFolderId;
           that.hasLogged = true;
           window.localStorage.setItem( 'token', json.token );
           if( that.navigationService.router.currentInstruction.config.name === 'welcome' ){
@@ -120,6 +123,14 @@ export class ClientService {
       return true;
     }
     return false;
+  }
+
+  setCurrentFolder( id ){
+    this.currentFolder = id;
+  }
+
+  getCurrentFolder(){
+    return this.currentFolder;
   }
 
 }

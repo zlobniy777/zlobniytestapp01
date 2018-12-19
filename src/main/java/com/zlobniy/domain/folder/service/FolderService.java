@@ -38,4 +38,8 @@ public class FolderService  {
         return folderDao.findRootByClientId( id );
     }
 
+    public Folder findById( Long id ){
+        return folderDao.getOne( id );
+    }
+
 }

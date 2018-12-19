@@ -20,6 +20,7 @@ public class ClientView implements UserDetails {
     private String username;
     private String password;
     private String email;
+    private Long rootFolderId;
 
     public ClientView(){
         super();
@@ -114,5 +115,13 @@ public class ClientView implements UserDetails {
 
     public void setEmail( String email ){
         this.email = email;
+    }
+
+    public Long getRootFolderId() {
+        return rootFolderId;
+    }
+
+    public void setRootFolderId( Long rootFolderId ) {
+        this.rootFolderId = rootFolderId;
     }
 }

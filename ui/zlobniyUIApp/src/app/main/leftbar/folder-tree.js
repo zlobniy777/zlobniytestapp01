@@ -7,17 +7,22 @@ import 'jquery.fancytree/dist/modules/jquery.fancytree.edit';
 import 'jquery.fancytree/dist/modules/jquery.fancytree.filter';
 import 'jquery.fancytree/dist/modules/jquery.fancytree.dnd5';
 import {FolderService} from "../../services/folder-service";
+import {SurveyService} from "../../services/survey-service";
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject( FolderService )
+@inject( FolderService, SurveyService, EventAggregator )
 export class FolderTree {
 
-  constructor( folderService) {
+  constructor( folderService, surveyService, eventAggregator ) {
     this.folderService = folderService;
+    this.surveyService = surveyService;
+    this.eventAggregator = eventAggregator;
   }
 
 
   attached() {
     console.log( 'attached FolderTree ' );
+    let that = this;
 
     let data = [];
 
@@ -134,10 +139,15 @@ export class FolderTree {
         data.result = [{"title": "Sub item", "lazy": false}, {"title": "Sub folder", "folder": true, "lazy": true}];
       },
       click: function ( event, data ) {
-        console.log( 'click on folder: ' + data );
+        if( event.toElement.className === 'fancytree-expander' ) return true;
 
+        let id = data.node.data.id;
+        console.log( 'click on folderId: ' + id );
+
+        that.eventAggregator.publish( 'overview.update', id );
+        //that.surveyService.loadSurveysInFolder( id, this.surveyInfoList );
         // return false to prevent default behavior (i.e. activation, ...)
-        //return false;
+        return true;
       },
 
     } );

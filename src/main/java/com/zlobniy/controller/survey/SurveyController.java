@@ -4,7 +4,6 @@ import com.zlobniy.domain.answer.entity.Answer;
 import com.zlobniy.domain.answer.entity.AnswerSession;
 import com.zlobniy.domain.answer.service.AnswerService;
 import com.zlobniy.domain.answer.view.AnswerView;
-import com.zlobniy.domain.client.entity.Client;
 import com.zlobniy.domain.client.service.ClientService;
 import com.zlobniy.domain.client.view.ClientView;
 import com.zlobniy.domain.folder.entity.Folder;
@@ -12,7 +11,6 @@ import com.zlobniy.domain.folder.service.FolderService;
 import com.zlobniy.domain.survey.entity.Survey;
 import com.zlobniy.domain.survey.service.SurveyService;
 import com.zlobniy.domain.survey.view.RespondentSurveyView;
-import com.zlobniy.domain.survey.view.SurveyInfoView;
 import com.zlobniy.domain.survey.view.SurveyLinkView;
 import com.zlobniy.domain.survey.view.SurveyView;
 import com.zlobniy.util.Checksum;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class SurveyController {
@@ -35,7 +32,11 @@ public class SurveyController {
     private FolderService folderService;
 
     @Autowired
-    public SurveyController( SurveyService surveyService, AnswerService answerService, ClientService clientService, FolderService folderService ) {
+    public SurveyController( SurveyService surveyService,
+                             AnswerService answerService,
+                             ClientService clientService,
+                             FolderService folderService ) {
+
         this.surveyService = surveyService;
         this.answerService = answerService;
         this.clientService = clientService;
@@ -76,7 +77,7 @@ public class SurveyController {
      * Load survey with answers
      */
     @RequestMapping( value = "/realRespondentSurvey/{checksum}", method = RequestMethod.GET )
-    public RespondentSurveyView loadRealRespondentSurvey( @PathVariable( "checksum" ) String checksum, HttpServletRequest request ) {
+    public RespondentSurveyView loadRealRespondentSurvey( @PathVariable( "checksum" ) String checksum ) {
 
         //get data from checksum
         Checksum checksum1 = new Checksum( checksum );
@@ -125,19 +126,22 @@ public class SurveyController {
         return link;
     }
 
-    @RequestMapping( value = "/api/surveys", method = RequestMethod.GET )
-    public List<SurveyInfoView> loadSurveys( HttpServletRequest request ) {
+//    @RequestMapping( value = "/api/surveys/{folderId}", method = RequestMethod.GET )
+//    public List<SurveyInfoView> loadSurveys( @PathVariable Long folderId, HttpServletRequest request ) {
+//
+//        Folder folder = getFolder( folderId );
+//        List<SurveyInfoView> surveys = folder.getSurveys().stream()
+//          .map( SurveyInfoView::new ).collect( Collectors.toList() );
+//
+//        return surveys;
+//    }
 
-        Folder folder = getFolder();
-        List<SurveyInfoView> surveys = folder.getSurveys().stream().map( SurveyInfoView::new ).collect( Collectors.toList() );
+    @RequestMapping( value = "/api/saveSurvey/{folderId}", method = RequestMethod.POST )
+    public SurveyView saveSurvey(
+            @RequestBody SurveyView surveyView,
+            @PathVariable Long folderId ) {
 
-        return surveys;
-    }
-
-    @RequestMapping( value = "/api/saveSurvey", method = RequestMethod.POST )
-    public SurveyView saveSurvey( @RequestBody SurveyView surveyView, HttpServletRequest request ) {
-
-        Folder folder = getFolder();
+        Folder folder = getFolder( folderId );
 
         surveyView.setCreationDate( new Date() );
 
@@ -161,15 +165,17 @@ public class SurveyController {
     }
 
     @RequestMapping( value = "/api/answers/{surveyId}", method = RequestMethod.GET )
-    public List<AnswerView> loadAnswers( @PathVariable( "id" ) Long surveyId, HttpServletRequest request ) {
+    public List<AnswerView> loadAnswers( @PathVariable( "surveyId" ) Long surveyId, HttpServletRequest request ) {
         return answerService.loadAnswers( surveyId );
     }
 
-    private Folder getFolder() {
+    private Folder getFolder( Long folderId ) {
         ClientView clientView = (ClientView) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Folder folder = folderService.findById( folderId );
+        // todo check owner of folder.
 
-        Client client = clientService.findWithFolders( clientView.getId() );
-        Folder folder = client.getFolders().get( 0 );
+        //Client client = clientService.findWithFolders( clientView.getId() );
+        //Folder folder = client.getFolders().get( 0 );
 
         return folder;
     }

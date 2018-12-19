@@ -5,23 +5,24 @@ import com.zlobniy.domain.client.service.ClientService;
 import com.zlobniy.domain.client.view.ClientView;
 import com.zlobniy.domain.client.view.RegistrationView;
 import com.zlobniy.domain.folder.entity.Folder;
-import com.zlobniy.domain.folder.service.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @RestController
 final class PublicUsersController {
 
     private final ClientService clientService;
-    private final FolderService folderService;
 
     @Autowired
-    public PublicUsersController( ClientService clientService, FolderService folderService ) {
+    public PublicUsersController( ClientService clientService ) {
         this.clientService = clientService;
-        this.folderService = folderService;
     }
 
     @PostMapping( value = "/register" )
@@ -29,13 +30,13 @@ final class PublicUsersController {
         Client client = clientService.createClient( registrationView );
 
         if( client != null ){
-            final Folder homeFolder = new Folder();
-            homeFolder.setClient( client );
-            homeFolder.setTitle( client.getUsername() );
-
-            folderService.saveFolder( homeFolder );
-
-            return new ClientView( client );
+            List<Folder> folders = client.getFolders().stream().filter( Folder::getRoot ).collect(Collectors.toList());
+            long rootFolderId = Optional.of( folders.get( 0 )
+                    .getId() )
+                    .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
+            ClientView clientView = new ClientView( client );
+            clientView.setRootFolderId( rootFolderId );
+            return clientView;
         }
 
         return null;
@@ -44,15 +45,31 @@ final class PublicUsersController {
     @PostMapping( value = "/loggedIn" )
     public ClientView loggedIn(
             @RequestParam( "username" ) final String username,
-            @RequestParam( "password" ) final String password ) {
-        ClientView clientView = new ClientView( clientService.login( username, password ) );
+            @RequestParam( "password" ) final String password )
+    {
+        Client client = clientService.login( username, password );
+        List<Folder> folders = client.getFolders().stream().filter( Folder::getRoot ).collect(Collectors.toList());
+        long rootFolderId = Optional.of( folders.get( 0 )
+                .getId() )
+                .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
+        ClientView clientView = new ClientView( client );
+        clientView.setRootFolderId( rootFolderId );
         return clientView;
     }
 
     @PostMapping( value = "/loginByToken" )
-    public ClientView loginByToken(
-            @RequestParam( "token" ) final String token ) {
-        ClientView clientView = new ClientView( clientService.findByToken( token ) );
+    public ClientView loginByToken( @RequestParam( "token" ) final String token ) {
+
+        Client client = clientService.findByToken( token );
+        if( client == null ) return null;
+
+        List<Folder> folders = client.getFolders().stream().filter( Folder::getRoot ).collect(Collectors.toList());
+        long rootFolderId = Optional.of( folders.get( 0 )
+                .getId() )
+                .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
+
+        ClientView clientView = new ClientView( client );
+        clientView.setRootFolderId( rootFolderId );
         return clientView;
     }
 

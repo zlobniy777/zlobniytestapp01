@@ -3,6 +3,8 @@ package com.zlobniy.domain.client.service;
 import com.zlobniy.domain.client.ClientDao;
 import com.zlobniy.domain.client.entity.Client;
 import com.zlobniy.domain.client.view.RegistrationView;
+import com.zlobniy.domain.folder.entity.Folder;
+import com.zlobniy.domain.folder.service.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,12 @@ import java.util.UUID;
 public class ClientService extends Client {
 
     private final ClientDao clientDao;
+    private final FolderService folderService;
 
     @Autowired
-    public ClientService( ClientDao clientDao ){
+    public ClientService( ClientDao clientDao, FolderService folderService ){
         this.clientDao = clientDao;
+        this.folderService = folderService;
     }
 
 
@@ -45,6 +49,14 @@ public class ClientService extends Client {
             // in spring boot v.2 that rule not working or not as before.
             if( clientDao.findByLogin( clientForm.getUsername() ) == null ){
                 client = clientDao.save( clientForm );
+
+                final Folder homeFolder = new Folder();
+                homeFolder.setClient( client );
+                homeFolder.setRoot( true );
+                homeFolder.setTitle( client.getUsername() );
+
+                folderService.saveFolder( homeFolder );
+                client.getFolders().add( homeFolder );
             }
         } catch ( Exception e ) {
             e.printStackTrace();

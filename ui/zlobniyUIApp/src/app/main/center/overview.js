@@ -6,22 +6,30 @@ import {NavigationService} from "../../services/navigation-service";
 import {ContextMenu} from "../common/context-menu";
 import {Popup} from "../common/popup";
 import {DialogService} from "aurelia-dialog";
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {ClientService} from "../../services/client-service";
 import {Ui} from "../../ui";
 
-@inject( SurveyService, NavigationService, DialogService, Ui )
+@inject( SurveyService, NavigationService, DialogService, EventAggregator, ClientService, Ui )
 export class Overview extends Ui {
 
   title = "-";
-  surveyInfoList = [];
 
-  constructor( surveyService, navigationService, dialogService, ...rest ) {
+  constructor( surveyService, navigationService, dialogService, eventAggregator, clientService, ...rest ) {
     super(...rest);
     this.surveyService = surveyService;
     this.navigationService = navigationService;
     this.dialogService = dialogService;
+    this.eventAggregator = eventAggregator;
+    this.clientService = clientService;
+
+    this.surveyInfoList = [];
+
     // this.surveyInfoList.push({title:'test', id:2, creationDate:'09/08/2018 17:46'});
     // this.surveyInfoList.push({title:'test 2', id:3, creationDate:'09/08/2018 17:46'});
   }
+
+
 
   contextMenu( id, event ){
     let contextMenu = this.getContextMenu( id, event );
@@ -34,8 +42,28 @@ export class Overview extends Ui {
     .whenClosed( data => {}  );
   }
 
+  attached() {
+    let that = this;
+
+    this.updateOverview = this.eventAggregator.subscribe('overview.update', id => {
+      if (that.clientService.getCurrentFolder() === id) return;
+
+      console.log('call update overview ' + id);
+      that.surveyInfoList = [];// clear array, remove previous data from array
+
+      that.surveyService.loadSurveysInFolder(id, that.surveyInfoList);
+      that.clientService.setCurrentFolder( id );
+
+    });
+
+  }
+
+  detached() {
+    this.updateOverview.dispose();
+  }
+
   activate(){
-    this.surveyService.loadSurveys( this.surveyInfoList );
+    this.surveyService.loadSurveysInFolder( this.clientService.getCurrentFolder(), this.surveyInfoList );
   }
 
   getContextMenu( id, event ){
