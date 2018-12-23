@@ -9,7 +9,6 @@ import com.zlobniy.domain.survey.view.SurveySettingsView;
 import com.zlobniy.domain.survey.view.SurveyView;
 import com.zlobniy.example.DummyQuestionnaire;
 import org.openjdk.jmh.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -27,10 +26,9 @@ public class SurveysCase {
     private SpringApplication app;
     private ConfigurableApplicationContext conf;
 
-    @Autowired
     private SurveyService surveyService;
 
-    @Setup
+    //@Setup
     public void setup() throws Exception{
 
         app = new SpringApplication(
@@ -60,7 +58,7 @@ public class SurveysCase {
 
     }
 
-    @TearDown
+    //@TearDown
     public void clean() {
         this.conf.stop();
         this.conf.close();
