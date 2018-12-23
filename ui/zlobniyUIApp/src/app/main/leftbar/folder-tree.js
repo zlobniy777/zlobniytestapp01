@@ -9,14 +9,16 @@ import 'jquery.fancytree/dist/modules/jquery.fancytree.dnd5';
 import {FolderService} from "../../services/folder-service";
 import {SurveyService} from "../../services/survey-service";
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {ClientService} from "../../services/client-service";
 
-@inject( FolderService, SurveyService, EventAggregator )
+@inject( FolderService, SurveyService, EventAggregator, ClientService )
 export class FolderTree {
 
-  constructor( folderService, surveyService, eventAggregator ) {
+  constructor( folderService, surveyService, eventAggregator, clientService ) {
     this.folderService = folderService;
     this.surveyService = surveyService;
     this.eventAggregator = eventAggregator;
+    this.clientService = clientService;
   }
 
 
@@ -29,33 +31,6 @@ export class FolderTree {
     const tree = createTree( '#tree', {
       extensions: ['dnd5', 'edit', 'filter'],
       source: data,
-      // source: [
-      //   {"title": "/", "expanded": true, "folder": true, "children": [
-      //     {"title": "dev", "folder": true},
-      //     {"title": "etc", "folder": true, "children": [
-      //       {"title": "cups"},
-      //       {"title": "httpd"},
-      //       {"title": "init.d"}
-      //     ]},
-      //     {"title": "sbin", "folder": true},
-      //     {"title": "tmp", "folder": true},
-      //     {"title": "Users", "expanded": true, "folder": true, "children": [
-      //       {"title": "jdoe", "folder": true},
-      //       {"title": "jmiller", "folder": true},
-      //       {"title": "mysql", "folder": true}
-      //     ]},
-      //     {"title": "usr", "expanded": true, "folder": true, "children": [
-      //       {"title": "bin", "folder": true},
-      //       {"title": "lib", "folder": true},
-      //       {"title": "local", "folder": true}
-      //     ]},
-      //     {"title": "var", "expanded": true, "folder": true, "children": [
-      //       {"title": "log", "folder": true},
-      //       {"title": "spool", "folder": true},
-      //       {"title": "yp", "folder": true}
-      //     ]}
-      //   ]}
-      // ],
       dnd5: {
         // autoExpandMS: 400,
         // preventForeignNodes: true,
@@ -131,21 +106,46 @@ export class FolderTree {
           node.setExpanded();
         }
       },
-      activate: function ( event, data ) {
-//        alert("activate " + data.node);
+      activate: function( event, data ){
 
+        for (const selectedNode of data.tree.getSelectedNodes()) {
+          selectedNode.setActive( false );
+          selectedNode.setSelected( false );
+          selectedNode.selected = false;
+        }
+
+        let id = data.node.data.id;
+        console.log( 'activate node ' + id );
+        that.folderService.updateFolderStatus( id, 'select', true );
+        that.clientService.setCurrentFolder( id );
+      },
+      deactivate: function(event, data) {
+        let id = data.node.data.id;
+        data.node.selected = false;
+        console.log('deactivate node ' + id );
+        that.folderService.updateFolderStatus( id, 'select', false );
+      },
+      expand: function(event, data) {
+        let id = data.node.data.id;
+        console.log( 'expand node ' + id );
+        that.folderService.updateFolderStatus( id, 'expand', true );
+      },
+      collapse: function(event, data) {
+        let id = data.node.data.id;
+        console.log( 'collapse node ' + id );
+        that.folderService.updateFolderStatus( id, 'expand', false );
       },
       lazyLoad: function ( event, data ) {
         data.result = [{"title": "Sub item", "lazy": false}, {"title": "Sub folder", "folder": true, "lazy": true}];
       },
       click: function ( event, data ) {
-        if( event.toElement.className === 'fancytree-expander' ) return true;
-
-        let id = data.node.data.id;
-        console.log( 'click on folderId: ' + id );
-
-        that.eventAggregator.publish( 'overview.update', id );
-        //that.surveyService.loadSurveysInFolder( id, this.surveyInfoList );
+        // let id = data.node.data.id;
+        // if( event.toElement.className === 'fancytree-expander' ){
+        //   that.folderService.expandFolder( id, !data.node.expanded );
+        //   return true;
+        // }
+        //
+        // that.eventAggregator.publish( 'overview.update', id );
         // return false to prevent default behavior (i.e. activation, ...)
         return true;
       },
@@ -155,8 +155,6 @@ export class FolderTree {
     let rootNode = tree.rootNode;
     this.folderService.loadData( data, rootNode );
 
-    console.log('tree');
-
   }
 
   detached() {
@@ -164,7 +162,7 @@ export class FolderTree {
   }
 
   activate( data ) {
-    console.log( 'activate ' + data );
+    console.log( 'activate folder tree ' + data );
   }
 
 }

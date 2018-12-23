@@ -16,16 +16,16 @@ export class FolderService {
     //rootNode.addChildren( {title:'test folder', id: 123} );
 
     // let prepared =
-    //   {"title": "/", "expanded": true, "folder": true, "children": [
-    //     {"title": "dev", "folder": true},
-    //     {"title": "etc", "folder": true, "children": [
-    //       {"title": "cups"},
-    //       {"title": "httpd"},
-    //       {"title": "init.d"}
+    //   {"id": 1,"title": "/", "expanded": true, "folder": true, "children": [
+    //     {"id": 2,"title": "dev", "folder": true},
+    //     {"id": 3,"title": "etc", "folder": true, "children": [
+    //       {"id": 4,"title": "cups"},
+    //       {"id": 5,"title": "httpd"},
+    //       {"id": 6,"title": "init.d"}
     //     ]},
-    //     {"title": "sbin", "folder": true},
-    //     {"title": "tmp", "folder": true},
-    //     {"title": "Users", "expanded": true, "folder": true, "children": [
+    //     {"id": 7,"title": "sbin", "folder": true},
+    //     {"id": 8,"title": "tmp", "folder": true},
+    //     {"id": 9,"title": "Users", "expanded": true, "folder": true, "children": [
     //       {"title": "jdoe", "folder": true},
     //       {"title": "jmiller", "folder": true},
     //       {"title": "mysql", "folder": true}
@@ -42,7 +42,7 @@ export class FolderService {
     //     ]}
     //   ]};
     //
-    // data.push( prepared );
+    // rootNode.addChildren( prepared );
 
     let promis = this.http.get( 'api/folder/loadAll' );
     promis.then(function(response) {
@@ -66,6 +66,11 @@ export class FolderService {
 
   detached() {
     console.log( 'detached FolderService ' );
+  }
+
+  updateFolderStatus( id, param, status ){
+
+    this.http.put( 'api/folder/' + id + "/" + param + "/" + status );
   }
 
 

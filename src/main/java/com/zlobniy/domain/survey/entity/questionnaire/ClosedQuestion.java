@@ -11,7 +11,7 @@ import java.util.List;
 public class ClosedQuestion extends Question {
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Option> options = new ArrayList<>();
 
     @Column

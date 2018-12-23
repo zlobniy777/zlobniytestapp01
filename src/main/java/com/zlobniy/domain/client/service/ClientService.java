@@ -53,6 +53,7 @@ public class ClientService extends Client {
                 final Folder homeFolder = new Folder();
                 homeFolder.setClient( client );
                 homeFolder.setRoot( true );
+                homeFolder.setSelected( true );
                 homeFolder.setTitle( client.getUsername() );
 
                 folderService.saveFolder( homeFolder );

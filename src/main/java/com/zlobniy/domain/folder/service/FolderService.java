@@ -42,4 +42,8 @@ public class FolderService  {
         return folderDao.getOne( id );
     }
 
+    public List<Folder> findSelected( Long id ){
+        return folderDao.findSelectedbyClientId( id );
+    }
+
 }

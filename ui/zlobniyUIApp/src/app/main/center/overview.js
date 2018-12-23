@@ -10,6 +10,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {ClientService} from "../../services/client-service";
 import {Ui} from "../../ui";
 
+
 @inject( SurveyService, NavigationService, DialogService, EventAggregator, ClientService, Ui )
 export class Overview extends Ui {
 
@@ -46,13 +47,13 @@ export class Overview extends Ui {
     let that = this;
 
     this.updateOverview = this.eventAggregator.subscribe('overview.update', id => {
-      if (that.clientService.getCurrentFolder() === id) return;
+      if (0 === id) return;
 
       console.log('call update overview ' + id);
       that.surveyInfoList = [];// clear array, remove previous data from array
 
       that.surveyService.loadSurveysInFolder(id, that.surveyInfoList);
-      that.clientService.setCurrentFolder( id );
+
 
     });
 
@@ -63,7 +64,10 @@ export class Overview extends Ui {
   }
 
   activate(){
-    this.surveyService.loadSurveysInFolder( this.clientService.getCurrentFolder(), this.surveyInfoList );
+    let folderId = this.clientService.getCurrentFolder();
+    if( folderId && folderId > 0 ){
+      this.surveyService.loadSurveysInFolder( folderId, this.surveyInfoList );
+    }
   }
 
   getContextMenu( id, event ){

@@ -1,29 +1,51 @@
-import {inject} from 'aurelia-framework';
+import {BindingEngine, inject} from 'aurelia-framework';
 import {NavigationService} from "./navigation-service";
 import {HttpService} from "./http-service";
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject( NavigationService, HttpService )
+@inject( NavigationService, HttpService, BindingEngine, EventAggregator )
 export class ClientService {
 
   test = false;
   clientInfo = {};
   currentFolder;
   hasLogged;
+  subscription;
 
-  constructor(  navigationService, httpService ) {
+  constructor(  navigationService, httpService, bindingEngine, eventAggregator ) {
     console.log('constructor client service: ');
-    this.navigationService = navigationService;
-    this.http = httpService;
+    this.bindingEngine = bindingEngine;
     this.currentFolder = 0;
+    this.navigationService = navigationService;
+    this.eventAggregator = eventAggregator;
+    this.http = httpService;
     this.loginAction();
+
+    this.subscription = this.bindingEngine
+      .propertyObserver(this, 'currentFolder')
+      .subscribe((newValue, oldValue) => {
+        this.objectValueChanged(newValue, oldValue)
+      });
+
   }
 
+  bind() {
+    console.log( 'activate client service' );
+  }
+
+
   attached(){
+    console.log('attached client service');
 
   }
 
   detached() {
+    this.subscription.dispose();
+  }
 
+  objectValueChanged(newValue, oldValue) {
+    console.log(`bindingEngine value changed from: ${oldValue} to:${newValue}`);
+    this.eventAggregator.publish( 'overview.update', newValue );
   }
 
   logOff(){
@@ -68,6 +90,7 @@ export class ClientService {
       }).then(function(json){
         console.log('json', json);
         if( json.token ){
+          console.log('login action success');
           that.clientInfo = json;
           that.clientInfo.hasLogged = true;
           that.currentFolder = json.rootFolderId;
@@ -93,6 +116,7 @@ export class ClientService {
 
   registrationAction( data ){
     let that = this;
+    this.currentFolder = 0;
     let promise = this.http.registrationPost( data );
     promise.then(function( response ) {
       return response.json()
@@ -101,6 +125,7 @@ export class ClientService {
       if( json.token ){
         that.clientInfo = json;
         that.clientInfo.hasLogged = true;
+        that.currentFolder = json.rootFolderId;
         that.hasLogged = true;
         window.localStorage.setItem( 'token', json.token );
         if( that.navigationService.router.currentInstruction.config.name === 'regForm' ){

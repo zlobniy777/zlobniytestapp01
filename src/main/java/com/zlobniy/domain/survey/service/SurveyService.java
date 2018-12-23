@@ -6,9 +6,10 @@ import com.zlobniy.domain.survey.view.SurveyInfoView;
 import com.zlobniy.domain.survey.view.SurveyView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SurveyService {
@@ -26,14 +27,42 @@ public class SurveyService {
         return new SurveyView( survey );
     }
 
-    public List<SurveyInfoView> getAllSurveys() {
-        final List<Survey> surveys = surveyDao.findAll();
-        final List<SurveyInfoView> surveysInfo = new ArrayList<>();
-        for ( Survey survey : surveys ) {
-            surveysInfo.add( new SurveyInfoView( survey ) );
-        }
+//    public List<SurveyInfoView> getAllSurveys() {
+//        final List<Survey> surveys = surveyDao.findAll();
+//        final List<SurveyInfoView> surveysInfo = new ArrayList<>();
+//        for ( Survey survey : surveys ) {
+//            surveysInfo.add( new SurveyInfoView( survey ) );
+//        }
+//
+//        return surveysInfo;
+//    }
 
-        return surveysInfo;
+    @Transactional
+    public List<SurveyView> findSurveyViewsByFolder( Long folderId ){
+
+        List<Survey> surveys = surveyDao.findAllInFolder( folderId );
+        List<SurveyView> surveyViews = surveys.stream().map( SurveyView::new ).collect(Collectors.toList());
+
+        return surveyViews;
+    }
+
+    @Transactional
+    public List<Survey> findSurveysByFolder( Long folderId ){
+
+        List<Survey> surveys = surveyDao.findAllInFolder( folderId );
+
+        return surveys;
+    }
+
+    @Transactional
+    public List<SurveyInfoView> findLightSurveysByFolder( Long folderId ){
+
+        List<SurveyInfoView> surveys = surveyDao.findAllInFolderLight( folderId )
+                .stream()
+                .map( SurveyInfoView::new )
+                .collect(Collectors.toList());
+
+        return surveys;
     }
 
     public List<Survey> findAll(){

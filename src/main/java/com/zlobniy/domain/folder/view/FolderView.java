@@ -11,6 +11,7 @@ public class FolderView {
     private Long id;
     private String title;
     private boolean expanded;
+    private boolean selected;
     private boolean folder;
     private List<FolderView> children = new ArrayList<>(  );
 
@@ -18,6 +19,8 @@ public class FolderView {
         this.id = folder.getId();
         this.title = folder.getTitle();
         this.folder = true;
+        this.expanded = folder.isExpanded();
+        this.selected = folder.isSelected();
         this.children = folder.getChildren().stream().map( FolderView::new ).collect(Collectors.toList());
     }
 
@@ -63,5 +66,13 @@ public class FolderView {
 
     public void setChildren( List<FolderView> children ){
         this.children = children;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected( boolean selected ) {
+        this.selected = selected;
     }
 }

@@ -48,7 +48,7 @@ final class PublicUsersController {
             @RequestParam( "password" ) final String password )
     {
         Client client = clientService.login( username, password );
-        List<Folder> folders = client.getFolders().stream().filter( Folder::getRoot ).collect(Collectors.toList());
+        List<Folder> folders = client.getFolders().stream().filter( f -> f.isSelected() || f.getRoot() ).collect(Collectors.toList());
         long rootFolderId = Optional.of( folders.get( 0 )
                 .getId() )
                 .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
@@ -63,7 +63,7 @@ final class PublicUsersController {
         Client client = clientService.findByToken( token );
         if( client == null ) return null;
 
-        List<Folder> folders = client.getFolders().stream().filter( Folder::getRoot ).collect(Collectors.toList());
+        List<Folder> folders = client.getFolders().stream().filter( Folder::isSelected ).collect(Collectors.toList());
         long rootFolderId = Optional.of( folders.get( 0 )
                 .getId() )
                 .orElseThrow( () -> new NullPointerException( "Root folder not found" ));

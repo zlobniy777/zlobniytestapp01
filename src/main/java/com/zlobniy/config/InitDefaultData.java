@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
 
 @Component
 public class InitDefaultData {
@@ -45,6 +44,7 @@ public class InitDefaultData {
         final Folder homeFolder = new Folder();
         homeFolder.setClient( client );
         homeFolder.setRoot( true );
+        homeFolder.setSelected( true );
         homeFolder.setTitle( client.getUsername() );
 
         folderService.saveFolder( homeFolder );
@@ -54,20 +54,16 @@ public class InitDefaultData {
         subFolder.setClient( client );
         subFolder.setTitle( "folder" );
 
+        final Folder subFolder2 = new Folder();
+        subFolder2.setParent( subFolder );
+        subFolder2.setClient( client );
+        subFolder2.setTitle( "folder 2" );
+
+
         folderService.saveFolder( subFolder );
+        folderService.saveFolder( subFolder2 );
 
         generate1000Surveys( homeFolder );
-
-        List<Survey> storedSurveys = surveyService.findAll();
-        List<Folder> folders = folderService.findAll();
-        List<Folder> folders2 = folderService.findAllEager();
-
-        Client clt = clientService.find( client.getId() );
-        Client clientWithFolders = clientService.findWithFolders( client.getId() );
-
-        Folder folderWithSurveys = folderService.findWithSurveys( homeFolder.getId() );
-
-        System.out.println( storedSurveys );
 
     }
 

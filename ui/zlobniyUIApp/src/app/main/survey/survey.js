@@ -36,12 +36,10 @@ export class Survey extends Ui {
       if ( e.target.dataset.type === 'editable' ) {
         //console.log( that.name + " " + e.target );
       } else {
-        console.log( 'not editable field' );
         if ( that.surveyService.isEditedModel() ) {
-          console.log( 'isEditedModel' );
           that.surveyService.unsetEditedModel();
         } else {
-          console.log( 'nothing to edit' );
+          //console.log( 'nothing to edit' );
         }
       }
 
@@ -75,8 +73,6 @@ export class Survey extends Ui {
       },
       {
         title: 'Save', action: function () {
-        //that.surveyService.saveSurvey( that.surveyModel );
-          console.log( 'save survey button pressed' );
           // save survey, send survey data and folder id.
           that.surveyService.saveSurvey( that.surveyModel, that.clientService.getCurrentFolder() )
             .then( function ( response ) {
@@ -100,7 +96,6 @@ export class Survey extends Ui {
           that.tempSurveyModel2 = $.extend(true, {}, that.tempSurveyModel );
 
           that.surveyModel.questionnaire.elements = that.tempSurveyModel2.questionnaire.elements;
-          //that.surveyModel.questionnaire.elements = that.tempSurveyModel.questionnaire.elements;
           that.surveyModel.surveySettings = that.tempSurveyModel2.surveySettings;
           that.surveyModel.title = that.tempSurveyModel2.title;
 
@@ -116,7 +111,6 @@ export class Survey extends Ui {
           that.tempSurveyModel2 = $.extend(true, {}, that.tempSurveyModel );
 
           that.surveyModel.questionnaire.elements = that.tempSurveyModel2.questionnaire.elements;
-          //that.surveyModel.questionnaire.elements = that.tempSurveyModel.questionnaire.elements;
           that.surveyModel.surveySettings = that.tempSurveyModel2.surveySettings;
           that.surveyModel.title = that.tempSurveyModel2.title;
 
@@ -136,7 +130,6 @@ export class Survey extends Ui {
         } ).then( function ( surveyModel ) {
         console.log( 'parsed json', surveyModel );
         that.tempSurveyModel = that.surveyModelTransformer.deSerialize( surveyModel );
-        //that.tempSurveyModel2 = $.extend(true, {}, that.tempSurveyModel);
         that.surveyModel = $.extend(true, {}, that.tempSurveyModel);
         that.navigationService.setTitle( that.surveyModel, true );
       } ).catch( function ( ex ) {
@@ -149,16 +142,6 @@ export class Survey extends Ui {
       //that.tempSurveyModel2 = $.extend(true, {}, that.tempSurveyModel);
       that.surveyModel = $.extend(true, {}, that.tempSurveyModel);
       that.navigationService.setTitle( that.surveyModel, true );
-
-      // setTimeout( () => {
-      //   that.surveyModel = that.surveyService.initNewSurveyModel();
-      //   setTimeout( () => {
-      //     that.navigationService.setTitle( that.surveyModel );
-      //     setTimeout( () => {
-      //       //alert('done');
-      //     } );
-      //   } );
-      // } );
 
     }
 

@@ -28,6 +28,12 @@ public class Folder {
     private Client client;
 
     @Column
+    private boolean expanded;
+
+    @Column
+    private boolean selected;
+
+    @Column
     private boolean isRoot;
 
     /**
@@ -91,5 +97,21 @@ public class Folder {
 
     public void setRoot( boolean root ) {
         isRoot = root;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded( boolean expanded ) {
+        this.expanded = expanded;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected( boolean selected ) {
+        this.selected = selected;
     }
 }

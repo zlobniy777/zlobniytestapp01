@@ -43,6 +43,7 @@
     <joda-time.version>2.9.9</joda-time.version>
     <junit.version>4.12</junit.version>
     <mockito.version>2.17.0</mockito.version>
+    <jmh.version>1.11.2</jmh.version>
   </properties>
 
   <dependencies>
@@ -135,6 +136,19 @@
 
 
     <!-- Testing -->
+
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>${jmh.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-generator-annprocess</artifactId>
+      <version>${jmh.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.jboss.arquillian.junit</groupId>
       <artifactId>arquillian-junit-standalone</artifactId>

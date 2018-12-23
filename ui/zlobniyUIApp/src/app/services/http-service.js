@@ -28,6 +28,21 @@ export class HttpService {
     return promise;
   }
 
+  put( url ){
+    let token = window.localStorage.getItem( 'token' );
+    let promise = fetch( url, {
+      method: 'PUT',
+      //body: JSON.stringify( data ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'authorization': `bearer ${token}`,
+      }
+    });
+
+    return promise;
+  }
+
   postLogin( credentials ){
 
     let username = credentials.username ? credentials.username : '';

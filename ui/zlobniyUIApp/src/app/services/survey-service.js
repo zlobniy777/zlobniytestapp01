@@ -86,14 +86,14 @@ export class SurveyService {
 
   loadSurveysInFolder( folderId, surveyInfoList ){
     let promis = this.http.get( 'api/folder/load/' + folderId );
+
     promis.then(function(response) {
-      console.log('response', response);
-      return response.json()
+      // console.log('response', response);
+      return response.json();
     }).then(function(json) {
-      console.log('parsed json', json);
-      for ( let obj of json ) {
-        surveyInfoList.push( obj );
-      }
+      // console.log('parsed json', json);
+      surveyInfoList.push.apply( surveyInfoList, json );
+
     }).catch(function(ex) {
       console.log('parsing failed', ex)
     });
