@@ -3,6 +3,7 @@ package com.zlobniy;
 import com.zlobniy.domain.survey.entity.Survey;
 import com.zlobniy.domain.survey.service.SurveyService;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class SurveyServiceTest {
     @Autowired
     private SurveyService surveyService;
 
+    @Ignore
     @Test
     public void test( ){
 
