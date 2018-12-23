@@ -80,6 +80,7 @@ public class ClientView implements UserDetails {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

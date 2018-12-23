@@ -27,34 +27,22 @@ final class PublicUsersController {
 
     @PostMapping( value = "/register" )
     public ClientView register( @RequestBody RegistrationView registrationView ) {
+
         Client client = clientService.createClient( registrationView );
+        if( client == null ) return null;
 
-        if( client != null ){
-            List<Folder> folders = client.getFolders().stream().filter( Folder::getRoot ).collect(Collectors.toList());
-            long rootFolderId = Optional.of( folders.get( 0 )
-                    .getId() )
-                    .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
-            ClientView clientView = new ClientView( client );
-            clientView.setRootFolderId( rootFolderId );
-            return clientView;
-        }
-
-        return null;
+        return createView( client );
     }
 
     @PostMapping( value = "/loggedIn" )
     public ClientView loggedIn(
             @RequestParam( "username" ) final String username,
-            @RequestParam( "password" ) final String password )
-    {
+            @RequestParam( "password" ) final String password ){
+
         Client client = clientService.login( username, password );
-        List<Folder> folders = client.getFolders().stream().filter( f -> f.isSelected() || f.getRoot() ).collect(Collectors.toList());
-        long rootFolderId = Optional.of( folders.get( 0 )
-                .getId() )
-                .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
-        ClientView clientView = new ClientView( client );
-        clientView.setRootFolderId( rootFolderId );
-        return clientView;
+        if( client == null ) return null;
+
+        return createView( client );
     }
 
     @PostMapping( value = "/loginByToken" )
@@ -63,14 +51,25 @@ final class PublicUsersController {
         Client client = clientService.findByToken( token );
         if( client == null ) return null;
 
+        return createView( client );
+    }
+
+
+    private ClientView createView( Client client ){
+        long folderId = findSelectedOrRootFolderId( client );
+
+        ClientView clientView = new ClientView( client );
+        clientView.setRootFolderId( folderId );
+
+        return clientView;
+    }
+
+    private Long findSelectedOrRootFolderId( Client client ){
         List<Folder> folders = client.getFolders().stream().filter( Folder::isSelected ).collect(Collectors.toList());
-        long rootFolderId = Optional.of( folders.get( 0 )
+        return Optional.of( folders.get( 0 )
                 .getId() )
                 .orElseThrow( () -> new NullPointerException( "Root folder not found" ));
 
-        ClientView clientView = new ClientView( client );
-        clientView.setRootFolderId( rootFolderId );
-        return clientView;
     }
 
 }

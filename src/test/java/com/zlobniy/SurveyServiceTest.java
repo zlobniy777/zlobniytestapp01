@@ -23,7 +23,7 @@ public class SurveyServiceTest {
 
     @Ignore
     @Test
-    public void test( ){
+    public void loadSurveysByFolderId( ){
 
         long id = 2;
 
